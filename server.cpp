@@ -1,10 +1,10 @@
-#include "Server.h"
+#include "server.h"
 
 
 
-Server(){
+Server::Server(){
 }
 
 
-~Server(){
+Server::~Server(){
 }

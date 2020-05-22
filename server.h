@@ -4,11 +4,10 @@
 
 class Server {
 
+public:
+  Server();
+
+  ~Server();
 };
-
-
-Server();
-
-~Server();
 
 #endif

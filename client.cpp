@@ -1,11 +1,11 @@
-#include "Client.h"
+#include "client.h"
 
 
 
 
 
-Client(){
+Client::Client(){
 }
 
-~Client(){
+Client::~Client(){
 }

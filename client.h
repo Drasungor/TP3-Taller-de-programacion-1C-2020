@@ -4,11 +4,11 @@
 
 class Client {
 
+
+public:
+  Client();
+
+  ~Client();
 };
-
-
-Client();
-
-~Client();
 
 #endif
