@@ -9,6 +9,8 @@ public:
   Client();
 
   ~Client();
+
+  int execute(const char** arguments, int number_of_arguments);
 };
 
 #endif
