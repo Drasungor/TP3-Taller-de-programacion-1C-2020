@@ -7,7 +7,7 @@
 
 class ClientProcessor {
 private:
-  const std::string& number_to_guess;
+  const std::string number_to_guess;
   const PeerSocket client;
   std::thread thrd;
   //int current_number_of_guesses;
@@ -17,6 +17,14 @@ public:
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);
 
   ClientProcessor(PeerSocket& client, const std::string& number_to_guess);
+
+  ClientProcessor(ClientProcessor&& other) noexcept;
+
+  ClientProcessor(const ClientProcessor& other) = delete;
+
+  ClientProcessor& operator=(const ClientProcessor& other) = delete;
+
+  //ClientProcessor& operator=(ClientProcessor&& other) noexcept;
 
   ~ClientProcessor();
 

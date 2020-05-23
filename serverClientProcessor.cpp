@@ -175,13 +175,27 @@ void ClientProcessor::operator()(){
   _run_game();
 }
 
+/*
+ClientProcessor& ClientProcessor::operator=(ClientProcessor&& other) noexcept{
+
+}
+*/
+
 //ClientProcessor::ClientProcessor(PeerSocket& peer_socket, int& number_to_guess){
-ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
+ClientProcessor::ClientProcessor(PeerSocket& peer_socket,
                                  const std::string& number_to_guess):
-                                 number_to_guess(number_to_guess),
+                                 number_to_guess(std::move(number_to_guess)),
                                  client(peer_socket){
   //AGREGAR MOVE DEL PeerSocket
   //current_number_of_guesses = 0;
+}
+
+ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
+                            number_to_guess(std::move(other.numbers_to_guess)),
+                            client(std::move(other.client)){
+  //const std::string& number_to_guess;
+  //const PeerSocket client;
+  std::thread thrd = std::move(other.thrd);
 }
 
 ClientProcessor::~ClientProcessor(){

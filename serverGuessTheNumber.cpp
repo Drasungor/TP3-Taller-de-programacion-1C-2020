@@ -28,14 +28,16 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
                                   std::vector<std::string>& numbers_to_guess) const{
   std::string buffer;
   std::getline(numbers_file, buffer);
-  int number;
+  //DESCOMENTAR ESTO
+  //int number;
   while (!numbers_file.eof()) {
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
       //TIRAR LA EXCEPCION ADECUADA
     }
 
     //HACER UN TRY CATCH DEL STOI PARA VER SI EL NUMERO ES O NO UN NUMERO
-    number = std::stoi(buffer);
+    //DESCOMENTAR ESTO
+    //number = std::stoi(buffer);
 
     //numbers_to_guess.push_back(number);
     numbers_to_guess.push_back(buffer);
@@ -70,7 +72,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
 
   std::vector<std::string> numbers_to_guess;
-  bool keep_processing = true;
+  //bool keep_processing = true;
   _load_numbers_to_guess(numbers_file, numbers_to_guess);
 
   /*
