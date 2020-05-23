@@ -11,15 +11,18 @@
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
 #define PORT_ARGUMENTS_INDEX 1
 
-#define NUMBERS_DIGITS_AMMOUNT 3
+
 
 //AGREGAR DESCRIPCION DE LO QUE HACE LA FUNCION, AGREGAR CADA CASO DE EXCEPTION
 //PORQUE SOLO SE DESCRIBE LA EXCEPTION TIRADA EN UN CASO PARTICULAR
 //If a read string does not represent a number and is also of an undesired
 //length, the same exception as the one with undesired length exception will
 //be thrown
-void ServerGuessTheNumber::_load_numbers_to_guess(std::ifstream& numbers_file,
-                                    std::vector<int>& numbers_to_guess){
+void ServerGuessTheNumber::_load_numbers_to_guess(
+                                  std::ifstream& numbers_file,
+
+                                  //std::vector<int>& numbers_to_guess){
+                                  std::vector<std::string>& numbers_to_guess){
   std::string buffer;
   std::getline(numbers_file, buffer);
   int number;
@@ -27,10 +30,12 @@ void ServerGuessTheNumber::_load_numbers_to_guess(std::ifstream& numbers_file,
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
       //TIRAR LA EXCEPCION ADECUADA
     }
+    //HACER UN TRY CATCH DEL STOI PARA VER SI EL NUMERO ES O NO UN NUMERO
     number = std::stoi(buffer);
-    numbers_to_guess.push_back(number);
+    //numbers_to_guess.push_back(number);
+    numbers_to_guess.push_back(buffer);
+    std::getline(numbers_file, buffer);
   }
-  std::getline(numbers_file, buffer);
 }
 
 
@@ -59,7 +64,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
   //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
 
-  std::vector<int> numbers_to_guess;
+  std::vector<std::string> numbers_to_guess;
   bool keep_processing = true;
   _load_numbers_to_guess(numbers_file, numbers_to_guess);
 
