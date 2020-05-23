@@ -3,17 +3,20 @@
 
 #include <thread>
 #include <cstdint>
+#include <string>
 
 class ClientProcessor {
 private:
+  const std::string& number_to_guess;
+  const PeerSocket client;
   std::thread thrd;
-  PeerSocket client;
-  int current_number_of_guesses;
+  //int current_number_of_guesses;
 private:
 public:
   //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);
-  ClientProcessor(PeerSocket& client, std::string& number_to_guess);
+
+  ClientProcessor(PeerSocket& client, const std::string& number_to_guess);
 
   ~ClientProcessor();
 
