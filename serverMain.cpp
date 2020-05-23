@@ -1,4 +1,6 @@
+#include "serverGuessTheNumber.h"
+
 int main(int argc, char const *argv[]) {
-  
-  return 0;
+  ServerGuessTheNumber program;
+  return program.execute(argv, argc);
 }

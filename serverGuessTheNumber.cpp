@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <vector>
+#include <iostream>
 #include "CommunicationConstants.h"
 
 #define SUCCESS 0
@@ -12,7 +13,9 @@
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
 #define PORT_ARGUMENTS_INDEX 1
 
-
+#define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos"
+#define INVALID_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango"
+#define FILE_NUMBER_WITH_REPEATED_DIGIT_TEXT "Error: formato de los números inválidos"
 
 //AGREGAR DESCRIPCION DE LO QUE HACE LA FUNCION, AGREGAR CADA CASO DE EXCEPTION
 //PORQUE SOLO SE DESCRIBE LA EXCEPTION TIRADA EN UN CASO PARTICULAR
@@ -35,6 +38,9 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
       //TIRAR LA EXCEPCION ADECUADA
     }
 
+    //HACER CHEQUEO PARA VER SI HAY ALGUN CARACTER REPETIDO EN EL NUMERO LEIDO
+    //DEL ARCHIVO E IMPRIMIR EL MENSAJE DE ERROR SI ESO PASA
+
     //HACER UN TRY CATCH DEL STOI PARA VER SI EL NUMERO ES O NO UN NUMERO
     //DESCOMENTAR ESTO
     //number = std::stoi(buffer);
@@ -55,7 +61,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
   //MENSAJE DE ERROR PARA CADA UNA
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {
-    //AGREGAR PRINT DE MENSAJE DE ERROR
+    std::cout << INVALID_ARGUMENTS_TEXT;
     return WRONG_NUMBER_OF_ARGUMENTS;
   }
 
