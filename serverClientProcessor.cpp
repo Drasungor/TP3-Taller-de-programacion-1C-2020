@@ -6,11 +6,15 @@
 #include "serverPeerSocket.h"
 #include "CommunicationConstants.h"
 
+
+//BORRAR ESTE INCLUDE
+#include <iostream>
+
 #define HELP_MESSAGE_PART_1 "Comandos válidos:\n\tAYUDA: despliega la lista "
 #define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
 #define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: número de 3 cifras a ser "
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
-#define HELP_MESSAGE_PART_5 "secreto"
+#define HELP_MESSAGE_PART_5 "secreto\n\n" //<-- BORRAR ESTOS \n
 
 #define LOSE_MESSAGE "Perdiste"
 #define WIN_MESSAGE "Ganaste"
@@ -136,14 +140,20 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   //DESCOMENTAR ESTO CUANDO SE EMPIECE A USAR EL SOCKET
   //guessed_number = ntohs(guessed_number);
 
+  //BORRAR PRINT
+  std::cout << "ESTOY EN EXECUTE NUMBER" << std::endl;
+
   //AGREGAR CHEQUEO PARA VER SI EL NUMERO ESTA EN EL RANGO APROPIADO
   message_to_send = _process_guessed_number(number_to_guess, guessed_number,
                                             current_number_of_guesses);
   client.send(message_to_send.data(), message_to_send.length());
+
+  std::cout << "CANTIDAD DE PRUEBAS ACTUALES: " << current_number_of_guesses <<"\n\n";
+
   //AGREGAR CODIGO PARA TERMINAR EL JUEGO CUANDO EL CLIENTE GANE
 
   //BORRAR ESTO, ES SOLO PARA VER SI ANDA
-  if (message_to_send == WIN_MESSAGE) {
+  if ((message_to_send == WIN_MESSAGE) || (message_to_send == LOSE_MESSAGE)) {
     return true;
   }
   return false;
@@ -155,8 +165,10 @@ bool ClientProcessor::_execute_command(char command_indicator,
                                        int& current_number_of_guesses){
   switch (command_indicator) {
     case COMMAND_INDICATOR_HELP:
+      _execute_help();
       return false;
     case COMMAND_INDICATOR_GIVE_UP:
+    _execute_give_up();
       return true;
     case COMMAND_INDICATOR_NUMBER:
       return _execute_number(current_number_of_guesses);
@@ -171,11 +183,13 @@ bool ClientProcessor::_execute_command(char command_indicator,
 //VER SI HAY QUE AGREGAR CONST
 void ClientProcessor::_run_game(){
   int current_number_of_guesses = 0;
-  bool keep_running = true;
+  bool should_stop = false;
   char command_indicator;
-  client.receive(&command_indicator, sizeof(char));
-  while (keep_running) {
-    keep_running = _execute_command(command_indicator,
+  while (!should_stop) {
+
+    client.receive(&command_indicator, sizeof(char));
+
+    should_stop = _execute_command(command_indicator,
                                     current_number_of_guesses);
   }
 }

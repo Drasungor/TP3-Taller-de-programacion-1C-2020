@@ -3,6 +3,12 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include "serverPeerSocket.h"
+#include "serverClientProcessor.h"
+//VER SI HAY QUE BORRAR ESTOS INCLUDE
+#include <cstring>
+#include <cstdint>
+
 #include "CommunicationConstants.h"
 
 #define SUCCESS 0
@@ -65,7 +71,6 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     return WRONG_NUMBER_OF_ARGUMENTS;
   }
 
-
   std::ifstream numbers_file(arguments[NUMBERS_FILE_ARGUMENTS_INDEX]);
 
   //VER SI SE PASA TODO LO QUE PUEDE DEVOLVER UNA EXCEPCION A UNA FUNCION Y
@@ -75,18 +80,39 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     //AGREGAR PRINT DE MENSAJE DE ERROR
     return INVALID_FILE;
   }
+
+
   //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
 
   std::vector<std::string> numbers_to_guess;
   //bool keep_processing = true;
   _load_numbers_to_guess(numbers_file, numbers_to_guess);
 
+  PeerSocket p_socket("hhssn", std::strlen("hhssn"));
+  uint16_t numero = 123;
+  p_socket.add_message(&numero, sizeof(uint16_t));
+  p_socket.add_message("n", std::strlen("n"));
+  numero = 121;
+  p_socket.add_message(&numero, sizeof(uint16_t));
+  p_socket.add_message("n", std::strlen("n"));
+  numero = 111;
+  p_socket.add_message(&numero, sizeof(uint16_t));
+  p_socket.add_message("n", std::strlen("n"));
+  numero = 512;
+  p_socket.add_message(&numero, sizeof(uint16_t));
+  p_socket.add_message("hhss", std::strlen("hhss"));
+  p_socket.add_message("n", std::strlen("n"));
+  numero = 125;
+  p_socket.add_message(&numero, sizeof(uint16_t));
   /*
   while (keep_processing) {
     keep_processing = ;
   }
   */
   //AGREGAR CODIGOS DE RETORNO DE ERROR
+
+  ClientProcessor processor(p_socket, numbers_to_guess[0]);
+  processor();
 
   return SUCCESS;
 }

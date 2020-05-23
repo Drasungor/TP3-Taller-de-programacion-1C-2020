@@ -23,7 +23,7 @@ public:
   ~PeerSocket();
 
   //BORRAR ESTA FUNCION, ESTA PARA PROBAR LA LOGICA DEL JUEGO
-  void add_message(void* a, int len);
+  void add_message(const void* a, int len);
 
   void receive(void* buffer, int buffer_len);
 

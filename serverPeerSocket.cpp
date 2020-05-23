@@ -19,18 +19,19 @@ void PeerSocket::receive(void* buffer, int buffer_len){
 //REIMPLEMENTAR, ES SOLO PARA PROBAR LA LOGICA DEL PROGRAMA
 void PeerSocket::send(const void* buffer, int buffer_len) const{
 
-  std::cout << "MENSAJE ENVIADO POR EL SOCKET" << std::endl;
+  //std::cout << "MENSAJE ENVIADO POR EL SOCKET" << std::endl;
 
   char* message = (char*)buffer;
   for (int i = 0; i < buffer_len; i++) {
     std::cout << message[i];
   }
+  //std::cout << std::endl << std::endl;
 }
 
 
 //BORRAR ESTA FUNCION, ESTA PARA PROBAR LA LOGICA DEL JUEGO
-void PeerSocket::add_message(void* a, int len){
-  char* b = (char*)a;
+void PeerSocket::add_message(const void* a, int len){
+  const char* b = (char*)a;
   for (int i = length; i < length + len; i++) {
     message[i] = b[i];
   }
@@ -48,8 +49,13 @@ PeerSocket::PeerSocket(const void* message, int length){
   }
 }
 
+//CAMBIAR LA IMPLEMENTACION DE ESTE MOVE
 PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
-  //IMPLEMENTAR
+  for (int i = 0; i < other.length; i++) {
+    this->message[i] = other.message[i];
+  }
+  this->length = other.length;
+  this->beginning = other.beginning;
 }
 
 PeerSocket::~PeerSocket(){
