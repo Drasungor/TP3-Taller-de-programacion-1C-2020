@@ -2,17 +2,22 @@
 
 #include <cstdint>
 #include <string>
+#include "serverPeerSocket.h"
 
-#define HELP_MESSAGE "Comandos válidos:\n\tAYUDA: despliega la lista de "
-                     "comandos válidos\n\tRENDIRSE: pierde el juego "
-                     "automáticamente\n\tXXX: número de 3 cifras a ser "
-                     "enviado al servidor para adivinar el número secreto"
+#define HELP_MESSAGE_PART_1 "Comandos válidos:\n\tAYUDA: despliega la lista "
+#define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
+#define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: número de 3 cifras a ser "
+#define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
+#define HELP_MESSAGE_PART_5 "secreto"
+
 #define LOSE_MESSAGE "Perdiste"
 #define WIN_MESSAGE "Ganaste"
-#define INVALID_COMMAND_MESSAGE "Error: comando inválido. Escriba AYUDA para "
-                                "obtener ayuda"
-#define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras no "
-                               "repetidas"
+
+#define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
+#define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda"
+
+#define INVALID_NUMBER_MESSAGE_PART_1 "Número inválido. Debe ser de 3 cifras "
+#define INVALID_NUMBER_MESSAGE_PART_2 "no repetidas"
 
 
 #define GOOD_GUESS_MESSAGE_PART " bien"

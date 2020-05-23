@@ -7,6 +7,7 @@ private:
   //BORRAR ESTO, ES PARA PROBAR
   char message[100];
   int length;
+  int beginning;
 private:
 public:
 

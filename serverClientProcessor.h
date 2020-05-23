@@ -4,6 +4,7 @@
 #include <thread>
 #include <cstdint>
 #include <string>
+#include "serverPeerSocket.h"
 
 class ClientProcessor {
 private:
