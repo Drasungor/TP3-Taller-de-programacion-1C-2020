@@ -6,6 +6,7 @@
 
 ///////////////////////////////PUBLIC//////////////////////////
 
+//DESPUES DE BORRAR EL BEGINNING AGREGARLE CONST A LA FUNCION
 void PeerSocket::receive(void* buffer, int buffer_len){
   char* buff_string = (char*)buffer;
   for (int i = 0; i < buffer_len; i++) {
@@ -16,7 +17,7 @@ void PeerSocket::receive(void* buffer, int buffer_len){
 
 
 //REIMPLEMENTAR, ES SOLO PARA PROBAR LA LOGICA DEL PROGRAMA
-void PeerSocket::send(const void* buffer, int buffer_len){
+void PeerSocket::send(const void* buffer, int buffer_len) const{
 
   std::cout << "MENSAJE ENVIADO POR EL SOCKET" << std::endl;
 

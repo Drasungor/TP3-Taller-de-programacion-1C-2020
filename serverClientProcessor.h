@@ -9,10 +9,24 @@
 class ClientProcessor {
 private:
   const std::string number_to_guess;
-  const PeerSocket client;
+  PeerSocket client;
   std::thread thrd;
   //int current_number_of_guesses;
 private:
+  void _run_game();
+  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+  bool _execute_command(char command_indicator,
+                        int& current_number_of_guesses);
+  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+  bool _execute_number(int& current_number_of_guesses);
+  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+  void _execute_give_up();
+  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+  void _execute_help();
+  std::string _process_guessed_number(const std::string& number_to_guess,
+                                      uint16_t guessed_number,
+                                      int& taken_turns) const;
+  bool _has_repeated_digits(const std::string& number_string) const;
 public:
   //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);

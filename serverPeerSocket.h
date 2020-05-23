@@ -27,7 +27,7 @@ public:
 
   void receive(void* buffer, int buffer_len);
 
-  void send(const void* buffer, int buffer_len);
+  void send(const void* buffer, int buffer_len) const;
 };
 
 #endif
