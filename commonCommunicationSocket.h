@@ -25,6 +25,8 @@ public:
   void receive(void* buffer, int buffer_len) const;
 
   void send(const void* buffer, int buffer_len) const;
+
+  void set_fs(int fd);
 };
 
 #endif

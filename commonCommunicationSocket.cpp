@@ -221,6 +221,11 @@ void CommunicationSocket::send(const void* buffer, int buffer_len) const{
   //return SUCCESS;
 }
 
+void CommunicationSocket::set_fs(int fd){
+  sckt_fd = fd;
+}
+
+
 CommunicationSocket::CommunicationSocket(){
   sckt_fd = -1;
 }
