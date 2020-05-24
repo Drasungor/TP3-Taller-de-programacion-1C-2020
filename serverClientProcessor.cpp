@@ -4,6 +4,7 @@
 #include <string>
 #include <cstring>
 #include <arpa/inet.h>
+#include <vector>
 #include "serverPeerSocket.h"
 #include "CommunicationConstants.h"
 
@@ -115,11 +116,22 @@ std::string ClientProcessor::_process_guessed_number(
 }
 
 void ClientProcessor::_execute_help(){
-  client.send(HELP_MESSAGE_PART_1, std::strlen(HELP_MESSAGE_PART_1));
-  client.send(HELP_MESSAGE_PART_2, std::strlen(HELP_MESSAGE_PART_2));
-  client.send(HELP_MESSAGE_PART_3, std::strlen(HELP_MESSAGE_PART_3));
-  client.send(HELP_MESSAGE_PART_4, std::strlen(HELP_MESSAGE_PART_4));
-  client.send(HELP_MESSAGE_PART_5, std::strlen(HELP_MESSAGE_PART_5));
+  uint32_t message_len = 0;
+  uint32_t aux;
+  std::vector<std::string> message_parts = {HELP_MESSAGE_PART_1,
+        HELP_MESSAGE_PART_2, HELP_MESSAGE_PART_3, HELP_MESSAGE_PART_4,
+        HELP_MESSAGE_PART_5};
+  std::vector<uint32_t> message_parts_lens;
+  for (size_t i = 0; i < message_parts.size(); i++) {
+    aux = std::strlen(HELP_MESSAGE_PART_1);
+    message_parts_lens.push_back(aux);
+    message_len += aux;
+  }
+  message_len = htonl(message_len);
+  client.send(&message_len, sizeof(uint32_t));
+  for (size_t i = 0; i < message_parts.size(); i++) {
+    client.send(message_parts[i].data(), message_parts_lens[i]);
+  }
 
   //BORRAR PRINT
   std::cout << "TERMINE DE EJECUTAR LOS SEND" << std::endl;

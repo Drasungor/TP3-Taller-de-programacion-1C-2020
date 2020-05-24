@@ -51,32 +51,14 @@ void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
   size_t current_bytes_sent = 0;
   const char* current_address = (const char*)buffer;
   while (total_bytes_sent < buffer_len) {
-
-    //BORRAR PRINT
-    std::cout << "VOY A HACER SEND" << std::endl;
-
     current_bytes_sent = ::send(socket_fd, current_address,
                               buffer_len - total_bytes_sent, MSG_NOSIGNAL);
-//asdas
-    /*
-    if (current_bytes_sent == 0) {
-      return CLOSED_SOCKET, TIRAR EXCEPTION DE SOCKET CERRADO;
-    }
-    if (current_bytes_sent < 0) {
-      return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
-    }
-    */
-
-    //BORRAR PRINT
-    std::cout << "ESTOY EN EL WHILE DEL SEND" << std::endl;
-
     if (current_bytes_sent <= 0) {
       throw(std::system_error(errno, std::system_category(), "Send error"));
     }
     current_address += current_bytes_sent;
     total_bytes_sent += current_bytes_sent;
   }
-  //return SUCCESS;
 }
 
 void CommunicationSocket::set_fd(int fd){
