@@ -7,6 +7,8 @@
 //DELEGAR
 class ClientSocket: public CommunicationSocket {
 private:
+  void _obtain_addrinfo(const char* host, const char* service,
+                        struct addrinfo* hints, struct addrinfo** result);
   bool _process_info_to_connect(struct addrinfo* info, int& socket_fd);
   void _set_hints(struct addrinfo* hints);
 public:

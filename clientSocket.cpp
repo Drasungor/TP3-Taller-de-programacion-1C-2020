@@ -48,7 +48,13 @@ void ClientSocket::_set_hints(struct addrinfo* hints){
   hints->ai_socktype = SOCK_STREAM;
 }
 
-
+void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
+                                     struct addrinfo* hints,
+                                     struct addrinfo** result){
+  if (getaddrinfo(host, service, hints, result) != 0) {
+    throw(std::system_error(0, std::generic_category()));
+  }
+}
 
 //////////////////////////////////PUBLIC/////////////////////////////////
 
@@ -57,21 +63,21 @@ void ClientSocket::_set_hints(struct addrinfo* hints){
 void ClientSocket::connect(const std::string& host, const std::string& service){
   bool is_connected = false;
   int socket_fd = 0;
-  char* host_ptr = NULL;
+  //const char* host_ptr = NULL;
   struct addrinfo *result;
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
   if (host != "") {
-    host_ptr = host.data();
-  }
-  if (getaddrinfo(host_ptr, service.data(), &hints, &result) != 0) {
-    throw(std::system_error(0), std::generic_category);
+    //host_ptr = host.data();
+    _obtain_addrinfo(NULL, service.data(), &hints, &result);
+  } else {
+    _obtain_addrinfo(host.data(), service.data(), &hints, &result);
   }
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    throw(std::system_error(errno), std::system_category);
+    throw(std::system_error(errno, std::system_category()));
   }
   set_fd(socket_fd);
 }

@@ -32,6 +32,9 @@ public:
   void send(const void* buffer, size_t buffer_len) const;
 
   void set_fd(int fd);
+
+  //VER COMO CAMBIAR ESTO POR OTRA COSA QUE NO SEA UN GET
+  int get_fd();
 };
 
 #endif

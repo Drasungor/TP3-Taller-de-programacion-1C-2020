@@ -3,6 +3,9 @@
 
 #define NUMBERS_DIGITS_AMMOUNT 3
 
+#define LOSE_MESSAGE "Perdiste"
+#define WIN_MESSAGE "Ganaste"
+
 //Header for the constants that both the client and the server need to know
 //for proper communication and functionality
 enum CommandIndicator:char {

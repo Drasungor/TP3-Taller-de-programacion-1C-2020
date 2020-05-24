@@ -1,6 +1,9 @@
 #include "serverSocket.h"
 
 #include <cstring>
+#include <system_error>
+
+//VER CUALES DE ESTOS DEFINES SE PUEDEN SACAR
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -69,24 +72,24 @@ void ServerSocket::bind_and_listen(const std::string& service){
   hints.ai_flags = AI_PASSIVE;
 
   if (getaddrinfo(NULL, service.data(), &hints, &result) != 0) {
-    throw(std::system_error(0), std::generic_category);
+    throw(std::system_error(0, std::generic_category()));
   }
   is_bound = _process_info_to_bind(result, socket_fd);
   freeaddrinfo(result);
   if (!is_bound) {
-    throw(std::system_error(errno), std::system_category);
+    throw(std::system_error(errno, std::system_category()));
   }
   this->socket_fd = socket_fd;
   listen_value = listen(this->socket_fd, MAX_SIZE_WAITING_CLIENTS_QUEUE);
   if (listen_value != 0) {
-    throw(std::system_error(errno), std::system_category);
+    throw(std::system_error(errno, std::system_category()));
   }
 }
 
 PeerSocket ServerSocket::accept(){
   int aux = ::accept(this->socket_fd, NULL, NULL);
   if (aux == -1) {
-    throw(std::system_error(errno), std::system_category);
+    throw(std::system_error(errno, std::system_category()));
   }
   PeerSocket peer_socket(aux);
   return peer_socket;

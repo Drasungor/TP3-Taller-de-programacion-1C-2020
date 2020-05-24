@@ -66,8 +66,8 @@ PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
   this->beginning = other.beginning;
   */
   //this->socket_fd = other.socket_fd;
-  set_fd(other.socket_fd);
-  other.socket_fd = -1;
+  set_fd(other.get_fd());
+  other.set_fd(-1);
 }
 
 PeerSocket::~PeerSocket(){

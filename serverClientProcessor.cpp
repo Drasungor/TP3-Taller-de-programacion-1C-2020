@@ -16,9 +16,6 @@
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
 #define HELP_MESSAGE_PART_5 "secreto\n\n" //<-- BORRAR ESTOS \n
 
-#define LOSE_MESSAGE "Perdiste"
-#define WIN_MESSAGE "Ganaste"
-
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
 #define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda"
 

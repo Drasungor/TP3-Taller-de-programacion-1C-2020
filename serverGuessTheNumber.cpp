@@ -3,11 +3,12 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <cstring>
+#include <cstdint>
+#include "serverSocket.h"
 #include "serverPeerSocket.h"
 #include "serverClientProcessor.h"
 //VER SI HAY QUE BORRAR ESTOS INCLUDE
-#include <cstring>
-#include <cstdint>
 
 #include "CommunicationConstants.h"
 
@@ -17,7 +18,7 @@
 
 #define NUMBER_OF_ARGUMENTS 3
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
-#define PORT_ARGUMENTS_INDEX 1
+#define SERVICE_ARGUMENTS_INDEX 1
 
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos"
 #define INVALID_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango"
@@ -81,6 +82,13 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     return INVALID_FILE;
   }
 
+  SocketServer server_socket;
+  PeerSocket peer_socket;
+  try {
+    socket.bind_and_listen(arguments[SERVICE_ARGUMENTS_INDEX]);
+  } catch {
+
+  }
 
   //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
 
@@ -88,6 +96,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   //bool keep_processing = true;
   _load_numbers_to_guess(numbers_file, numbers_to_guess);
 
+  /*
   PeerSocket p_socket("hhssn", std::strlen("hhssn"));
   uint16_t numero = 123;
   p_socket.add_message(&numero, sizeof(uint16_t));
@@ -104,6 +113,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   p_socket.add_message("n", std::strlen("n"));
   numero = 125;
   p_socket.add_message(&numero, sizeof(uint16_t));
+  */
   /*
   while (keep_processing) {
     keep_processing = ;

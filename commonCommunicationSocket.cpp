@@ -35,7 +35,7 @@ void CommunicationSocket::receive(void* buffer, size_t buffer_len) const{
       return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
     }
     */if (current_bytes_received <= 0) {
-      throw(std::system_error(errno), std::system_category);
+      throw(std::system_error(errno, std::system_category()));
     }
     current_address += current_bytes_received;
     total_bytes_received += current_bytes_received;
@@ -60,7 +60,7 @@ void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
     }
     */
     if (current_bytes_sent <= 0) {
-      throw(std::system_error(errno), std::system_category);
+      throw(std::system_error(errno, std::system_category()));
     }
     current_address += current_bytes_sent;
     total_bytes_sent += current_bytes_sent;
@@ -72,6 +72,10 @@ void CommunicationSocket::set_fd(int fd){
   socket_fd = fd;
 }
 
+//VER COMO CAMBIAR ESTO POR OTRA COSA QUE NO SEA UN GET
+int CommunicationSocket::get_fd(){
+  return socket_fd;
+}
 
 CommunicationSocket::CommunicationSocket() noexcept{
   socket_fd = -1;
