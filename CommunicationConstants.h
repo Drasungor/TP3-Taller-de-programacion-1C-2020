@@ -3,8 +3,8 @@
 
 #define NUMBERS_DIGITS_AMMOUNT 3
 
-#define LOSE_MESSAGE "Perdiste"
-#define WIN_MESSAGE "Ganaste"
+#define LOSE_MESSAGE "Perdiste\n"
+#define WIN_MESSAGE "Ganaste\n"
 
 //Header for the constants that both the client and the server need to know
 //for proper communication and functionality

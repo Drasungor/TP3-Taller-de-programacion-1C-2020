@@ -23,9 +23,10 @@ private:
   void _execute_give_up();
   //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
   void _execute_help();
-  std::string _process_guessed_number(const std::string& number_to_guess,
-                                      uint16_t guessed_number,
-                                      int& taken_turns) const;
+  bool _process_guessed_number(std::string& message_to_send
+                               const std::string& number_to_guess,
+                               uint16_t guessed_number,
+                               int& taken_turns) const;
   bool _has_repeated_digits(const std::string& number_string) const;
 public:
   //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
