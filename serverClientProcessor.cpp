@@ -123,7 +123,7 @@ void ClientProcessor::_execute_help(){
         HELP_MESSAGE_PART_5};
   std::vector<uint32_t> message_parts_lens;
   for (size_t i = 0; i < message_parts.size(); i++) {
-    aux = std::strlen(HELP_MESSAGE_PART_1);
+    aux = message_parts[i].length();
     message_parts_lens.push_back(aux);
     message_len += aux;
   }
@@ -132,6 +132,7 @@ void ClientProcessor::_execute_help(){
   for (size_t i = 0; i < message_parts.size(); i++) {
     client.send(message_parts[i].data(), message_parts_lens[i]);
   }
+  //client.send("\0", sizeof(char));
 
   //BORRAR PRINT
   std::cout << "TERMINE DE EJECUTAR LOS SEND" << std::endl;

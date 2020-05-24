@@ -55,6 +55,7 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& a
   //MENSAJE MAS LARGO (FIJARSE EL STRLEN DEL MENSAJE LARGO)
   size_t received_chars = 0;
   size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
+
   while (received_chars < number_of_chars) {
     if ((number_of_chars - received_chars) < MESSAGE_RECEIVER_BUFFER_LEN) {
       asked_chars = number_of_chars - received_chars;
@@ -64,16 +65,7 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& a
     std::string aux(buffer);
     answer += aux;
     received_chars += asked_chars;
-
-    //BORRAR
-    //std::cout << "CHARS A RECIBIR: " << number_of_chars << ", CHARS RECIBIDOS: " << received_chars << std::endl;
-
-    //BORRAR
-    //std::cout << "ESTOY EN EL WHILE DE _receive_message" << std::endl;
   }
-
-  //BORRAR
-  //std::cout << "TERMINE RECEIVE MESSAGE" << std::endl;
 }
 
 bool ClientGuessTheNumber::_is_game_finished(const std::string& answer) const{
@@ -94,7 +86,7 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
   }
   _receive_message(socket, answer);
   std::cout << answer;
-  return _is_game_finished(answer);
+  return !_is_game_finished(answer);
 }
 
 ///////////////////////////////PUBLIC//////////////////////////
