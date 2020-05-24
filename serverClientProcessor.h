@@ -23,7 +23,16 @@ private:
   void _execute_give_up();
   //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
   void _execute_help();
-  bool _process_guessed_number(std::string& message_to_send
+  bool _store_invalid_number_answer_message(
+                                          std::string& message_to_send,
+                                          int current_number_of_guesses) const;
+  bool _store_normal_answer_message(std::string& message_to_send,
+                                    int current_number_of_guesses,
+                                    int correct_digits,
+                                    int regular_digits) const;
+  void _calculate_score(const std::string guessed_number_string,
+                        int& correct_digits, int& regular_digits) const;
+  bool _process_guessed_number(std::string& message_to_send,
                                const std::string& number_to_guess,
                                uint16_t guessed_number,
                                int& taken_turns) const;

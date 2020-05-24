@@ -55,7 +55,8 @@ bool ClientProcessor::_has_repeated_digits(const std::string& number_string) con
 }
 
 
-void ClientProcessor::_calculate_score(int& correct_digits,
+void ClientProcessor::_calculate_score(const std::string guessed_number_string,
+                                       int& correct_digits,
                                        int& regular_digits) const{
   for (size_t i = 0; i < NUMBERS_DIGITS_AMMOUNT; i++) {
     for (size_t j = 0; j < NUMBERS_DIGITS_AMMOUNT; j++) {
@@ -146,7 +147,7 @@ bool ClientProcessor::_process_guessed_number(
                                         uint16_t guessed_number,
                                         int& current_number_of_guesses) const{
   current_number_of_guesses++;
-  std::string message_to_send = "";
+  message_to_send = "";
   std::string guessed_number_string = std::to_string(guessed_number);
   if ((guessed_number_string.length() != NUMBERS_DIGITS_AMMOUNT) ||
       (_has_repeated_digits(guessed_number_string))) {
@@ -154,7 +155,7 @@ bool ClientProcessor::_process_guessed_number(
                                                 current_number_of_guesses);
   }
   int correct_digits = 0, regular_digits = 0;
-  _calculate_score(correct_digits, regular_digits);
+  _calculate_score(guessed_number_string, correct_digits, regular_digits);
   return _store_normal_answer_message(message_to_send,
                                       current_number_of_guesses,
                                       correct_digits, regular_digits);
