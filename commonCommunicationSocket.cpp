@@ -1,7 +1,7 @@
 #include "commonCommunicationSocket.h"
 
 #include <cstddef>
-
+#include <system_error>
 //VER SI HACEN FALTA ESTOS INCLUDES
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -35,7 +35,7 @@ void CommunicationSocket::receive(void* buffer, size_t buffer_len) const{
       return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
     }
     */if (current_bytes_received <= 0) {
-      throw(std::ios_base::failure);
+      throw(std::system_error(errno));
     }
     current_address += current_bytes_received;
     total_bytes_received += current_bytes_received;
@@ -60,7 +60,7 @@ void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
     }
     */
     if (current_bytes_sent <= 0) {
-      throw(std::ios_base::failure);
+      throw(std::system_error(errno));
     }
     current_address += current_bytes_sent;
     total_bytes_sent += current_bytes_sent;

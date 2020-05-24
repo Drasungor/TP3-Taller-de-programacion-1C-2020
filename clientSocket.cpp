@@ -1,8 +1,11 @@
 //#define _POSIX_C_SOURCE 200112L
 #include "clientSocket.h"
 
+#include <system_error>
 #include <string>
 #include <cstring>
+
+//VER CUALES DE ESTOS INCLUDE HACEN FALTA
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -63,12 +66,12 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
     host_ptr = host.data();
   }
   if (getaddrinfo(host_ptr, service.data(), &hints, &result) != 0) {
-    throw(std::ios_base::failure);
+    throw(std::system_error(0));
   }
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    throw(std::ios_base::failure);
+    throw(std::system_error(errno));
   }
   set_fd(socket_fd);
 }
