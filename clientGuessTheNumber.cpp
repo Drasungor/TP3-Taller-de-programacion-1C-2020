@@ -109,6 +109,7 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   } catch(std::system_error e) {
     //VER SI EL RETURN ACA HACE QUE SE GENERE ALGUN LEAK
     std::cout << SOCKET_ERROR_TEXT << std::endl;
+    std::cout << e.what() << std::endl;
     return PROCESS_FINISHED;
   }
   while (keep_running) {

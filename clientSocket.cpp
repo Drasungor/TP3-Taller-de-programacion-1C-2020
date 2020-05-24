@@ -68,7 +68,7 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
-  if (host != "") {
+  if (host == "") {
     //host_ptr = host.data();
     _obtain_addrinfo(NULL, service.data(), &hints, &result);
   } else {
