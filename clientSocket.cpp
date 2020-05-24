@@ -52,7 +52,7 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
                                      struct addrinfo* hints,
                                      struct addrinfo** result){
   if (getaddrinfo(host, service, hints, result) != 0) {
-    throw(std::system_error(0, std::generic_category()));
+    throw(std::system_error(0, std::generic_category(), "getaddrinfo error"));
   }
 }
 
@@ -77,7 +77,7 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    throw(std::system_error(errno, std::system_category()));
+    throw(std::system_error(errno, std::system_category(), "Connection error"));
   }
   set_fd(socket_fd);
 }

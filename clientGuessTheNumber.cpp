@@ -18,6 +18,8 @@
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos"
 #define INVALID_COMMAND_TEXT "Error: comando inválido"
 
+#define SOCKET_ERROR_TEXT "Error de scoket"
+
 #define HELP_COMMAND_TEXT "AYUDA"
 #define GIVE_UP_COMMAND_TEXT "RENDIRSE"
 
@@ -106,6 +108,7 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
     socket.connect(host, service);
   } catch(std::system_error e) {
     //VER SI EL RETURN ACA HACE QUE SE GENERE ALGUN LEAK
+    std::cout << SOCKET_ERROR_TEXT << std::endl;
     return PROCESS_FINISHED;
   }
   while (keep_running) {
@@ -121,6 +124,10 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
       std::cout << INVALID_COMMAND_TEXT;
     }
   }
+
+  //BORRAR PRINT, ES PARA DEBUGGING
+  std::cout<< "LLEGUE AL FINAL DEL PROGRAMA";
+
   return PROCESS_FINISHED;
 }
 

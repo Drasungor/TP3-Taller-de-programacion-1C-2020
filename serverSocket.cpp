@@ -72,24 +72,24 @@ void ServerSocket::bind_and_listen(const std::string& service){
   hints.ai_flags = AI_PASSIVE;
 
   if (getaddrinfo(NULL, service.data(), &hints, &result) != 0) {
-    throw(std::system_error(0, std::generic_category()));
+    throw(std::system_error(0, std::generic_category(), "getaddrinfo error"));
   }
   is_bound = _process_info_to_bind(result, socket_fd);
   freeaddrinfo(result);
   if (!is_bound) {
-    throw(std::system_error(errno, std::system_category()));
+    throw(std::system_error(errno, std::system_category(), "Binding error"));
   }
   this->socket_fd = socket_fd;
   listen_value = listen(this->socket_fd, MAX_SIZE_WAITING_CLIENTS_QUEUE);
   if (listen_value != 0) {
-    throw(std::system_error(errno, std::system_category()));
+    throw(std::system_error(errno, std::system_category(), "Listen error"));
   }
 }
 
 PeerSocket ServerSocket::accept(){
   int aux = ::accept(this->socket_fd, NULL, NULL);
   if (aux == -1) {
-    throw(std::system_error(errno, std::system_category()));
+    throw(std::system_error(errno, std::system_category(), "Accept error"));
   }
   PeerSocket peer_socket(aux);
   return peer_socket;

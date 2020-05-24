@@ -134,7 +134,6 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     std::cout << SOCKET_ERROR_TEXT;
     return SOCKET_ERROR;
   }
-
   return SUCCESS;
 }
 
