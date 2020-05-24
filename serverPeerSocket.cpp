@@ -1,12 +1,13 @@
 #include "serverPeerSocket.h"
 
-
+/*
 //BORRAR INCLUDES, ESTO ES PARA EL PROXY
 #include <iostream>
 #include <string>
-
+*/
 ///////////////////////////////PUBLIC//////////////////////////
 
+/*
 //DESPUES DE BORRAR EL BEGINNING AGREGARLE CONST A LA FUNCION
 void PeerSocket::receive(void* buffer, int buffer_len){
   char* buff_string = (char*)buffer;
@@ -15,7 +16,6 @@ void PeerSocket::receive(void* buffer, int buffer_len){
   }
   beginning += buffer_len;
 }
-
 
 //REIMPLEMENTAR, ES SOLO PARA PROBAR LA LOGICA DEL PROGRAMA
 void PeerSocket::send(const void* buffer, int buffer_len) const{
@@ -28,7 +28,6 @@ void PeerSocket::send(const void* buffer, int buffer_len) const{
   }
   //std::cout << std::endl << std::endl;
 }
-
 
 //BORRAR ESTA FUNCION, ESTA PARA PROBAR LA LOGICA DEL JUEGO
 void PeerSocket::add_message(const void* a, int len){
@@ -49,9 +48,11 @@ PeerSocket::PeerSocket(const void* message, int length){
     this->message[i] = message_stream[i];
   }
 }
+*/
 
 PeerSocket::PeerSocket(int fd){
-  socket_fd = fd;
+  //socket_fd = fd;
+  set_fd(fd);
 }
 
 
@@ -64,7 +65,8 @@ PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
   this->length = other.length;
   this->beginning = other.beginning;
   */
-  this->socket_fd = other.socket_fd;
+  //this->socket_fd = other.socket_fd;
+  set_fd(other.socket_fd);
   other.socket_fd = -1;
 }
 

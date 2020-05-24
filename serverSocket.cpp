@@ -58,7 +58,6 @@ void ServerSocket::_set_hints(struct addrinfo* hints){
 ///////////////////////////////PUBLIC//////////////////////////
 
 void ServerSocket::bind_and_listen(const std::string& service){
-  int info_result = 0;
   bool is_bound = false;
   int listen_value = 0;
   int socket_fd = 0;
@@ -67,19 +66,18 @@ void ServerSocket::bind_and_listen(const std::string& service){
   _set_hints(&hints);
   hints.ai_flags = AI_PASSIVE;
 
-  info_result = getaddrinfo(NULL, service.data(), &hints, &result);
-  if (info_result != 0) {
-    return /*info_result*//*TIRAR EXCEPTION*/;
+  if (getaddrinfo(NULL, service.data(), &hints, &result) != 0) {
+    throw(std::ios_base::failure);
   }
   is_bound = _process_info_to_bind(result, socket_fd);
   freeaddrinfo(result);
   if (!is_bound) {
-    return /*ERROR*//*TIRAR EXCEPTION*/;
+    throw(std::ios_base::failure);
   }
   this->socket_fd = socket_fd;
   listen_value = listen(this->socket_fd, MAX_SIZE_WAITING_CLIENTS_QUEUE);
   if (listen_value != 0) {
-    return /*ERROR*//*TIRAR EXCEPTION*/;
+    throw(std::ios_base::failure);
   }
   //return SUCCESS;
 }
@@ -87,7 +85,7 @@ void ServerSocket::bind_and_listen(const std::string& service){
 PeerSocket ServerSocket::accept(){
   int aux = ::accept(this->socket_fd, NULL, NULL);
   if (aux == -1) {
-    /*return ERROR*//*TIRAR EXCEPTION*/;
+    throw(std::ios_base::failure);
   }
   PeerSocket peer_socket(aux);
   return peer_socket;

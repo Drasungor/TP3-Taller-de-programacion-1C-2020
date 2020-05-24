@@ -50,7 +50,6 @@ void ClientSocket::_set_hints(struct addrinfo* hints){
 //////////////////////////////////PUBLIC/////////////////////////////////
 
 void ClientSocket::connect(const std::string& host, const std::string& service){
-  int info_result = 0;
   bool is_connected = false;
   int socket_fd = 0;
   char* host_ptr = NULL;
@@ -61,14 +60,13 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   if (host != "") {
     host_ptr = host.data();
   }
-  info_result = getaddrinfo(host_ptr, service.data(), &hints, &result);
-  if (info_result != 0) {
-    return /*info_result*//*TIRAR EXCEPTION*/;
+  if (getaddrinfo(host_ptr, service.data(), &hints, &result) != 0) {
+    throw(std::ios_base::failure);
   }
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    return /*ERROR*//*TIRAR EXCEPTION*/;
+    throw(std::ios_base::failure);
   }
   set_fd(socket_fd);
 }

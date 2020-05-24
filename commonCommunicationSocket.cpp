@@ -1,5 +1,3 @@
-//#define _POSIX_C_SOURCE 200112L
-
 #include "commonCommunicationSocket.h"
 
 #include <cstddef>
@@ -27,12 +25,17 @@ void CommunicationSocket::receive(void* buffer, size_t buffer_len) const{
     current_bytes_received = recv(socket_fd, current_address,
                                   buffer_len - total_bytes_received,
                                   MSG_NOSIGNAL);
+//asdasdas
+    /*
     if (current_bytes_received == 0) {
-      return /*CLOSED_SOCKET*//*TIRAR EXCEPTION DE SOCKET CERRADO*/;
+      return CLOSED_SOCKET, TIRAR EXCEPTION DE SOCKET CERRADO;
     }
     //VER SI SE CAMBIA POR ELSE IF PARA QUEDAR EN 15 LINEAS
     if (current_bytes_received < 0) {
-      return /*ERROR*//*TIRAR EXCEPTION DE ERROR DE COMUNICACION*/;
+      return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
+    }
+    */if (current_bytes_received <= 0) {
+      throw(std::ios_base::failure);
     }
     current_address += current_bytes_received;
     total_bytes_received += current_bytes_received;
@@ -47,11 +50,17 @@ void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
   while (total_bytes_sent < buffer_len) {
     current_bytes_sent = ::send(socket_fd, current_address,
                               buffer_len - total_bytes_sent, MSG_NOSIGNAL);
+//asdas
+    /*
     if (current_bytes_sent == 0) {
-      return /*CLOSED_SOCKET*//*TIRAR EXCEPTION DE SOCKET CERRADO*/;
+      return CLOSED_SOCKET, TIRAR EXCEPTION DE SOCKET CERRADO;
     }
     if (current_bytes_sent < 0) {
-      return /*ERROR*//*TIRAR EXCEPTION DE ERROR DE COMUNICACION*/;
+      return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
+    }
+    */
+    if (current_bytes_sent <= 0) {
+      throw(std::ios_base::failure);
     }
     current_address += current_bytes_sent;
     total_bytes_sent += current_bytes_sent;

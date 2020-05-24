@@ -4,19 +4,25 @@
 #include "commonCommunicationSocket.h"
 
 
+//VER SI HAY QUE BORRAR ESTA HERENCIA PORQUE NO USA POLIMORFISMO
+
+//An instance of this class should only be used when obtained from a
+//ServerSocket accept method
 class PeerSocket: public CommunicationSocket{
 private:
-  int socket_fd;
+  //int socket_fd;
 
   //BORRAR ESTO, ES PARA PROBAR
+  /*
   char message[100];
   int length;
   int beginning;
+  */
 private:
 public:
 
   //ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
-  PeerSocket(const void* message, int length);
+  //PeerSocket(const void* message, int length);
 
   PeerSocket(int fd);
 
@@ -29,11 +35,11 @@ public:
   ~PeerSocket();
 
   //BORRAR ESTA FUNCION, ESTA PARA PROBAR LA LOGICA DEL JUEGO
-  void add_message(const void* a, int len);
+  //void add_message(const void* a, int len);
 
-  void receive(void* buffer, int buffer_len);
+  //void receive(void* buffer, int buffer_len);
 
-  void send(const void* buffer, int buffer_len) const;
+  //void send(const void* buffer, int buffer_len) const;
 };
 
 #endif
