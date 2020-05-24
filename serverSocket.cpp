@@ -100,8 +100,10 @@ ServerSocket::ServerSocket(){
 }
 
 ServerSocket::~ServerSocket(){
-  shutdown(socket_fd, SHUT_RDWR);
-  close(socket_fd);
+  if (socket_fd != -1) {
+    shutdown(socket_fd, SHUT_RDWR);
+    close(socket_fd);
+  }
 }
 
 

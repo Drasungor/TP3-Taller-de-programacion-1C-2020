@@ -81,6 +81,8 @@ CommunicationSocket::CommunicationSocket(CommunicationSocket&& other) noexcept{
 */
 
 CommunicationSocket::~CommunicationSocket(){
-  shutdown(socket_fd, SHUT_RDWR);
-  close(socket_fd);
+  if (socket_fd != -1) {
+    shutdown(socket_fd, SHUT_RDWR);
+    close(socket_fd);
+  }
 }
