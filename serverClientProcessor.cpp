@@ -170,7 +170,8 @@ bool ClientProcessor::_execute_command(char command_indicator,
     case COMMAND_INDICATOR_NUMBER:
       return _execute_number(current_number_of_guesses);
     default:
-      //MANDAR MENSAJE DE ERROR
+      //VER SI HACE FALTA TIRAR UNA EXCEPCION EN CASO DE QUE NO SE CONOZCA EL
+      //COMANDO, EL CLIENTE CHEQUEA QUE EL COMANDO ESCRITO SEA VALIDO
       return false;
   }
 }

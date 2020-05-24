@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdint>
+#include <system_error>
 #include "serverSocket.h"
 #include "serverPeerSocket.h"
 #include "serverClientProcessor.h"
@@ -126,9 +127,13 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
   */
   //AGREGAR CODIGOS DE RETORNO DE ERROR
-
   ClientProcessor processor(peer_socket, numbers_to_guess[0]);
-  processor();
+  try {
+    processor();
+  } catch(std::system_error e) {
+    std::cout << SOCKET_ERROR_TEXT;
+    return SOCKET_ERROR;
+  }
 
   return SUCCESS;
 }
