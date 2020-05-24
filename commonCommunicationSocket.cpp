@@ -64,7 +64,7 @@ void CommunicationSocket::set_fd(int fd){
 }
 
 
-CommunicationSocket::CommunicationSocket(){
+CommunicationSocket::CommunicationSocket() noexcept{
   socket_fd = -1;
 }
 

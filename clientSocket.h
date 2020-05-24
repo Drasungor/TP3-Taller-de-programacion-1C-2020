@@ -12,6 +12,8 @@ private:
 public:
   ClientSocket();
 
+  //BORRAR CONSTRUCTORES POR COPIA
+
   /*
   CommunicationSocket(CommunicationSocket&& other) noexcept;
 
@@ -22,6 +24,9 @@ public:
 
    ~ClientSocket();
 
+
+   //AGREGAR MAS COMENTARIOS
+   //If an empty host string is received, the host will be localhost
    void connect(const std::string& host, const std::string& service);
 
 

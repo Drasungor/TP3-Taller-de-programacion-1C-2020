@@ -53,11 +53,15 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   int info_result = 0;
   bool is_connected = false;
   int socket_fd = 0;
+  char* host_ptr = NULL;
   struct addrinfo *result;
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
-  info_result = getaddrinfo(host.data(), service.data(), &hints, &result);
+  if (host != "") {
+    host_ptr = host.data();
+  }
+  info_result = getaddrinfo(host_ptr, service.data(), &hints, &result);
   if (info_result != 0) {
     return /*info_result*//*TIRAR EXCEPTION*/;
   }
