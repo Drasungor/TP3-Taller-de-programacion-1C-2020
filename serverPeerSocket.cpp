@@ -1,5 +1,6 @@
 #include "serverPeerSocket.h"
 
+
 //BORRAR INCLUDES, ESTO ES PARA EL PROXY
 #include <iostream>
 #include <string>
@@ -49,13 +50,22 @@ PeerSocket::PeerSocket(const void* message, int length){
   }
 }
 
+PeerSocket::PeerSocket(int fd){
+  socket_fd = fd;
+}
+
+
 //CAMBIAR LA IMPLEMENTACION DE ESTE MOVE
 PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
+  /*
   for (int i = 0; i < other.length; i++) {
     this->message[i] = other.message[i];
   }
   this->length = other.length;
   this->beginning = other.beginning;
+  */
+  this->socket_fd = other.socket_fd;
+  other.socket_fd = -1;
 }
 
 PeerSocket::~PeerSocket(){

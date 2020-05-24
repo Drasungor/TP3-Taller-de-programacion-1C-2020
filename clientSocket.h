@@ -1,13 +1,15 @@
 #ifndef _CLIENT_SOCKET_H_
 #define  _CLIENT_SOCKET_H_
 
-//This is an abstract class that implements the methods necessary for the
-//communication between a client socket and a peer socket
+#include <string>
+#include "commonCommunicationSocket.h"
+//VER SI SE SACA ESTA HERENCIA YA QUE NO AYUDA AL POLIMORFISMO, CONVIENE
+//DELEGAR
 class ClientSocket: public CommunicationSocket {
 private:
+  bool _process_info_to_connect(struct addrinfo* info, int& socket_fd);
+  void _set_hints(struct addrinfo* hints);
 public:
-
-  //ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
   ClientSocket();
 
   /*
@@ -20,9 +22,9 @@ public:
 
    ~ClientSocket();
 
-  //void receive(void* buffer, int buffer_len) const;
+   void connect(const std::string& host, const std::string& service);
 
-  //void send(const void* buffer, int buffer_len) const;
+
 };
 
 #endif

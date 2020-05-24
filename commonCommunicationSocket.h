@@ -1,11 +1,14 @@
-#ifndef _SERVER_PEERK_SOCKET_H_
-#define  _SERVER_PEERK_SOCKET_H_
+#ifndef _COMMON_COMMUNICATION_SOCKET_H_
+#define  _COMMON_COMMUNICATION_SOCKET_H_
+
+
+#include <cstddef>
 
 //This is an abstract class that implements the methods necessary for the
 //communication between a client socket and a peer socket
 class CommunicationSocket {
 private:
-  int sckt_fd;
+  int socket_fd;
 private:
 public:
 
@@ -22,11 +25,11 @@ public:
 
   virtual ~CommunicationSocket();
 
-  void receive(void* buffer, int buffer_len) const;
+  void receive(void* buffer, size_t buffer_len) const;
 
-  void send(const void* buffer, int buffer_len) const;
+  void send(const void* buffer, size_t buffer_len) const;
 
-  void set_fs(int fd);
+  void set_fd(int fd);
 };
 
 #endif
