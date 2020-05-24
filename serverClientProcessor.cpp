@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <string>
 #include <cstring>
+#include <arpa/inet.h>
 #include "serverPeerSocket.h"
 #include "CommunicationConstants.h"
 
@@ -119,6 +120,9 @@ void ClientProcessor::_execute_help(){
   client.send(HELP_MESSAGE_PART_3, std::strlen(HELP_MESSAGE_PART_3));
   client.send(HELP_MESSAGE_PART_4, std::strlen(HELP_MESSAGE_PART_4));
   client.send(HELP_MESSAGE_PART_5, std::strlen(HELP_MESSAGE_PART_5));
+
+  //BORRAR PRINT
+  std::cout << "TERMINE DE EJECUTAR LOS SEND" << std::endl;
 }
 
 
@@ -135,7 +139,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   client.receive(&guessed_number, sizeof(uint16_t));
 
   //DESCOMENTAR ESTO CUANDO SE EMPIECE A USAR EL SOCKET
-  //guessed_number = ntohs(guessed_number);
+  guessed_number = ntohs(guessed_number);
 
   //BORRAR PRINT
   std::cout << "ESTOY EN EXECUTE NUMBER" << std::endl;
@@ -143,8 +147,8 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   //AGREGAR CHEQUEO PARA VER SI EL NUMERO ESTA EN EL RANGO APROPIADO
   message_to_send = _process_guessed_number(number_to_guess, guessed_number,
                                             current_number_of_guesses);
+  //AGREGAR ENVIO DEL uint32_t ANTES
   client.send(message_to_send.data(), message_to_send.length());
-
   std::cout << "CANTIDAD DE PRUEBAS ACTUALES: " << current_number_of_guesses <<"\n\n";
 
   //AGREGAR CODIGO PARA TERMINAR EL JUEGO CUANDO EL CLIENTE GANE
@@ -186,6 +190,9 @@ void ClientProcessor::_run_game(){
   while (!should_stop) {
 
     client.receive(&command_indicator, sizeof(char));
+
+    //BORRAR PRINT, ES PARA DEBUGGING
+    std::cout << "COMANDO: " << command_indicator << std::endl;
 
     should_stop = _execute_command(command_indicator,
                                     current_number_of_guesses);
