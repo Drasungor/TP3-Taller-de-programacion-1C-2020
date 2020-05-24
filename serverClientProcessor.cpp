@@ -106,11 +106,11 @@ bool ClientProcessor::_store_normal_answer_message(
     message_to_send = LOSE_MESSAGE;
   } else {
     if ((correct_digits == 0) && (regular_digits == 0)) {
-      message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART;
+      message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART + "\n";
     } else {
       message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART
                         + " " + std::to_string(regular_digits) +
-                        REGULAR_GUESS_MESSAGE_PART;
+                        REGULAR_GUESS_MESSAGE_PART + "\n";
       }
       return true;
     }
@@ -261,10 +261,6 @@ void ClientProcessor::_run_game(){
   bool should_continue = true;
   char command_indicator;
   while (should_continue) {
-
-    //BORRAR PRINT
-    std::cout << "VOY A HACER RECEIVE" << std::endl;
-
     client.receive(&command_indicator, sizeof(char));
     should_continue = _execute_command(command_indicator,
                                        current_number_of_guesses);
