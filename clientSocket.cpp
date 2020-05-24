@@ -66,12 +66,12 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
     host_ptr = host.data();
   }
   if (getaddrinfo(host_ptr, service.data(), &hints, &result) != 0) {
-    throw(std::system_error(0));
+    throw(std::system_error(0), std::generic_category);
   }
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    throw(std::system_error(errno));
+    throw(std::system_error(errno), std::system_category);
   }
   set_fd(socket_fd);
 }
