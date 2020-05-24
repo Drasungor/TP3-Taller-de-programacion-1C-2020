@@ -140,7 +140,10 @@ void ClientProcessor::_execute_help(){
 
 
 void ClientProcessor::_execute_give_up(){
-  client.send(LOSE_MESSAGE, std::strlen(LOSE_MESSAGE));
+  uint32_t message_len = std::strlen(LOSE_MESSAGE);
+  uint32_t message_len_to_send = htonl(message_len);
+  client.send(&message_len_to_send, sizeof(uint32_t));
+  client.send(LOSE_MESSAGE, message_len);
 }
 
 //ESTO ES PARA PROBAR POR AHORA EL PROGRAMA, VER SI TIENE QUE DEVOLVER VOID
