@@ -15,6 +15,7 @@
 #define SUCCESS 0
 #define INVALID_FILE 1
 #define WRONG_NUMBER_OF_ARGUMENTS 1
+#define SOCKET_ERROR 1
 
 #define NUMBER_OF_ARGUMENTS 3
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
@@ -24,6 +25,8 @@
 #define INVALID_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango"
 #define FILE_NUMBER_WITH_REPEATED_DIGIT_TEXT "Error: formato de los números inválidos"
 
+#define SOCKET_ERROR_TEXT "Error de comunicación de socket"
+#define INVALID_FILE_TEXT "Error: archivo inexistente"
 //AGREGAR DESCRIPCION DE LO QUE HACE LA FUNCION, AGREGAR CADA CASO DE EXCEPTION
 //PORQUE SOLO SE DESCRIBE LA EXCEPTION TIRADA EN UN CASO PARTICULAR
 //If a read string does not represent a number and is also of an undesired
@@ -79,15 +82,18 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   //MENSAJE DE ERROR PARA CADA UNA
   if (!numbers_file.is_open()) {
     //AGREGAR PRINT DE MENSAJE DE ERROR
+    std::cout << INVALID_FILE_TEXT;
     return INVALID_FILE;
   }
 
-  SocketServer server_socket;
+  ServerSocket server_socket;
   PeerSocket peer_socket;
   try {
-    socket.bind_and_listen(arguments[SERVICE_ARGUMENTS_INDEX]);
-  } catch {
-
+    server_socket.bind_and_listen(arguments[SERVICE_ARGUMENTS_INDEX]);
+    peer_socket = std::move(server_socket.accept());
+  } catch (std::system_error e){
+    std::cout << SOCKET_ERROR_TEXT;
+    return SOCKET_ERROR;
   }
 
   //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
@@ -121,7 +127,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   */
   //AGREGAR CODIGOS DE RETORNO DE ERROR
 
-  ClientProcessor processor(p_socket, numbers_to_guess[0]);
+  ClientProcessor processor(peer_socket, numbers_to_guess[0]);
   processor();
 
   return SUCCESS;

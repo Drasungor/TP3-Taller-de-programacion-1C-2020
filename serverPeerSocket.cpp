@@ -50,8 +50,12 @@ PeerSocket::PeerSocket(const void* message, int length){
 }
 */
 
+//VER SI ESTE CONSTRUCTOR NO HACE FALTA
+PeerSocket::PeerSocket(){
+}
+
+
 PeerSocket::PeerSocket(int fd){
-  //socket_fd = fd;
   set_fd(fd);
 }
 
@@ -68,6 +72,12 @@ PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
   //this->socket_fd = other.socket_fd;
   set_fd(other.get_fd());
   other.set_fd(-1);
+}
+
+PeerSocket& PeerSocket::operator=(PeerSocket&& other) noexcept{
+  set_fd(other.get_fd());
+  other.set_fd(-1);
+  return *this;
 }
 
 PeerSocket::~PeerSocket(){
