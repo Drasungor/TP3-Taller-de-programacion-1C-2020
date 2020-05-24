@@ -202,10 +202,6 @@ void ClientProcessor::_run_game(){
   while (!should_stop) {
 
     client.receive(&command_indicator, sizeof(char));
-
-    //BORRAR PRINT, ES PARA DEBUGGING
-    std::cout << "COMANDO: " << command_indicator << std::endl;
-
     should_stop = _execute_command(command_indicator,
                                     current_number_of_guesses);
   }

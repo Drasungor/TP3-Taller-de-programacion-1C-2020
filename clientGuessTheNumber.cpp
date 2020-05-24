@@ -66,14 +66,14 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& a
     received_chars += asked_chars;
 
     //BORRAR
-    std::cout << "CHARS A RECIBIR: " << number_of_chars << ", CHARS RECIBIDOS: " << received_chars << std::endl;
+    //std::cout << "CHARS A RECIBIR: " << number_of_chars << ", CHARS RECIBIDOS: " << received_chars << std::endl;
 
     //BORRAR
-    std::cout << "ESTOY EN EL WHILE DE _receive_message" << std::endl;
+    //std::cout << "ESTOY EN EL WHILE DE _receive_message" << std::endl;
   }
 
   //BORRAR
-  std::cout << "TERMINE RECEIVE MESSAGE" << std::endl;
+  //std::cout << "TERMINE RECEIVE MESSAGE" << std::endl;
 }
 
 bool ClientGuessTheNumber::_is_game_finished(const std::string& answer) const{
@@ -136,7 +136,7 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
 
   //BORRAR PRINT, ES PARA DEBUGGING
-  std::cout<< "LLEGUE AL FINAL DEL PROGRAMA";
+  //std::cout<< "LLEGUE AL FINAL DEL PROGRAMA";
 
   return PROCESS_FINISHED;
 }
