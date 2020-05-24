@@ -192,9 +192,6 @@ void ClientProcessor::_execute_help(){
     client.send(message_parts[i].data(), message_parts_lens[i]);
   }
   //client.send("\0", sizeof(char));
-
-  //BORRAR PRINT
-  std::cout << "TERMINE DE EJECUTAR LOS SEND" << std::endl;
 }
 
 
@@ -225,6 +222,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
                                                  guessed_number,
                                                  current_number_of_guesses);
   answer_message_len = message_to_send.length();
+  answer_message_len = htonl(answer_message_len);
   client.send(&answer_message_len, sizeof(uint32_t));
   client.send(message_to_send.data(), message_to_send.length());
 
@@ -263,6 +261,10 @@ void ClientProcessor::_run_game(){
   bool should_continue = true;
   char command_indicator;
   while (should_continue) {
+
+    //BORRAR PRINT
+    std::cout << "VOY A HACER RECEIVE" << std::endl;
+
     client.receive(&command_indicator, sizeof(char));
     should_continue = _execute_command(command_indicator,
                                        current_number_of_guesses);

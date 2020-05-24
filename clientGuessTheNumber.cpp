@@ -48,6 +48,10 @@ char ClientGuessTheNumber::_get_command_indicator(const std::string& command_tex
 void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& answer) const{
   uint32_t number_of_chars;
   char buffer[MESSAGE_RECEIVER_BUFFER_LEN + 1];
+
+  //BORRAR PRINT
+  std::cout << "VOY A HACER RECEIVE DE SOCKET" << std::endl;
+
   socket.receive(&number_of_chars, sizeof(uint32_t));
   number_of_chars = ntohl(number_of_chars);
 
@@ -66,6 +70,11 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& a
     answer += aux;
     received_chars += asked_chars;
   }
+
+  //BORRAR PRINT
+  std::cout << "ESTOY EN EL WHILE" << std::endl;
+
+
 }
 
 bool ClientGuessTheNumber::_is_game_finished(const std::string& answer) const{
@@ -84,7 +93,15 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
     number = htons(std::stoi(command));
     socket.send(&number, sizeof(uint16_t));
   }
+
+  //BORRAR ESTE PRINT
+  std::cout << "VOY A HACER RECEIVE" << std::endl;
+
   _receive_message(socket, answer);
+
+  //BORRAR ESTE PRINT
+  std::cout << "HICE RECEIVE" << std::endl;
+
   std::cout << answer;
   return !_is_game_finished(answer);
 }
