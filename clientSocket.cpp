@@ -49,6 +49,8 @@ void ClientSocket::_set_hints(struct addrinfo* hints){
 
 //////////////////////////////////PUBLIC/////////////////////////////////
 
+//PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
+//TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
 void ClientSocket::connect(const std::string& host, const std::string& service){
   bool is_connected = false;
   int socket_fd = 0;
