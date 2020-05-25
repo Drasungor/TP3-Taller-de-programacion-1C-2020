@@ -270,12 +270,22 @@ void ClientProcessor::_run_game(){
 
 ///////////////////////////////PUBLIC//////////////////////////
 
+bool ClientProcessor::join(){
+  thrd.join();
+  return has_player_won;
+}
+
+bool ClientProcessor::has_ended(){
+  return has_program_ended;
+}
+
+
 //VER SI HAY QUE AGREGAR CONST
 void ClientProcessor::operator()(){
-  //std::thread aux_thread(/*TIRAR DESPUES THREAD CON ARGUMENTOS*/);
-
+  std::thread aux_thread(&ClientProcessor::_run_game, this);
+  thrd = std::move(aux_thread);
   //LLAMAR A ESTA FUNCION EN EL THREAD
-  _run_game();
+  //_run_game();
 }
 
 /*
@@ -289,9 +299,9 @@ ClientProcessor::ClientProcessor(PeerSocket& peer_socket,
                                  const std::string& number_to_guess):
                                  //number_to_guess(std::move(number_to_guess)),
                                  number_to_guess(number_to_guess),
-                                 client(std::move(peer_socket)){
-  //AGREGAR MOVE DEL PeerSocket
-  //current_number_of_guesses = 0;
+                                 client(std::move(peer_socket)),
+                                 has_program_ended(false){
+  has_player_won = false;
 }
 
 ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
@@ -300,7 +310,13 @@ ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
   //const std::string& number_to_guess;
   //const PeerSocket client;
   std::thread thrd = std::move(other.thrd);
+  has_program_ended = static_cast<bool>(other.has_program_ended);
+  has_player_won = other.has_player_won;
 }
 
 ClientProcessor::~ClientProcessor(){
+  //For exception safety
+  if (thrd.joinable()) {
+    thrd.join();
+  }
 }

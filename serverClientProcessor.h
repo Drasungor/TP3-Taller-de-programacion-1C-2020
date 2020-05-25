@@ -4,6 +4,7 @@
 #include <thread>
 #include <cstdint>
 #include <string>
+#include <atomic>
 #include "serverPeerSocket.h"
 
 class ClientProcessor {
@@ -11,7 +12,8 @@ private:
   const std::string number_to_guess;
   PeerSocket client;
   std::thread thrd;
-  //int current_number_of_guesses;
+  std::atomic<bool> has_program_ended;
+  bool has_player_won;
 private:
   void _run_game();
   //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
@@ -57,6 +59,15 @@ public:
   //user to start the execution at any moment and not instead of its
   //constrcutor
   void operator()();
+
+  //Returns true if the player has won, false it he lost, if there is an error
+  //that prevents the game from being played then it will be counted as a
+  //player loss
+  bool join();
+
+  //Returns true if the thread has finished executing the received function,
+  //otherwise returns false
+  bool has_ended();
 };
 
 #endif
