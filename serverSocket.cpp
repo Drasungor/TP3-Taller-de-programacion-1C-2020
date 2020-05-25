@@ -58,11 +58,11 @@ void ServerSocket::_set_hints(struct addrinfo* hints){
   hints->ai_socktype = SOCK_STREAM;
 }
 
-///////////////////////////////PUBLIC//////////////////////////
 
 //PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
 //TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
-void ServerSocket::bind_and_listen(const std::string& service){
+//void ServerSocket::bind_and_listen(const std::string& service){
+void ServerSocket::_bind_and_listen(const char* host, const char* service){
   bool is_bound = false;
   int listen_value = 0;
   int socket_fd = 0;
@@ -70,8 +70,7 @@ void ServerSocket::bind_and_listen(const std::string& service){
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = AI_PASSIVE;
-
-  if (getaddrinfo(NULL, service.data(), &hints, &result) != 0) {
+  if (getaddrinfo(host /*=NULL*/, service, &hints, &result) != 0) {
     throw(std::system_error(0, std::generic_category(), "getaddrinfo error"));
   }
   is_bound = _process_info_to_bind(result, socket_fd);
@@ -85,6 +84,14 @@ void ServerSocket::bind_and_listen(const std::string& service){
     throw(std::system_error(errno, std::system_category(), "Listen error"));
   }
 }
+
+//////////////////////////INHERITED//////////////////////////
+void ServerSocket::allow_communication(const char* service, const char* host){
+  _bind_and_listen(host, service);
+}
+
+///////////////////////////////PUBLIC//////////////////////////
+
 
 PeerSocket ServerSocket::accept(){
   int aux = ::accept(this->socket_fd, NULL, NULL);
@@ -103,9 +110,17 @@ void ServerSocket::disconnect(){
   socket_fd = -1;
 }
 
+/*
 ServerSocket::ServerSocket(){
   socket_fd = -1;
 }
+*/
+//Sets host to null in the Communicator's constructor due to default value
+ServerSocket::ServerSocket(const std::string& service):
+                           Communicator(service.data()){
+  socket_fd = -1;
+}
+
 
 ServerSocket::~ServerSocket(){
   /*

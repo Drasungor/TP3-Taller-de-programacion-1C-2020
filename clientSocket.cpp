@@ -57,22 +57,28 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
   }
 }
 
-//////////////////////////////////PUBLIC/////////////////////////////////
+
+
 
 //PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
 //TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
-void ClientSocket::connect(const std::string& host, const std::string& service){
+//void ClientSocket::connect(const std::string& host, const std::string& service){
+//void ClientSocket::_connect(const std::string& host, const std::string& service){
+void ClientSocket::_connect(const char* host, const char* service){
   bool is_connected = false;
   int socket_fd = 0;
   struct addrinfo *result;
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
+  /*
   if (host == "") {
     _obtain_addrinfo(NULL, service.data(), &hints, &result);
   } else {
-    _obtain_addrinfo(host.data(), service.data(), &hints, &result);
+  _obtain_addrinfo(host.data(), service.data(), &hints, &result);
   }
+  */
+  _obtain_addrinfo(host, service, &hints, &result);
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
@@ -80,6 +86,16 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   }
   c_socket.set_fd(socket_fd);
 }
+
+
+//////////////////////////////////INHERITED/////////////////////////////////
+
+void ClientSocket::allow_communication(const char* service, const char* host){
+  _connect(host, service);
+}
+
+//////////////////////////////////PUBLIC/////////////////////////////////
+
 
 void ClientSocket::receive(void* buffer, size_t buffer_len) const{
   c_socket.receive(buffer, buffer_len);
@@ -89,7 +105,10 @@ void ClientSocket::send(const void* buffer, size_t buffer_len) const{
   c_socket.send(buffer, buffer_len);
 }
 
-ClientSocket::ClientSocket(): c_socket(){
+ClientSocket::ClientSocket(const std::string& host,
+                           const std::string& service):
+                           Communicator(service.data(), host.data()){
+
 }
 
 

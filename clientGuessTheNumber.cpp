@@ -107,10 +107,12 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
   bool keep_running = true;
   std::string command;
-  ClientSocket socket;
+  //ClientSocket socket();
+  ClientSocket socket(host, service);
   //HACER SOCKET_CONNECT
   try {
-    socket.connect(host, service);
+    //socket.connect(host, service);
+    socket.open_communication_channel();
   } catch(std::system_error e) {
     //VER SI EL RETURN ACA HACE QUE SE GENERE ALGUN LEAK
     std::cout << SOCKET_ERROR_TEXT << std::endl;

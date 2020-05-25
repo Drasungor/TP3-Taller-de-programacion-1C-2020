@@ -25,7 +25,8 @@ void ClientsHandler::_run_program(
   std::list<ClientProcessor*> clients;
   size_t i = 0;
   try {
-    server_socket.bind_and_listen(service);
+    //server_socket.bind_and_listen(service);
+    server_socket.open_communication_channel();
   } catch(std::system_error& e) {
     //HACER ALGO CON LA EXCEPTION PARA QUE NO CRASHEE EL PROGRAMA
   }
@@ -75,6 +76,7 @@ ClientsHandler::ClientsHandler(
         const std::string& service,
         const std::vector<std::string>& numbers_to_guess):
         keep_running(true),
+        server_socket(service),
         thrd(&ClientsHandler::_run_program, this, service, numbers_to_guess){
   winners = 0;
   losers = 0;

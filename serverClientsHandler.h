@@ -13,10 +13,10 @@
 class ClientsHandler {
 private:
   std::atomic<bool> keep_running;
+  ServerSocket server_socket;
   std::thread thrd;
   size_t winners;
   size_t losers;
-  ServerSocket server_socket;
 private:
   void _erase_dead_clients(std::list<ClientProcessor*>& clients);
   void _run_program(const std::string& service,

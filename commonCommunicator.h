@@ -1,6 +1,7 @@
 #ifndef _COMMON_COMMUNICATOR_H_
 #define  _COMMON_COMMUNICATOR_H_
 
+#include <cstddef>
 
 //This is an abstract class that implements the methods necessary for the
 //establishment of communication between a client socket and a peer socket
@@ -8,21 +9,18 @@
 //stream and io managing nature of the class
 class Communicator {
 private:
-  int socket_fd;
-private:
+  const char* service;
+  const char* host;
+//protected:
 public:
+  virtual void allow_communication(const char* service, const char* host) = 0;
 
-  //ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
-  Communicator() noexcept;
+  Communicator(const char* service, const char* host = NULL) noexcept;
 
   virtual ~Communicator();
 
-  void set_fd(int fd);
+  void open_communication_channel();
 
-  //VER COMO CAMBIAR ESTO POR OTRA COSA QUE NO SEA UN GET
-  int get_fd();
-
-  void open_communication_channel() = 0;
 };
 
 #endif
