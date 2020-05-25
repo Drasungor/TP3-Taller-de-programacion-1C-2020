@@ -13,7 +13,8 @@ private:
   PeerSocket client;
   std::thread thrd;
   std::atomic<bool> has_program_ended;
-  bool has_player_won;
+  std::atomic<bool> has_player_won;
+  //bool has_player_won;
 private:
   void _run_game();
   //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
@@ -61,14 +62,20 @@ public:
   //constrcutor
   void operator()();
 
+  //VER SI HAY QUE BORRAR ESTA FUNCION Y SE LLAMA A JOIN SOLO EN EL DESTRUCTOR
   //Returns true if the player has won, false it he lost, if there is an error
   //that prevents the game from being played then it will be counted as a
   //player loss
-  bool join();
+  //bool join();
+  void join();
+
+  //The value of this function is only valid if the process has ended
+  //Returns true y the client won, false otherwise
+  bool did_client_win() const;
 
   //Returns true if the thread has finished executing the received function,
   //otherwise returns false
-  bool has_ended();
+  bool has_ended() const;
 };
 
 #endif

@@ -130,11 +130,11 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
 
   //AGREGAR CODIGOS DE RETORNO DE ERROR
-  ClientProcessor processor(peer_socket, numbers_to_guess[0]);
+  //ClientProcessor processor(peer_socket, numbers_to_guess[0]);
 
-  processor();
+  //processor();
 
-  processor.join();
+  //processor.join();
   /*
   try {
     processor();

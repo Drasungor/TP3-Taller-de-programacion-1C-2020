@@ -1,11 +1,14 @@
 #ifndef _SERVER_SHOULD_BE_REMOVED_H_
 #define  _SERVER_SHOULD_BE_REMOVED_H_
 
+#include "serverClientProcessor.h"
+
 //Functor used to indicate remove_if if the ClientProcessor should be removed
 //and update the program results in the process
 class ShouldBeRemoved {
 private:
-  int &winners, &losers;
+  size_t &winners;
+  size_t &losers;
 public:
 
   ShouldBeRemoved(size_t& winners, size_t& losers);
