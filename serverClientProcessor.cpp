@@ -18,8 +18,10 @@
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
 #define HELP_MESSAGE_PART_5 "secreto\n" //<-- BORRAR ESTOS \n
 
+/*
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
 #define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
+*/
 
 #define INVALID_NUMBER_MESSAGE_PART_1 "Número inválido. Debe ser de 3 cifras "
 #define INVALID_NUMBER_MESSAGE_PART_2 "no repetidas\n"
@@ -68,29 +70,10 @@ bool ClientProcessor::_store_normal_answer_message(
                                                 std::string& message_to_send,
                                                 int current_number_of_guesses,
                                                 int correct_digits,
-                                                int regular_digits) const{
-/*
+                                                int regular_digits){
   if (correct_digits == NUMBERS_DIGITS_AMMOUNT) {
     message_to_send = WIN_MESSAGE;
-    return false;
-  } else {
-    if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
-      message_to_send = LOSE_MESSAGE;
-      return false;
-    } else {
-      if ((correct_digits == 0) && (regular_digits == 0)) {
-        message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART;
-      } else {
-        message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART
-                          + " " + std::to_string(regular_digits) +
-                          REGULAR_GUESS_MESSAGE_PART;
-        return true;
-      }
-    }
-  }
-*/
-  if (correct_digits == NUMBERS_DIGITS_AMMOUNT) {
-    message_to_send = WIN_MESSAGE;
+    has_player_won = true;
   } else if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
     message_to_send = LOSE_MESSAGE;
   } else {
@@ -134,7 +117,7 @@ bool ClientProcessor::_process_guessed_number(
                                         std::string& message_to_send,
                                         const std::string& number_to_guess,
                                         uint16_t guessed_number,
-                                        int& current_number_of_guesses) const{
+                                        int& current_number_of_guesses){
   current_number_of_guesses++;
   message_to_send = "";
   std::string guessed_number_string = std::to_string(guessed_number);
@@ -148,20 +131,8 @@ bool ClientProcessor::_process_guessed_number(
   return _store_normal_answer_message(message_to_send,
                                       current_number_of_guesses,
                                       correct_digits, regular_digits);
-
-  /*
-  if ((correct_digits == 0) && (regular_digits == 0)) {
-    message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART;
-  } else if (correct_digits == NUMBERS_DIGITS_AMMOUNT) {
-    message_to_send = WIN_MESSAGE;
-  } else {
-    message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART
-                      + " " + std::to_string(regular_digits) +
-                      REGULAR_GUESS_MESSAGE_PART;
-  }
-  */
-  //return message_to_send;
 }
+
 
 void ClientProcessor::_execute_help(){
   uint32_t message_len = 0;
@@ -182,6 +153,7 @@ void ClientProcessor::_execute_help(){
   }
   //client.send("\0", sizeof(char));
 }
+
 
 
 void ClientProcessor::_execute_give_up(){
@@ -214,9 +186,6 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   answer_message_len = htonl(answer_message_len);
   client.send(&answer_message_len, sizeof(uint32_t));
   client.send(message_to_send.data(), message_to_send.length());
-
-  //BORRAR
-  std::cout << "CANTIDAD DE PRUEBAS ACTUALES: " << current_number_of_guesses <<"\n\n";
 
   return should_game_continue;
 }
@@ -280,7 +249,7 @@ bool ClientProcessor::has_ended() const{
   return has_program_ended;
 }
 
-
+/*
 //VER SI HAY QUE AGREGAR CONST
 void ClientProcessor::operator()(){
   std::thread aux_thread(&ClientProcessor::_run_game, this);
@@ -288,7 +257,7 @@ void ClientProcessor::operator()(){
   //LLAMAR A ESTA FUNCION EN EL THREAD
   //_run_game();
 }
-
+*/
 /*
 ClientProcessor& ClientProcessor::operator=(ClientProcessor&& other) noexcept{
 
@@ -301,6 +270,7 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  //number_to_guess(std::move(number_to_guess)),
                                  number_to_guess(number_to_guess),
                                  client(/*peer_socket*/std::move(peer_socket)),
+                                 thrd(&ClientProcessor::_run_game, this),
                                  has_program_ended(false),
                                  has_player_won(false){
   //has_player_won = false;

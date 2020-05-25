@@ -6,6 +6,7 @@
 #include <thread>
 #include <atomic>
 #include <vector>
+#include "serverSocket.h"
 #include "serverClientProcessor.h"
 
 
@@ -15,6 +16,7 @@ private:
   std::thread thrd;
   size_t winners;
   size_t losers;
+  ServerSocket server_socket;
 private:
   void _erase_dead_clients(std::list<ClientProcessor*>& clients);
   void _run_program(const std::string& service,

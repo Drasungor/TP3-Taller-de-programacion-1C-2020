@@ -22,6 +22,8 @@ public:
   void bind_and_listen(const std::string& service);
 
   PeerSocket accept();
+
+  void disconnect();
 };
 
 #endif

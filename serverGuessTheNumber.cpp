@@ -5,10 +5,13 @@
 #include <iostream>
 #include <cstring>
 #include <cstdint>
+#include "serverClientsHandler.h"
+/*
 #include <system_error>
 #include "serverSocket.h"
 #include "serverPeerSocket.h"
 #include "serverClientProcessor.h"
+*/
 //VER SI HAY QUE BORRAR ESTOS INCLUDE
 
 #include "CommunicationConstants.h"
@@ -24,12 +27,19 @@
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
 #define SERVICE_ARGUMENTS_INDEX 1
 
+#define OUTPUT_MESSAGE_FIRST_LINE "Estadísticas:"
+#define OUTPUT_MESSAGE_PLAYER_PREFIX "\n\t"
+#define OUTPUT_MESSAGE_WINNERS_TEXT "Ganadores:  "
+#define OUTPUT_MESSAGE_LOSERS_TEXT "Perdedores: "
+
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
 #define OUT_OF_RANGE_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango\n"
 #define INVALID_FILE_NUMBER_TEXT "Error: formato de los números inválidos\n"
 
 #define SOCKET_ERROR_TEXT "Error de comunicación de socket\n"
 #define INVALID_FILE_TEXT "Error: archivo inexistente\n"
+
+#define KILL_SERVER_INDICATOR "q"
 
 #define MAX_DIGIT_ASCII_CODE 48
 #define MIN_DIGIT_ASCII_CODE 57
@@ -85,6 +95,19 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
 }
 
 
+void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
+  /*
+  #define OUTPUT_MESSAGE_FIRST_LINE "Estadísticas:"
+  #define OUTPUT_MESSAGE_PLAYER_PREFIX "\n\t"
+  #define OUTPUT_MESSAGE_WINNERS_TEXT "Ganadores:  "
+  #define OUTPUT_MESSAGE_LOSERS_TEXT "Perdedores:  "
+  */
+  std::cout << OUTPUT_MESSAGE_FIRST_LINE << OUTPUT_MESSAGE_PLAYER_PREFIX
+            << OUTPUT_MESSAGE_WINNERS_TEXT << winners <<
+            OUTPUT_MESSAGE_PLAYER_PREFIX << OUTPUT_MESSAGE_LOSERS_TEXT <<
+            losers << "\n";
+}
+
 ///////////////////////////////PUBLIC//////////////////////////
 
 int ServerGuessTheNumber::execute(const char** arguments, int number_of_arguments){
@@ -108,6 +131,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     return INVALID_FILE;
   }
 
+  /*
   ServerSocket server_socket;
   PeerSocket peer_socket;
   try {
@@ -117,6 +141,8 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     std::cout << SOCKET_ERROR_TEXT;
     return SOCKET_ERROR;
   }
+  */
+
   std::vector<std::string> numbers_to_guess;
   //bool keep_processing = true;
   try {
@@ -128,21 +154,15 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     std::cout << INVALID_FILE_NUMBER_TEXT;
     return INVALID_NUMBER;
   }
-
-  //AGREGAR CODIGOS DE RETORNO DE ERROR
-  //ClientProcessor processor(peer_socket, numbers_to_guess[0]);
-
-  //processor();
-
-  //processor.join();
-  /*
-  try {
-    processor();
-  } catch(std::system_error e) {
-    std::cout << SOCKET_ERROR_TEXT;
-    return SOCKET_ERROR;
-  }
-  */
+  ClientsHandler handler(arguments[SERVICE_ARGUMENTS_INDEX], numbers_to_guess);
+  size_t winners = 0, losers = 0;
+  std::string buffer;
+  do {
+    std::cin >> buffer;
+  } while(buffer != KILL_SERVER_INDICATOR);
+  handler.shutdown();
+  handler.wait_for_results(winners, losers);
+  _print_server_output(winners, losers);
   return SUCCESS;
 }
 

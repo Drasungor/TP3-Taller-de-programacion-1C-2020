@@ -15,8 +15,12 @@
 
 #define MESSAGE_RECEIVER_BUFFER_LEN 8
 
-#define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos"
-#define INVALID_COMMAND_TEXT "Error: comando inválido"
+
+#define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
+//#define INVALID_COMMAND_TEXT "Error: comando inválido"
+#define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
+#define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
+
 
 #define SOCKET_ERROR_TEXT "Error de scoket"
 
@@ -116,14 +120,14 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   while (keep_running) {
     std::getline(std::cin, command);
     try {
-      //command_indicator = _get_command_indicator(command);
       keep_running = _process_command(socket, command);
     } catch(std::invalid_argument& e) {
       keep_running = true;
       if (std::cin.eof()) {
         keep_running = false;
       }
-      std::cout << INVALID_COMMAND_TEXT;
+      std::cout << INVALID_COMMAND_MESSAGE_PART_1 <<
+                   INVALID_COMMAND_MESSAGE_PART_2;
     }
   }
 

@@ -95,15 +95,26 @@ PeerSocket ServerSocket::accept(){
   return peer_socket;
 }
 
+void ServerSocket::disconnect(){
+  if (socket_fd != -1) {
+    shutdown(socket_fd, SHUT_RDWR);
+    close(socket_fd);
+  }
+  socket_fd = -1;
+}
+
 ServerSocket::ServerSocket(){
   socket_fd = -1;
 }
 
 ServerSocket::~ServerSocket(){
+  /*
   if (socket_fd != -1) {
     shutdown(socket_fd, SHUT_RDWR);
     close(socket_fd);
   }
+  */
+  disconnect();
 }
 
 

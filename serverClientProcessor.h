@@ -32,13 +32,13 @@ private:
   bool _store_normal_answer_message(std::string& message_to_send,
                                     int current_number_of_guesses,
                                     int correct_digits,
-                                    int regular_digits) const;
+                                    int regular_digits);
   void _calculate_score(const std::string guessed_number_string,
                         int& correct_digits, int& regular_digits) const;
   bool _process_guessed_number(std::string& message_to_send,
                                const std::string& number_to_guess,
                                uint16_t guessed_number,
-                               int& taken_turns) const;
+                               int& taken_turns);
   bool _has_repeated_digits(const std::string& number_string) const;
 public:
   //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
@@ -60,7 +60,7 @@ public:
   //This operator starts the execution of the client's game, this allows the
   //user to start the execution at any moment and not instead of its
   //constrcutor
-  void operator()();
+  //void operator()();
 
   //VER SI HAY QUE BORRAR ESTA FUNCION Y SE LLAMA A JOIN SOLO EN EL DESTRUCTOR
   //Returns true if the player has won, false it he lost, if there is an error

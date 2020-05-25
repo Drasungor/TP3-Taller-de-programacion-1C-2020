@@ -9,6 +9,8 @@
 #include "serverShouldBeRemoved.h"
 
 
+//BORRAR INCLUDE
+#include <iostream>
 
 void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
   ShouldBeRemoved _should_be_removed(this->winners, this->losers);
@@ -19,7 +21,7 @@ void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
 void ClientsHandler::_run_program(
                             const std::string& service,
                             const std::vector<std::string>& numbers_to_guess){
-  ServerSocket server_socket;
+  //ServerSocket server_socket;
   std::list<ClientProcessor*> clients;
   size_t i = 0;
   try {
@@ -58,7 +60,8 @@ void ClientsHandler::_run_program(
 ///////////////////////////////PUBLIC//////////////////////////
 
 void ClientsHandler::shutdown(){
-  keep_running = false;
+  //keep_running = false;
+  server_socket.disconnect();
 }
 
 void ClientsHandler::wait_for_results(size_t& winners, size_t& losers){
