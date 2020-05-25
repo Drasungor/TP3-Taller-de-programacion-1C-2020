@@ -3,17 +3,18 @@
 
 #include <thread>
 #include <atomic>
+#include <vector>
 
 class ClientsHandler {
 private:
   std::atomic<bool> keep_running;
   std::thread thrd;
 public:
-  ClientsHandler();
+  ClientsHandler(const std::string& service, const std::vector<std::string>& numbers_to_guess);
 
   ~ClientsHandler();
 
-  //int execute(const char** arguments, int number_of_arguments);
+  //CREAR FUNCION QUE RECIBE REFERENCIAS A INTS Y GUARDA LA CANTIDAD DE GANADORES Y DE PERDEDORES
 };
 
 #endif
