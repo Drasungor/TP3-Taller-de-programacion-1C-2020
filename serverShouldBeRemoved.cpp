@@ -1,6 +1,6 @@
 #include "serverShouldBeRemoved.h"
 
-
+#include "serverClientProcessor.h"
 
 bool operator()(const ClientProcessor& client){
   if (client.has_ended()) {

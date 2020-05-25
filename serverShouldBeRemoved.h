@@ -17,6 +17,9 @@ public:
 
   ~ShouldBeRemoved();
 
+  //Indicates if the client received should be erased from the clients list by
+  //checking if the game has finished and updates the ammount of winners or
+  //losers
   bool operator()(const ClientProcessor& client);
 };
 
