@@ -80,9 +80,22 @@ bool ClientProcessor::_store_normal_answer_message(
     if ((correct_digits == 0) && (regular_digits == 0)) {
       message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART + "\n";
     } else {
+      if (correct_digits != 0) {
+        message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART;
+        if (regular_digits != 0) {
+          message_to_send += ", ";
+        } else {
+          message_to_send += "\n";
+        }
+      }if (regular_digits != 0) {
+        message_to_send += std::to_string(regular_digits) +
+        REGULAR_GUESS_MESSAGE_PART + "\n";
+      }
+      /*
       message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART
                         + ", " + std::to_string(regular_digits) +
                         REGULAR_GUESS_MESSAGE_PART + "\n";
+      */
       }
       return true;
     }
