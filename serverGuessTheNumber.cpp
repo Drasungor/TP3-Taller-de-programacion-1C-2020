@@ -78,8 +78,9 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
                                   std::ifstream& numbers_file,
                                   std::vector<std::string>& numbers_to_guess) const{
   std::string buffer;
-  std::getline(numbers_file, buffer);
+  //std::getline(numbers_file, buffer);
   while (!numbers_file.eof()) {
+    std::getline(numbers_file, buffer);
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
       throw(std::domain_error("Number out of range"));
     }
@@ -90,8 +91,15 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
       throw(std::invalid_argument("Not a number"));
     }
     numbers_to_guess.push_back(buffer);
-    std::getline(numbers_file, buffer);
+    //std::getline(numbers_file, buffer);
   }
+
+  //BORRAR
+  std::cout << "NUMEROS A ADIVINAR:" << '\n';
+  for (size_t i = 0; i < numbers_to_guess.size(); i++) {
+    std::cout << numbers_to_guess[i] << '\n';
+  }
+
 }
 
 

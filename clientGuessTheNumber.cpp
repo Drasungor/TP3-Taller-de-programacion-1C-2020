@@ -83,6 +83,10 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
   char command_indicator = _get_command_indicator(command);
   std::string answer;
   uint16_t number;
+
+  //BORRAR
+  std::cout << "VOY A MANDAR UN COMANDO" << '\n';
+
   socket.send(&command_indicator, sizeof(char));
   if (command_indicator == COMMAND_INDICATOR_NUMBER) {
     number = htons(std::stoi(command));
@@ -90,6 +94,10 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
   }
   _receive_message(socket, answer);
   std::cout << answer;
+
+  //BORRAR
+  std::cout << "TERMINO EL JUEGO: "<< _is_game_finished(answer) << '\n';
+
   return !_is_game_finished(answer);
 }
 
@@ -119,6 +127,9 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
   while (keep_running) {
     std::getline(std::cin, command);
+
+    std::cout << "COMANDO A EJECUTAR: " << command << '\n';
+
     try {
       keep_running = _process_command(socket, command);
     } catch(std::invalid_argument& e) {

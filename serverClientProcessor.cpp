@@ -287,6 +287,10 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  has_program_ended(false),
                                  has_player_won(false){
   //has_player_won = false;
+
+  //BORRAR
+  std::cout << "NUMERO A ADIVINAR: " << number_to_guess << std::endl;
+
 }
 
 ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
