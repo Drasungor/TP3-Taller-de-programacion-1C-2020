@@ -11,9 +11,9 @@ class ClientProcessor {
 private:
   const std::string number_to_guess;
   PeerSocket client;
-  std::thread thrd;
   std::atomic<bool> has_program_ended;
   std::atomic<bool> has_player_won;
+  std::thread thrd;
   //bool has_player_won;
 private:
   void _run_game();

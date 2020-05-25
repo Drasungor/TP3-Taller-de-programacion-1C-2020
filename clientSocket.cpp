@@ -64,7 +64,7 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
 //TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
 //void ClientSocket::connect(const std::string& host, const std::string& service){
 //void ClientSocket::_connect(const std::string& host, const std::string& service){
-void ClientSocket::_connect(const char* host, const char* service){
+void ClientSocket::_connect(const char* service, const char* host){
   bool is_connected = false;
   int socket_fd = 0;
   struct addrinfo *result;
@@ -91,7 +91,7 @@ void ClientSocket::_connect(const char* host, const char* service){
 //////////////////////////////////INHERITED/////////////////////////////////
 
 void ClientSocket::allow_communication(const char* service, const char* host){
-  _connect(host, service);
+  _connect(service, host);
 }
 
 //////////////////////////////////PUBLIC/////////////////////////////////
@@ -105,8 +105,8 @@ void ClientSocket::send(const void* buffer, size_t buffer_len) const{
   c_socket.send(buffer, buffer_len);
 }
 
-ClientSocket::ClientSocket(const std::string& host,
-                           const std::string& service):
+ClientSocket::ClientSocket(const std::string& service,
+                           const std::string& host):
                            Communicator(service.data(), host.data()){
 
 }

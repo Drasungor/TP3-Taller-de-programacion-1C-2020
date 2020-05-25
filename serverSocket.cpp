@@ -62,7 +62,7 @@ void ServerSocket::_set_hints(struct addrinfo* hints){
 //PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
 //TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
 //void ServerSocket::bind_and_listen(const std::string& service){
-void ServerSocket::_bind_and_listen(const char* host, const char* service){
+void ServerSocket::_bind_and_listen(const char* service, const char* host){
   bool is_bound = false;
   int listen_value = 0;
   int socket_fd = 0;
@@ -87,7 +87,7 @@ void ServerSocket::_bind_and_listen(const char* host, const char* service){
 
 //////////////////////////INHERITED//////////////////////////
 void ServerSocket::allow_communication(const char* service, const char* host){
-  _bind_and_listen(host, service);
+  _bind_and_listen(service, host);
 }
 
 ///////////////////////////////PUBLIC//////////////////////////

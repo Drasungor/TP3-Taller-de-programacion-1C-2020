@@ -1,7 +1,7 @@
 #ifndef _COMMON_COMMUNICATOR_H_
 #define  _COMMON_COMMUNICATOR_H_
 
-#include <cstddef>
+#include <string>
 
 //This is an abstract class that implements the methods necessary for the
 //establishment of communication between a client socket and a peer socket
@@ -9,13 +9,18 @@
 //stream and io managing nature of the class
 class Communicator {
 private:
+  /*
   const char* service;
   const char* host;
+  */
+  std::string service;
+  std::string host;
 //protected:
 public:
   virtual void allow_communication(const char* service, const char* host) = 0;
 
-  Communicator(const char* service, const char* host = NULL) noexcept;
+  //Communicator(const char* service, const char* host = NULL) noexcept;
+  Communicator(const std::string service, const std::string host = "") noexcept;
 
   virtual ~Communicator();
 

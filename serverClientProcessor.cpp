@@ -283,9 +283,9 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  //number_to_guess(std::move(number_to_guess)),
                                  number_to_guess(number_to_guess),
                                  client(/*peer_socket*/std::move(peer_socket)),
-                                 thrd(&ClientProcessor::_run_game, this),
                                  has_program_ended(false),
-                                 has_player_won(false){
+                                 has_player_won(false),
+                                 thrd(&ClientProcessor::_run_game, this){
   //has_player_won = false;
 }
 

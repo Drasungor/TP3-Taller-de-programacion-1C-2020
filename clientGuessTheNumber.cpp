@@ -108,7 +108,7 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   bool keep_running = true;
   std::string command;
   //ClientSocket socket();
-  ClientSocket socket(host, service);
+  ClientSocket socket(service, host);
   //HACER SOCKET_CONNECT
   try {
     //socket.connect(host, service);

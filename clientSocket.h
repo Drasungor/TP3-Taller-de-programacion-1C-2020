@@ -22,7 +22,7 @@ private:
   void allow_communication(const char* service, const char* host) override;
 public:
   //ClientSocket(const std::string& host, const std::string& service);
-  ClientSocket(const std::string& host, const std::string& service);
+  ClientSocket(const std::string& service, const std::string& host);
 
   //BORRAR CONSTRUCTORES POR COPIA
 
