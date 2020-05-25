@@ -2,9 +2,9 @@
 
 #include "serverClientProcessor.h"
 
-bool operator()(const ClientProcessor& client){
-  if (client.has_ended()) {
-    if (client.join()) {
+bool ShouldBeRemoved::operator()(const ClientProcessor* client){
+  if (client->has_ended()) {
+    if (client->join()) {
       winners++;
     } else {
       losers++;
@@ -15,7 +15,7 @@ bool operator()(const ClientProcessor& client){
 }
 
 
-ShouldBeRemoved::ShouldBeRemoved(int& winners, int& losers){
+ShouldBeRemoved::ShouldBeRemoved(size_t& winners, size_t& losers){
   this->winners = winners;
   this->losers = losers;
 }

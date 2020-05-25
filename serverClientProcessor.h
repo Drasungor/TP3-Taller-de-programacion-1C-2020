@@ -44,7 +44,7 @@ public:
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);
 
   //AVISAR QUE VA A HACER UN MOVE DEL PeerSocket
-  ClientProcessor(PeerSocket& client, const std::string& number_to_guess);
+  ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
 
   ClientProcessor(ClientProcessor&& other) noexcept;
 
