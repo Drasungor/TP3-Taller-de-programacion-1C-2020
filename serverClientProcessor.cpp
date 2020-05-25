@@ -16,7 +16,7 @@
 #define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
 #define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: número de 3 cifras a ser "
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
-#define HELP_MESSAGE_PART_5 "secreto\n" //<-- BORRAR ESTOS \n
+#define HELP_MESSAGE_PART_5 "secreto\n"
 
 /*
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
@@ -287,10 +287,6 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  has_program_ended(false),
                                  has_player_won(false){
   //has_player_won = false;
-
-  //BORRAR
-  std::cout << "NUMERO A ADIVINAR: " << number_to_guess << std::endl;
-
 }
 
 ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:

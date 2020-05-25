@@ -93,13 +93,6 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
     numbers_to_guess.push_back(buffer);
     //std::getline(numbers_file, buffer);
   }
-
-  //BORRAR
-  std::cout << "NUMEROS A ADIVINAR:" << '\n';
-  for (size_t i = 0; i < numbers_to_guess.size(); i++) {
-    std::cout << numbers_to_guess[i] << '\n';
-  }
-
 }
 
 
