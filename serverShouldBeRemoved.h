@@ -4,10 +4,8 @@
 
 #include <cstddef>
 
-//This is an abstract class that implements the methods necessary for the
-//communication between a client socket and a peer socket
-//Any failure will cause a ios_base::failure exception to be thrown due to the
-//stream and io managing nature of the class
+//Functor used to indicate remove_if if the ClientProcessor should be removed
+//and update the program results in the process
 class ShouldBeRemoved {
 private:
   int &winners, &losers;

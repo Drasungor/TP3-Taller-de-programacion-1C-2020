@@ -3,7 +3,7 @@
 #include <list>
 #include "serverClientProcessor.h"
 #include "serverPeerSocket.h"
-
+#include "serverShouldBeRemoved.h"
 
 ClientsHandler::_erase_dead_clients(std::list<ClientProcessor>& clients) const{
 
