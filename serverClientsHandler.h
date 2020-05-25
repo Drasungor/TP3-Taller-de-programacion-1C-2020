@@ -1,9 +1,13 @@
 #ifndef _SERVER_CLIENTS_HANDLER_H_
 #define  _SERVER_CLIENTS_HANDLER_H_
 
+#include <thread>
+#include <atomic>
 
 class ClientsHandler {
 private:
+  std::atomic<bool> keep_running;
+  std::thread thrd;
 public:
   ClientsHandler();
 
