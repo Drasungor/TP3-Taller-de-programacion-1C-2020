@@ -17,17 +17,46 @@
 #define INVALID_FILE 1
 #define WRONG_NUMBER_OF_ARGUMENTS 1
 #define SOCKET_ERROR 1
+#define OUT_OF_RANGE_NUMBER 1
+#define INVALID_NUMBER 1
 
 #define NUMBER_OF_ARGUMENTS 3
 #define NUMBERS_FILE_ARGUMENTS_INDEX 2
 #define SERVICE_ARGUMENTS_INDEX 1
 
-#define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos"
-#define INVALID_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango"
-#define FILE_NUMBER_WITH_REPEATED_DIGIT_TEXT "Error: formato de los números inválidos"
+#define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
+#define OUT_OF_RANGE_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango\n"
+#define INVALID_FILE_NUMBER_TEXT "Error: formato de los números inválidos\n"
 
-#define SOCKET_ERROR_TEXT "Error de comunicación de socket"
-#define INVALID_FILE_TEXT "Error: archivo inexistente"
+#define SOCKET_ERROR_TEXT "Error de comunicación de socket\n"
+#define INVALID_FILE_TEXT "Error: archivo inexistente\n"
+
+#define MAX_DIGIT_ASCII_CODE 48
+#define MIN_DIGIT_ASCII_CODE 57
+
+//This function returns if the string (of any size) has a repeated digit
+bool ServerGuessTheNumber::_has_repeated_digits(const std::string& number_string) const{
+  for (size_t i = 0; i < number_string.length() - 1; i++) {
+    for (size_t j = i + 1; j < number_string.length(); j++) {
+      if (number_string[i] == number_string[j]) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
+bool ServerGuessTheNumber::_is_number(const std::string& number_string) const{
+  for (size_t i = 0; i < number_string.length(); i++) {
+    if ((number_string[i] < MIN_DIGIT_ASCII_CODE) || (number_string[i] > MAX_DIGIT_ASCII_CODE)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 //AGREGAR DESCRIPCION DE LO QUE HACE LA FUNCION, AGREGAR CADA CASO DE EXCEPTION
 //PORQUE SOLO SE DESCRIBE LA EXCEPTION TIRADA EN UN CASO PARTICULAR
 //If a read string does not represent a number and is also of an undesired
@@ -37,26 +66,19 @@
 //NUMEROS
 void ServerGuessTheNumber::_load_numbers_to_guess(
                                   std::ifstream& numbers_file,
-
-                                  //std::vector<int>& numbers_to_guess){
                                   std::vector<std::string>& numbers_to_guess) const{
   std::string buffer;
   std::getline(numbers_file, buffer);
-  //DESCOMENTAR ESTO
-  //int number;
   while (!numbers_file.eof()) {
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
-      //TIRAR LA EXCEPCION ADECUADA
+      throw(std::domain_error("Number out of range"));
     }
-
-    //HACER CHEQUEO PARA VER SI HAY ALGUN CARACTER REPETIDO EN EL NUMERO LEIDO
-    //DEL ARCHIVO E IMPRIMIR EL MENSAJE DE ERROR SI ESO PASA
-
-    //HACER UN TRY CATCH DEL STOI PARA VER SI EL NUMERO ES O NO UN NUMERO
-    //DESCOMENTAR ESTO
-    //number = std::stoi(buffer);
-
-    //numbers_to_guess.push_back(number);
+    if (_has_repeated_digits(buffer)) {
+      throw(std::invalid_argument("Repeated digits"));
+    }
+    if (_is_number(buffer)) {
+      throw(std::invalid_argument("Not a number"));
+    }
     numbers_to_guess.push_back(buffer);
     std::getline(numbers_file, buffer);
   }
@@ -82,7 +104,6 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
   //MENSAJE DE ERROR PARA CADA UNA
   if (!numbers_file.is_open()) {
-    //AGREGAR PRINT DE MENSAJE DE ERROR
     std::cout << INVALID_FILE_TEXT;
     return INVALID_FILE;
   }
@@ -101,39 +122,28 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
 
   std::vector<std::string> numbers_to_guess;
   //bool keep_processing = true;
-  _load_numbers_to_guess(numbers_file, numbers_to_guess);
-
-  /*
-  PeerSocket p_socket("hhssn", std::strlen("hhssn"));
-  uint16_t numero = 123;
-  p_socket.add_message(&numero, sizeof(uint16_t));
-  p_socket.add_message("n", std::strlen("n"));
-  numero = 121;
-  p_socket.add_message(&numero, sizeof(uint16_t));
-  p_socket.add_message("n", std::strlen("n"));
-  numero = 111;
-  p_socket.add_message(&numero, sizeof(uint16_t));
-  p_socket.add_message("n", std::strlen("n"));
-  numero = 512;
-  p_socket.add_message(&numero, sizeof(uint16_t));
-  p_socket.add_message("hhss", std::strlen("hhss"));
-  p_socket.add_message("n", std::strlen("n"));
-  numero = 125;
-  p_socket.add_message(&numero, sizeof(uint16_t));
-  */
-  /*
-  while (keep_processing) {
-    keep_processing = ;
+  try {
+    _load_numbers_to_guess(numbers_file, numbers_to_guess);
+  } catch(std::domain_error& e1) {
+    std::cout << OUT_OF_RANGE_FILE_NUMBER_TEXT;
+    return OUT_OF_RANGE_NUMBER;
+  } catch(std::invalid_argument& e2) {
+    std::cout << INVALID_FILE_NUMBER_TEXT;
+    return INVALID_NUMBER;
   }
-  */
+
   //AGREGAR CODIGOS DE RETORNO DE ERROR
   ClientProcessor processor(peer_socket, numbers_to_guess[0]);
+
+  processor();
+  /*
   try {
     processor();
   } catch(std::system_error e) {
     std::cout << SOCKET_ERROR_TEXT;
     return SOCKET_ERROR;
   }
+  */
   return SUCCESS;
 }
 

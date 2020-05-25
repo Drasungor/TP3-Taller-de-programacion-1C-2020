@@ -33,17 +33,6 @@
 
 //This function returns if the string (of any size) has a repeated digit
 bool ClientProcessor::_has_repeated_digits(const std::string& number_string) const{
-  /*
-  for (size_t i = 0; i < number_string.length(); i++) {
-    for (size_t j = 0; j < number_string.length(); j++) {
-      if (i != j) {
-        if (number_string[i] == number_string[j]) {
-          return true;
-        }
-      }
-    }
-  }
-  */
   for (size_t i = 0; i < number_string.length() - 1; i++) {
     for (size_t j = i + 1; j < number_string.length(); j++) {
       if (number_string[i] == number_string[j]) {
