@@ -11,6 +11,7 @@
 #include <netdb.h>
 #include <unistd.h>
 
+#include "commonCourierSocket.h"
 
 //ESTO ES DEL CLIENT
 //Tries a getspecific socket and establish a connection, returns true
@@ -63,13 +64,11 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
 void ClientSocket::connect(const std::string& host, const std::string& service){
   bool is_connected = false;
   int socket_fd = 0;
-  //const char* host_ptr = NULL;
   struct addrinfo *result;
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
   if (host == "") {
-    //host_ptr = host.data();
     _obtain_addrinfo(NULL, service.data(), &hints, &result);
   } else {
     _obtain_addrinfo(host.data(), service.data(), &hints, &result);
@@ -79,11 +78,18 @@ void ClientSocket::connect(const std::string& host, const std::string& service){
   if (!is_connected) {
     throw(std::system_error(errno, std::system_category(), "Connection error"));
   }
-  set_fd(socket_fd);
+  c_socket.set_fd(socket_fd);
 }
 
+void ClientSocket::receive(void* buffer, size_t buffer_len) const{
+  c_socket.receive(buffer, buffer_len);
+}
 
-ClientSocket::ClientSocket(): CommunicationSocket(){
+void ClientSocket::send(const void* buffer, size_t buffer_len) const{
+  c_socket.send(buffer, buffer_len);
+}
+
+ClientSocket::ClientSocket(): c_socket(){
 }
 
 

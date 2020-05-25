@@ -1,4 +1,4 @@
-#include "commonCommunicationSocket.h"
+#include "commonCourierSocket.h"
 
 #include <cstddef>
 #include <system_error>
@@ -17,7 +17,7 @@
 
 ///////////////////////////////PUBLIC//////////////////////////
 
-void CommunicationSocket::receive(void* buffer, size_t buffer_len) const{
+void CourierSocket::receive(void* buffer, size_t buffer_len) const{
   size_t total_bytes_received = 0;
   size_t current_bytes_received = 0;
   char* current_address = (char*)buffer;
@@ -25,28 +25,16 @@ void CommunicationSocket::receive(void* buffer, size_t buffer_len) const{
     current_bytes_received = recv(socket_fd, current_address,
                                   buffer_len - total_bytes_received,
                                   MSG_NOSIGNAL);
-//asdasdas
-    /*
-    if (current_bytes_received == 0) {
-      return CLOSED_SOCKET, TIRAR EXCEPTION DE SOCKET CERRADO;
-    }
-    //VER SI SE CAMBIA POR ELSE IF PARA QUEDAR EN 15 LINEAS
-    if (current_bytes_received < 0) {
-      return ERROR, TIRAR EXCEPTION DE ERROR DE COMUNICACION;
-    }
-    */if (current_bytes_received <= 0) {
+    if (current_bytes_received <= 0) {
       throw(std::system_error(errno, std::system_category(), "Receive error"));
     }
     current_address += current_bytes_received;
     total_bytes_received += current_bytes_received;
   }
-  //return SUCCESS;
 }
 
-//BORRAR INCLUDE
-#include <iostream>
 
-void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
+void CourierSocket::send(const void* buffer, size_t buffer_len) const{
   size_t total_bytes_sent = 0;
   size_t current_bytes_sent = 0;
   const char* current_address = (const char*)buffer;
@@ -61,16 +49,16 @@ void CommunicationSocket::send(const void* buffer, size_t buffer_len) const{
   }
 }
 
-void CommunicationSocket::set_fd(int fd){
+void CourierSocket::set_fd(int fd){
   socket_fd = fd;
 }
 
 //VER COMO CAMBIAR ESTO POR OTRA COSA QUE NO SEA UN GET
-int CommunicationSocket::get_fd(){
+int CourierSocket::get_fd() const{
   return socket_fd;
 }
 
-CommunicationSocket::CommunicationSocket() noexcept{
+CourierSocket::CourierSocket() noexcept{
   socket_fd = -1;
 }
 
@@ -80,7 +68,7 @@ CommunicationSocket::CommunicationSocket(CommunicationSocket&& other) noexcept{
 }
 */
 
-CommunicationSocket::~CommunicationSocket(){
+CourierSocket::~CourierSocket(){
   if (socket_fd != -1) {
     shutdown(socket_fd, SHUT_RDWR);
     close(socket_fd);

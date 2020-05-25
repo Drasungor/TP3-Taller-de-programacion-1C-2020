@@ -1,82 +1,34 @@
 #include "serverPeerSocket.h"
 
-/*
-//BORRAR INCLUDES, ESTO ES PARA EL PROXY
-#include <iostream>
-#include <string>
-*/
+
 ///////////////////////////////PUBLIC//////////////////////////
 
-/*
-//DESPUES DE BORRAR EL BEGINNING AGREGARLE CONST A LA FUNCION
-void PeerSocket::receive(void* buffer, int buffer_len){
-  char* buff_string = (char*)buffer;
-  for (int i = 0; i < buffer_len; i++) {
-    buff_string[i] = message[i + beginning];
-  }
-  beginning += buffer_len;
+void PeerSocket::receive(void* buffer, size_t buffer_len) const{
+  c_socket.receive(buffer, buffer_len);
 }
 
-//REIMPLEMENTAR, ES SOLO PARA PROBAR LA LOGICA DEL PROGRAMA
-void PeerSocket::send(const void* buffer, int buffer_len) const{
-
-  //std::cout << "MENSAJE ENVIADO POR EL SOCKET" << std::endl;
-
-  char* message = (char*)buffer;
-  for (int i = 0; i < buffer_len; i++) {
-    std::cout << message[i];
-  }
-  //std::cout << std::endl << std::endl;
+void PeerSocket::send(const void* buffer, size_t buffer_len) const{
+  c_socket.send(buffer, buffer_len);
 }
-
-//BORRAR ESTA FUNCION, ESTA PARA PROBAR LA LOGICA DEL JUEGO
-void PeerSocket::add_message(const void* a, int len){
-  const char* b = (char*)a;
-  for (int i = length; i < length + len; i++) {
-    message[i] = b[i];
-  }
-  length += len;
-}
-
-
-//ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
-PeerSocket::PeerSocket(const void* message, int length){
-  beginning = 0;
-  this->length = length;
-  const char* message_stream = (char*)message;
-  for (int i = 0; i < length; i++) {
-    this->message[i] = message_stream[i];
-  }
-}
-*/
 
 //VER SI ESTE CONSTRUCTOR NO HACE FALTA
 PeerSocket::PeerSocket(){
 }
 
 
-PeerSocket::PeerSocket(int fd){
-  set_fd(fd);
+PeerSocket::PeerSocket(int fd): c_socket(){
+  c_socket.set_fd(fd);
 }
 
 
-//CAMBIAR LA IMPLEMENTACION DE ESTE MOVE
 PeerSocket::PeerSocket(PeerSocket&& other) noexcept{
-  /*
-  for (int i = 0; i < other.length; i++) {
-    this->message[i] = other.message[i];
-  }
-  this->length = other.length;
-  this->beginning = other.beginning;
-  */
-  //this->socket_fd = other.socket_fd;
-  set_fd(other.get_fd());
-  other.set_fd(-1);
+  c_socket.set_fd(other.c_socket.get_fd());
+  other.c_socket.set_fd(-1);
 }
 
 PeerSocket& PeerSocket::operator=(PeerSocket&& other) noexcept{
-  set_fd(other.get_fd());
-  other.set_fd(-1);
+  c_socket.set_fd(other.c_socket.get_fd());
+  other.c_socket.set_fd(-1);
   return *this;
 }
 

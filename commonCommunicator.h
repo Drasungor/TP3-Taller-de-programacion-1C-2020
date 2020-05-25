@@ -15,7 +15,7 @@ public:
   //ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
   Communicator() noexcept;
 
-  virtual ~CommunicationSocket();
+  virtual ~Communicator();
 
   void set_fd(int fd);
 

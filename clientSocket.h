@@ -2,10 +2,11 @@
 #define  _CLIENT_SOCKET_H_
 
 #include <string>
-#include "commonCommunicationSocket.h"
-//VER SI SE SACA ESTA HERENCIA YA QUE NO AYUDA AL POLIMORFISMO, CONVIENE
-//DELEGAR
-class ClientSocket: public CommunicationSocket {
+#include "commonCourierSocket.h"
+
+class ClientSocket {
+private:
+  CourierSocket c_socket;
 private:
   void _obtain_addrinfo(const char* host, const char* service,
                         struct addrinfo* hints, struct addrinfo** result);
@@ -31,7 +32,9 @@ public:
    //If an empty host string is received, the host will be localhost
    void connect(const std::string& host, const std::string& service);
 
+   void receive(void* buffer, size_t buffer_len) const;
 
+   void send(const void* buffer, size_t buffer_len) const;
 };
 
 #endif
