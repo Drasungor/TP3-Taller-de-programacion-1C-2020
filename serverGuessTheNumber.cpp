@@ -117,9 +117,6 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     std::cout << SOCKET_ERROR_TEXT;
     return SOCKET_ERROR;
   }
-
-  //FALTA AGREGAR CODIGO RELACIONADO CON EL PORT
-
   std::vector<std::string> numbers_to_guess;
   //bool keep_processing = true;
   try {
@@ -136,6 +133,8 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   ClientProcessor processor(peer_socket, numbers_to_guess[0]);
 
   processor();
+
+  processor.join();
   /*
   try {
     processor();

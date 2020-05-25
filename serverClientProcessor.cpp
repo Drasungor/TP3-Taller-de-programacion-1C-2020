@@ -254,6 +254,7 @@ void ClientProcessor::_run_game(){
     should_continue = _execute_command(command_indicator,
                                        current_number_of_guesses);
   }
+  has_program_ended = true;
 }
 
 
