@@ -16,6 +16,8 @@ public:
   ShouldBeRemoved(int& winners, int& losers);
 
   ~ShouldBeRemoved();
+
+  bool operator()(const ClientProcessor& client);
 };
 
 #endif
