@@ -14,7 +14,7 @@
 
 #define HELP_MESSAGE_PART_1 "Comandos válidos:\n\tAYUDA: despliega la lista "
 #define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
-#define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: número de 3 cifras a ser "
+#define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: Número de 3 cifras a ser "
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
 #define HELP_MESSAGE_PART_5 "secreto\n"
 
