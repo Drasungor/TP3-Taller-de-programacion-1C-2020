@@ -64,13 +64,9 @@ bool ServerGuessTheNumber::_is_number(const std::string& number_string) const{
 }
 
 
-//AGREGAR DESCRIPCION DE LO QUE HACE LA FUNCION, AGREGAR CADA CASO DE EXCEPTION
-//PORQUE SOLO SE DESCRIBE LA EXCEPTION TIRADA EN UN CASO PARTICULAR
 //If a read string does not represent a number and is also of an undesired
 //length, the same exception as the one with undesired length exception will
-//be thrown VER SI ESTO ULTIMO HAY QUE CAMBIARLO, CREO QUE EL ENUNCIADO
-//CONSIDERA EL CASO EN EL QUE EL ARCHIVO DE ENTRADA TIENE STRINGS QUE NO SON
-//NUMEROS
+//be thrown
 void ServerGuessTheNumber::_load_numbers_to_guess(
                             std::ifstream& numbers_file,
                             std::vector<std::string>& numbers_to_guess) const{
@@ -106,7 +102,7 @@ int ServerGuessTheNumber::execute(const char** arguments,
   //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
   //MENSAJE DE ERROR PARA CADA UNA
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {
-    std::cout << INVALID_ARGUMENTS_TEXT;
+    std::cerr << INVALID_ARGUMENTS_TEXT;
     return WRONG_NUMBER_OF_ARGUMENTS;
   }
 
@@ -116,17 +112,17 @@ int ServerGuessTheNumber::execute(const char** arguments,
   //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
   //MENSAJE DE ERROR PARA CADA UNA
   if (!numbers_file.is_open()) {
-    std::cout << INVALID_FILE_TEXT;
+    std::cerr << INVALID_FILE_TEXT;
     return INVALID_FILE;
   }
   std::vector<std::string> numbers_to_guess;
   try {
     _load_numbers_to_guess(numbers_file, numbers_to_guess);
   } catch(std::domain_error& e1) {
-    std::cout << OUT_OF_RANGE_FILE_NUMBER_TEXT;
+    std::cerr << OUT_OF_RANGE_FILE_NUMBER_TEXT;
     return OUT_OF_RANGE_NUMBER;
   } catch(std::invalid_argument& e2) {
-    std::cout << INVALID_FILE_NUMBER_TEXT;
+    std::cerr << INVALID_FILE_NUMBER_TEXT;
     return INVALID_NUMBER;
   }
   ClientsHandler handler(arguments[SERVICE_ARGUMENTS_INDEX], numbers_to_guess);
