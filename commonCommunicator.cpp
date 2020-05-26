@@ -11,7 +11,6 @@ void Communicator::open_communication_channel(){
   }
 }
 
-
 Communicator::Communicator(const std::string service,
                            const std::string host/* = ""*/) noexcept{
   this->service = service;

@@ -2,9 +2,10 @@
 
 #include <cstddef>
 #include <system_error>
+
 //VER SI HACEN FALTA ESTOS INCLUDES
-#include <sys/types.h>
-#include <sys/socket.h>
+//#include <sys/types.h>
+//#include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
 

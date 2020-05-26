@@ -8,24 +8,29 @@
 #include "serverPeerSocket.h"
 #include "CommunicationConstants.h"
 
-
-//BORRAR ESTE INCLUDE
-#include <iostream>
-
+#define HELP_MESSAGE "Comandos válidos:\n\tAYUDA: despliega la lista "\
+                     "de comandos válidos\n\tRENDIRSE: pierde el juego "\
+                     "automáticamente\n\tXXX: Número de 3 cifras a ser "\
+                     "enviado al servidor para adivinar el número "\
+                     "secreto\n"
+/*
 #define HELP_MESSAGE_PART_1 "Comandos válidos:\n\tAYUDA: despliega la lista "
 #define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
 #define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: Número de 3 cifras a ser "
 #define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
 #define HELP_MESSAGE_PART_5 "secreto\n"
-
+*/
 /*
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
 #define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
 */
 
+#define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras "\
+                               "no repetidas\n"
+/*
 #define INVALID_NUMBER_MESSAGE_PART_1 "Número inválido. Debe ser de 3 cifras "
 #define INVALID_NUMBER_MESSAGE_PART_2 "no repetidas\n"
-
+*/
 
 #define GOOD_GUESS_MESSAGE_PART " bien"
 #define REGULAR_GUESS_MESSAGE_PART " regular"
@@ -46,10 +51,12 @@ bool ClientProcessor::_has_repeated_digits(
   return false;
 }
 
-
+//Stores in the received ints the ammount of correct and regular digits
 void ClientProcessor::_calculate_score(const std::string guessed_number_string,
                                        int& correct_digits,
                                        int& regular_digits) const{
+  correct_digits = 0;
+  regular_digits = 0;
   for (size_t i = 0; i < NUMBERS_DIGITS_AMMOUNT; i++) {
     for (size_t j = 0; j < NUMBERS_DIGITS_AMMOUNT; j++) {
       if (number_to_guess[i] == guessed_number_string[j]) {
@@ -113,8 +120,11 @@ bool ClientProcessor::_store_invalid_number_answer_message(
     message_to_send += LOSE_MESSAGE;
     return false;
   } else {
+    message_to_send += INVALID_NUMBER_MESSAGE;
+    /*
     message_to_send += INVALID_NUMBER_MESSAGE_PART_1;
     message_to_send += INVALID_NUMBER_MESSAGE_PART_2;
+    */
     return true;
   }
 }
@@ -138,16 +148,21 @@ bool ClientProcessor::_process_guessed_number(
     return _store_invalid_number_answer_message(message_to_send,
                                                 current_number_of_guesses);
   }
-  int correct_digits = 0, regular_digits = 0;
+  int correct_digits/* = 0*/, regular_digits/* = 0*/;
   _calculate_score(guessed_number_string, correct_digits, regular_digits);
   return _store_normal_answer_message(message_to_send,
                                       current_number_of_guesses,
                                       correct_digits, regular_digits);
 }
 
-
-void ClientProcessor::_execute_help(){
-  uint32_t message_len = 0;
+//VER SI SE HACE UNA FUNCION A PARTE QUE SEA SEND_MESSAGE O ALGO ASI QUE ENVIE
+//UN MENSAJE DE ESTE TIPO, _execute_give_up ES PRÁCTICAMENTE IGUAL
+void ClientProcessor::_execute_help() const{
+  uint32_t message_len = std::strlen(HELP_MESSAGE);
+  uint32_t aux = htonl(message_len);
+  client.send(&aux, sizeof(uint32_t));
+  client.send(HELP_MESSAGE, message_len);
+  /*
   uint32_t aux;
   std::vector<std::string> message_parts = {HELP_MESSAGE_PART_1,
         HELP_MESSAGE_PART_2, HELP_MESSAGE_PART_3, HELP_MESSAGE_PART_4,
@@ -164,11 +179,10 @@ void ClientProcessor::_execute_help(){
     client.send(message_parts[i].data(), message_parts_lens[i]);
   }
   //client.send("\0", sizeof(char));
+  */
 }
 
-
-
-void ClientProcessor::_execute_give_up(){
+void ClientProcessor::_execute_give_up() const{
   uint32_t message_len = std::strlen(LOSE_MESSAGE);
   uint32_t message_len_to_send = htonl(message_len);
   client.send(&message_len_to_send, sizeof(uint32_t));
@@ -185,11 +199,6 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   bool should_game_continue;
   client.receive(&guessed_number, sizeof(uint16_t));
   guessed_number = ntohs(guessed_number);
-
-  /*
-  message_to_send = _process_guessed_number(number_to_guess, guessed_number,
-                                            current_number_of_guesses);
-  */
   should_game_continue = _process_guessed_number(message_to_send,
                                                  number_to_guess,
                                                  guessed_number,
@@ -224,8 +233,6 @@ bool ClientProcessor::_execute_command(char command_indicator,
 }
 
 
-//void ClientProcessor::_run_game(uint16_t& number_to_guess){
-//VER SI HAY QUE AGREGAR CONST
 void ClientProcessor::_run_game(){
   int current_number_of_guesses = 0;
   bool should_continue = true;

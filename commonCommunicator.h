@@ -4,9 +4,9 @@
 #include <string>
 
 //This is an abstract class that implements the methods necessary for the
-//establishment of communication between a client socket and a peer socket
-//Any failure will cause a ios_base::failure exception to be thrown due to the
-//stream and io managing nature of the class
+//establishment of communication between a client socket and a server socket
+//Any failure will cause a system_error exception to be thrown due to the
+//usage of sockets
 class Communicator {
 private:
   std::string service;

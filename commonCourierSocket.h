@@ -4,10 +4,9 @@
 
 #include <cstddef>
 
-//This is an abstract class that implements the methods necessary for the
-//communication between a client socket and a peer socket
-//Any failure will cause a ios_base::failure exception to be thrown due to the
-//stream and io managing nature of the class
+//The purpose of this class is to store the socket id and send and receive
+//messages. This class should only by stored by a socket that sends or receive
+//messages so that those processes can be delegated to this class
 class CourierSocket {
 private:
   int socket_fd;
