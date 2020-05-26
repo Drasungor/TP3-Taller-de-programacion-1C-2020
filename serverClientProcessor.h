@@ -17,14 +17,11 @@ private:
 
 private:
   void _run_game();
-  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+  void _send_built_message(const std::string&& message) const;
   bool _execute_command(char command_indicator,
                         int& current_number_of_guesses);
-  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
   bool _execute_number(int& current_number_of_guesses);
-  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
   void _execute_give_up() const;
-  //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
   void _execute_help() const;
   bool _store_invalid_number_answer_message(
                                           std::string& message_to_send,
@@ -41,13 +38,13 @@ private:
   bool _has_repeated_digits(const std::string& number_string) const;
 
 public:
-  //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);
 
-  //AVISAR QUE VA A HACER UN MOVE DEL PeerSocket
+  //Stores a copy of the received string and moves the received client so that
+  //this ClientProcessor is now the owner
   ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
 
-  ClientProcessor(ClientProcessor&& other) noexcept;
+  //ClientProcessor(ClientProcessor&& other) noexcept;
 
   ClientProcessor(const ClientProcessor& other) = delete;
 
@@ -57,20 +54,11 @@ public:
 
   ~ClientProcessor();
 
-  //This operator starts the execution of the client's game, this allows the
-  //user to start the execution at any moment and not instead of its
-  //constrcutor
-  //void operator()();
-
-  //VER SI HAY QUE BORRAR ESTA FUNCION Y SE LLAMA A JOIN SOLO EN EL DESTRUCTOR
-  //Returns true if the player has won, false it he lost, if there is an error
-  //that prevents the game from being played then it will be counted as a
-  //player loss
-  //bool join();
+  //Waits for the program to end
   void join();
 
   //The value of this function is only valid if the process has ended
-  //Returns true y the client won, false otherwise
+  //Returns true if the client won, otherwise returns false
   bool did_client_win() const;
 
   //Returns true if the thread has finished executing the received function,

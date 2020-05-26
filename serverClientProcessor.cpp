@@ -24,6 +24,7 @@
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
 #define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
 */
+#define INVALID_COMMAND_MESSAGE "Comando inexistente\n"
 
 #define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras "\
                                "no repetidas\n"
@@ -155,13 +156,23 @@ bool ClientProcessor::_process_guessed_number(
                                       correct_digits, regular_digits);
 }
 
-//VER SI SE HACE UNA FUNCION A PARTE QUE SEA SEND_MESSAGE O ALGO ASI QUE ENVIE
-//UN MENSAJE DE ESTE TIPO, _execute_give_up ES PRÁCTICAMENTE IGUAL
+//Sends a string to the client
+void ClientProcessor::_send_built_message(const std::string&& message) const{
+  uint32_t message_len = message.length();
+  message_len = htonl(message_len);
+  client.send(&message_len, sizeof(uint32_t));
+  client.send(message.data(), message.length());
+}
+
+//Executes the help command, sending the help message to the client
 void ClientProcessor::_execute_help() const{
+  _send_built_message(HELP_MESSAGE);
+  /*
   uint32_t message_len = std::strlen(HELP_MESSAGE);
   uint32_t aux = htonl(message_len);
   client.send(&aux, sizeof(uint32_t));
   client.send(HELP_MESSAGE, message_len);
+  */
   /*
   uint32_t aux;
   std::vector<std::string> message_parts = {HELP_MESSAGE_PART_1,
@@ -182,16 +193,19 @@ void ClientProcessor::_execute_help() const{
   */
 }
 
+//Executes the give up command, sending the losing message to the client
 void ClientProcessor::_execute_give_up() const{
+  _send_built_message(LOSE_MESSAGE);
+  /*
   uint32_t message_len = std::strlen(LOSE_MESSAGE);
   uint32_t message_len_to_send = htonl(message_len);
   client.send(&message_len_to_send, sizeof(uint32_t));
   client.send(LOSE_MESSAGE, message_len);
+  */
 }
 
-//ESTO ES PARA PROBAR POR AHORA EL PROGRAMA, VER SI TIENE QUE DEVOLVER VOID
-//Returns if the program should end
-//DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
+//Sends the client the appropiate response corresponding to the received number
+//Returns true if the program should continue running, otherwise returns false
 bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   std::string message_to_send;
   uint16_t guessed_number;
@@ -226,21 +240,23 @@ bool ClientProcessor::_execute_command(char command_indicator,
     case COMMAND_INDICATOR_NUMBER:
       return _execute_number(current_number_of_guesses);
     default:
-      //VER SI HACE FALTA TIRAR UNA EXCEPCION EN CASO DE QUE NO SE CONOZCA EL
-      //COMANDO, EL CLIENTE CHEQUEA QUE EL COMANDO ESCRITO SEA VALIDO
-      return false;
+      throw(std::invalid_argument("Non existant command"));
   }
 }
 
-
+//Executes the game for the client
 void ClientProcessor::_run_game(){
   int current_number_of_guesses = 0;
   bool should_continue = true;
   char command_indicator;
   while (should_continue) {
     client.receive(&command_indicator, sizeof(char));
-    should_continue = _execute_command(command_indicator,
-                                       current_number_of_guesses);
+    try {
+      should_continue = _execute_command(command_indicator,
+                                         current_number_of_guesses);
+    } catch(std::invalid_argument& e) {
+      _send_built_message(INVALID_COMMAND_MESSAGE);
+    }
   }
   has_program_ended = true;
 }
@@ -277,15 +293,17 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  thrd(&ClientProcessor::_run_game, this){
 }
 
+/*
+//VER SI NO HACE FALTA Y POR ESO HAY QUE BORRARLO
 ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
                             number_to_guess(std::move(other.number_to_guess)),
                             client(std::move(other.client)){
-  //const std::string& number_to_guess;
-  //const PeerSocket client;
   std::thread thrd = std::move(other.thrd);
   has_program_ended = static_cast<bool>(other.has_program_ended);
   has_player_won = static_cast<bool>(other.has_player_won);
 }
+*/
+
 
 ClientProcessor::~ClientProcessor(){
   //For exception safety
