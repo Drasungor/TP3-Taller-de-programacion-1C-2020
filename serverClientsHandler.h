@@ -21,7 +21,8 @@ private:
 
 private:
   //void _erase_dead_clients(std::list<ClientProcessor*>& clients);
-  void _erase_dead_clients(std::list<std::shared_ptr<ClientProcessor>>& clients);
+  void _erase_dead_clients(
+                        std::list<std::shared_ptr<ClientProcessor>>& clients);
   void _run_program(const std::string& service,
                     const std::vector<std::string>& numbers_to_guess);
 

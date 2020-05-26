@@ -10,8 +10,11 @@
 #include "serverPeerSocket.h"
 #include "serverShouldBeRemoved.h"
 
-//void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
-void ClientsHandler::_erase_dead_clients(std::list<std::shared_ptr<ClientProcessor>>& clients){
+/*
+void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
+*/
+void ClientsHandler::_erase_dead_clients(
+                        std::list<std::shared_ptr<ClientProcessor>>& clients){
   ShouldBeRemoved _should_be_removed(this->winners, this->losers);
   clients.erase(std::remove_if(clients.begin(), clients.end(),
                 _should_be_removed), clients.end());
@@ -32,7 +35,11 @@ void ClientsHandler::_run_program(
   }
   while (keep_running) {
     try {
-      //clients.push_back(new ClientProcessor(std::move(server_socket.accept()), numbers_to_guess[i]));
+      /*
+      clients.push_back(new ClientProcessor(
+                                          std::move(server_socket.accept()),
+                                          numbers_to_guess[i]));
+      */
       clients.emplace_back(new ClientProcessor(
                                           std::move(server_socket.accept()),
                                           numbers_to_guess[i]));
