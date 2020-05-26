@@ -16,6 +16,7 @@ public:
 
   ~ClientGuessTheNumber();
 
+  //Runs the program, returns 0
   int execute(const char** arguments, int number_of_arguments);
 };
 

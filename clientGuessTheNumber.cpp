@@ -49,15 +49,13 @@ char ClientGuessTheNumber::_get_command_indicator(
 
 //VER SI TIENE SENTIDO PONERLE CONST A LOS METODOS DE UNA CLASE QUE NO
 //TIENE ATRIBUTOS
+//Receives the answer from the server after sending a command
 void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
                                             std::string& answer) const{
   uint32_t number_of_chars;
   char buffer[MESSAGE_RECEIVER_BUFFER_LEN + 1];
   socket.receive(&number_of_chars, sizeof(uint32_t));
   number_of_chars = ntohl(number_of_chars);
-
-  //VER SI SE CAMBIA ESTE WHILE POR UN SOLO PEDIDO USANDO UN BUFFER DEL
-  //TAMAÑO DEL MENSAJE MAS LARGO (FIJARSE EL STRLEN DEL MENSAJE LARGO)
   size_t received_chars = 0;
   size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
 
@@ -73,6 +71,7 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
   }
 }
 
+//Returns true if the game has finished, otherwise returns false
 bool ClientGuessTheNumber::_is_game_finished(const std::string& answer) const{
   return ((answer == WIN_MESSAGE) || (answer == LOSE_MESSAGE));
 }
