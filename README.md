@@ -80,9 +80,13 @@ distintas partes del trabajo. Estos son:
 ### <ins>Aclaraciones</ins>
 
 &nbsp;&nbsp;&nbsp;&nbsp;En los diagramas UML se puso que el scope de los
-constructores de GatherersGroup y ProducersGroup se encuentra en ejecución
-durante toda la ejecución de la llamada a la función que ejecuta el thread.
-Esto es erróneo pero fue dejado debido a limitaciones del programa utilizado
+constructores de que tiran threads se encuentran en ejecución durante toda
+la ejecución de la llamada a la función que ejecuta el thread. Esto es
+erróneo pero fue dejado debido a limitaciones del programa utilizado
 para realizar los diagramas de secuencia. Los constructores terminan de
 ejecutarse antes de que termine de ejecutarse la función que se le deja al
 thread.
+&nbsp;&nbsp;&nbsp;&nbsp;En el segundo diagrama de secuencia se ve que todos
+los métodos se ejecutan dentro de receive. Sin embargo, se ejecuta primero
+receive y luego el resto de los mensajes. Se hizo de esta forma ya que
+sino se tendrían dos mensajes encontados, lo cual puede ser confuso.
