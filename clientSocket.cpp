@@ -1,13 +1,8 @@
-//#define _POSIX_C_SOURCE 200112L
 #include "clientSocket.h"
 
 #include <system_error>
 #include <string>
 #include <cstring>
-
-//VER CUALES DE ESTOS INCLUDE HACEN FALTA
-//#include <sys/types.h>
-//#include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
 

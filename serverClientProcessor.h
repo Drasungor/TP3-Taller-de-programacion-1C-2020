@@ -38,19 +38,14 @@ private:
   bool _has_repeated_digits(const std::string& number_string) const;
 
 public:
-  //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);
 
   //Stores a copy of the received string and moves the received client so that
   //this ClientProcessor is now the owner
   ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
 
-  //ClientProcessor(ClientProcessor&& other) noexcept;
-
   ClientProcessor(const ClientProcessor& other) = delete;
 
   ClientProcessor& operator=(const ClientProcessor& other) = delete;
-
-  //ClientProcessor& operator=(ClientProcessor&& other) noexcept;
 
   ~ClientProcessor();
 

@@ -98,19 +98,11 @@ void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
 
 int ServerGuessTheNumber::execute(const char** arguments,
                                   int number_of_arguments){
-  //VER SI SE PASA TODO LO QUE PUEDE DEVOLVER UNA EXCEPCION A UNA FUNCION Y
-  //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
-  //MENSAJE DE ERROR PARA CADA UNA
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {
     std::cerr << INVALID_ARGUMENTS_TEXT;
     return WRONG_NUMBER_OF_ARGUMENTS;
   }
-
   std::ifstream numbers_file(arguments[NUMBERS_FILE_ARGUMENTS_INDEX]);
-
-  //VER SI SE PASA TODO LO QUE PUEDE DEVOLVER UNA EXCEPCION A UNA FUNCION Y
-  //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
-  //MENSAJE DE ERROR PARA CADA UNA
   if (!numbers_file.is_open()) {
     std::cerr << INVALID_FILE_TEXT;
     return INVALID_FILE;

@@ -58,10 +58,8 @@ void ServerSocket::_set_hints(struct addrinfo* hints){
   hints->ai_socktype = SOCK_STREAM;
 }
 
-
-//PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
-//TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
-//void ServerSocket::bind_and_listen(const std::string& service){
+//This function cannot be reduced to 15 lines due to variables declarations
+//and error checking
 void ServerSocket::_bind_and_listen(const char* service, const char* host){
   bool is_bound = false;
   int listen_value = 0;
@@ -110,11 +108,6 @@ void ServerSocket::disconnect(){
   socket_fd = -1;
 }
 
-/*
-ServerSocket::ServerSocket(){
-  socket_fd = -1;
-}
-*/
 //Sets host to null in the Communicator's constructor due to default value
 ServerSocket::ServerSocket(const std::string& service):
                            Communicator(service.data()){

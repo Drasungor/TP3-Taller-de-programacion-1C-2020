@@ -30,7 +30,7 @@
 //Returns the char that indicates the server the command that has to be
 //executed
 char ClientGuessTheNumber::_get_command_indicator(
-                                        const std::string& command_text) const{
+                                        const std::string& command_text){
   int number;
   if (command_text == HELP_COMMAND_TEXT) {
     return COMMAND_INDICATOR_HELP;
@@ -47,18 +47,20 @@ char ClientGuessTheNumber::_get_command_indicator(
   }
 }
 
-//VER SI TIENE SENTIDO PONERLE CONST A LOS METODOS DE UNA CLASE QUE NO
-//TIENE ATRIBUTOS
+
+
+//This function cannot be reduced to 15 lines or less due to variable
+//declarations and clarity
+
 //Receives the answer from the server after sending a command
 void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
-                                            std::string& answer) const{
+                                            std::string& answer){
   uint32_t number_of_chars;
   char buffer[MESSAGE_RECEIVER_BUFFER_LEN + 1];
   socket.receive(&number_of_chars, sizeof(uint32_t));
   number_of_chars = ntohl(number_of_chars);
   size_t received_chars = 0;
   size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
-
   while (received_chars < number_of_chars) {
     if ((number_of_chars - received_chars) < MESSAGE_RECEIVER_BUFFER_LEN) {
       asked_chars = number_of_chars - received_chars;
@@ -72,14 +74,14 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
 }
 
 //Returns true if the game has finished, otherwise returns false
-bool ClientGuessTheNumber::_is_game_finished(const std::string& answer) const{
+bool ClientGuessTheNumber::_is_game_finished(const std::string& answer){
   return ((answer == WIN_MESSAGE) || (answer == LOSE_MESSAGE));
 }
 
 //Sends the command request to the server and prints it answer
 //Returns true if the program should continue running, otherwise returns false
 bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
-                                            const std::string& command) const{
+                                            const std::string& command){
   char command_indicator = _get_command_indicator(command);
   std::string answer;
   uint16_t number;
@@ -94,6 +96,12 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
 }
 
 ///////////////////////////////PUBLIC//////////////////////////
+
+
+//This function cannot be reduced to 15 lines due to error checking and
+//concistency, to reduce the number of lines a function for the contents
+//of the while could be made but it would be the only message error printed
+//in another function
 
 int ClientGuessTheNumber::execute(const char** arguments,
                                   int number_of_arguments){
@@ -112,7 +120,6 @@ int ClientGuessTheNumber::execute(const char** arguments,
   try {
     socket.open_communication_channel();
   } catch(std::system_error e) {
-    //VER SI EL RETURN ACA HACE QUE SE GENERE ALGUN LEAK
     std::cout << SOCKET_ERROR_TEXT << std::endl;
     return PROCESS_FINISHED;
   }

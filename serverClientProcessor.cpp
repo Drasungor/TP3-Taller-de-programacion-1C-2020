@@ -13,26 +13,9 @@
                      "automáticamente\n\tXXX: Número de 3 cifras a ser "\
                      "enviado al servidor para adivinar el número "\
                      "secreto\n"
-/*
-#define HELP_MESSAGE_PART_1 "Comandos válidos:\n\tAYUDA: despliega la lista "
-#define HELP_MESSAGE_PART_2 "de comandos válidos\n\tRENDIRSE: pierde el juego "
-#define HELP_MESSAGE_PART_3 "automáticamente\n\tXXX: Número de 3 cifras a ser "
-#define HELP_MESSAGE_PART_4 "enviado al servidor para adivinar el número "
-#define HELP_MESSAGE_PART_5 "secreto\n"
-*/
-/*
-#define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
-#define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
-*/
 #define INVALID_COMMAND_MESSAGE "Comando inexistente\n"
-
 #define INVALID_NUMBER_MESSAGE "Número inválido. Debe ser de 3 cifras "\
                                "no repetidas\n"
-/*
-#define INVALID_NUMBER_MESSAGE_PART_1 "Número inválido. Debe ser de 3 cifras "
-#define INVALID_NUMBER_MESSAGE_PART_2 "no repetidas\n"
-*/
-
 #define GOOD_GUESS_MESSAGE_PART " bien"
 #define REGULAR_GUESS_MESSAGE_PART " regular"
 #define BAD_GUESS_MESSAGE_PART " mal"
@@ -122,10 +105,6 @@ bool ClientProcessor::_store_invalid_number_answer_message(
     return false;
   } else {
     message_to_send += INVALID_NUMBER_MESSAGE;
-    /*
-    message_to_send += INVALID_NUMBER_MESSAGE_PART_1;
-    message_to_send += INVALID_NUMBER_MESSAGE_PART_2;
-    */
     return true;
   }
 }
@@ -164,45 +143,18 @@ void ClientProcessor::_send_built_message(const std::string&& message) const{
   client.send(message.data(), message.length());
 }
 
+
 //Executes the help command, sending the help message to the client
 void ClientProcessor::_execute_help() const{
   _send_built_message(HELP_MESSAGE);
-  /*
-  uint32_t message_len = std::strlen(HELP_MESSAGE);
-  uint32_t aux = htonl(message_len);
-  client.send(&aux, sizeof(uint32_t));
-  client.send(HELP_MESSAGE, message_len);
-  */
-  /*
-  uint32_t aux;
-  std::vector<std::string> message_parts = {HELP_MESSAGE_PART_1,
-        HELP_MESSAGE_PART_2, HELP_MESSAGE_PART_3, HELP_MESSAGE_PART_4,
-        HELP_MESSAGE_PART_5};
-  std::vector<uint32_t> message_parts_lens;
-  for (size_t i = 0; i < message_parts.size(); i++) {
-    aux = message_parts[i].length();
-    message_parts_lens.push_back(aux);
-    message_len += aux;
-  }
-  message_len = htonl(message_len);
-  client.send(&message_len, sizeof(uint32_t));
-  for (size_t i = 0; i < message_parts.size(); i++) {
-    client.send(message_parts[i].data(), message_parts_lens[i]);
-  }
-  //client.send("\0", sizeof(char));
-  */
 }
+
 
 //Executes the give up command, sending the losing message to the client
 void ClientProcessor::_execute_give_up() const{
   _send_built_message(LOSE_MESSAGE);
-  /*
-  uint32_t message_len = std::strlen(LOSE_MESSAGE);
-  uint32_t message_len_to_send = htonl(message_len);
-  client.send(&message_len_to_send, sizeof(uint32_t));
-  client.send(LOSE_MESSAGE, message_len);
-  */
 }
+
 
 //Sends the client the appropiate response corresponding to the received number
 //Returns true if the program should continue running, otherwise returns false
@@ -221,7 +173,6 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   answer_message_len = htonl(answer_message_len);
   client.send(&answer_message_len, sizeof(uint32_t));
   client.send(message_to_send.data(), message_to_send.length());
-
   return should_game_continue;
 }
 
@@ -264,13 +215,6 @@ void ClientProcessor::_run_game(){
 
 ///////////////////////////////PUBLIC//////////////////////////
 
-/*
-bool ClientProcessor::join(){
-  thrd.join();
-  return has_player_won;
-}
-*/
-
 void ClientProcessor::join(){
   thrd.join();
 }
@@ -292,18 +236,6 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  has_player_won(false),
                                  thrd(&ClientProcessor::_run_game, this){
 }
-
-/*
-//VER SI NO HACE FALTA Y POR ESO HAY QUE BORRARLO
-ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
-                            number_to_guess(std::move(other.number_to_guess)),
-                            client(std::move(other.client)){
-  std::thread thrd = std::move(other.thrd);
-  has_program_ended = static_cast<bool>(other.has_program_ended);
-  has_player_won = static_cast<bool>(other.has_player_won);
-}
-*/
-
 
 ClientProcessor::~ClientProcessor(){
   if (thrd.joinable()) {

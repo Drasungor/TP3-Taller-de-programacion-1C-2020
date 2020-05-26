@@ -10,9 +10,6 @@
 #include "serverPeerSocket.h"
 #include "serverShouldBeRemoved.h"
 
-/*
-void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
-*/
 void ClientsHandler::_erase_dead_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients){
   ShouldBeRemoved _should_be_removed(this->winners, this->losers);
@@ -24,7 +21,6 @@ void ClientsHandler::_erase_dead_clients(
 void ClientsHandler::_run_program(
                             const std::string& service,
                             const std::vector<std::string>& numbers_to_guess){
-  //std::list<ClientProcessor*> clients;
   std::list<std::shared_ptr<ClientProcessor>> clients;
   size_t i = 0;
   try {
@@ -35,11 +31,6 @@ void ClientsHandler::_run_program(
   }
   while (keep_running) {
     try {
-      /*
-      clients.push_back(new ClientProcessor(
-                                          std::move(server_socket.accept()),
-                                          numbers_to_guess[i]));
-      */
       clients.emplace_back(new ClientProcessor(
                                           std::move(server_socket.accept()),
                                           numbers_to_guess[i]));
@@ -52,20 +43,6 @@ void ClientsHandler::_run_program(
       i = 0;
     }
   }
-
-  //VER SI SE PASA AL DESTRUCTOR
-  /*
-  for (std::list<ClientProcessor*>::iterator it = clients.begin();
-       it != clients.end(); ++it) {
-    (*it)->join();
-    if ((*it)->did_client_win()) {
-      winners++;
-    } else {
-      losers++;
-    }
-    delete(*it);
-  }
-  */
   for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
        clients.begin(); it != clients.end(); ++it) {
     (*it)->join();

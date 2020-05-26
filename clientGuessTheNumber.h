@@ -6,12 +6,12 @@
 
 //This class represents the program used by the client
 class ClientGuessTheNumber {
-  bool _process_command(ClientSocket& socket,
-                        const std::string& command) const;
-  bool _is_game_finished(const std::string& answer) const;
-  void _receive_message(ClientSocket& socket, std::string& answer) const;
-  char _get_command_indicator(const std::string& command_text) const;
-  bool _process_command(const std::string& command) const;
+  bool _process_command(ClientSocket& socket, const std::string& command);
+  bool _is_game_finished(const std::string& answer);
+  void _receive_message(ClientSocket& socket, std::string& answer);
+  char _get_command_indicator(const std::string& command_text);
+  bool _process_command(const std::string& command);
+
 public:
   ClientGuessTheNumber();
 

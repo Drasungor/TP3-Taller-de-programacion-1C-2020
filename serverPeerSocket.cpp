@@ -11,11 +11,6 @@ void PeerSocket::send(const void* buffer, size_t buffer_len) const{
   c_socket.send(buffer, buffer_len);
 }
 
-//VER SI ESTE CONSTRUCTOR NO HACE FALTA
-PeerSocket::PeerSocket(){
-}
-
-
 PeerSocket::PeerSocket(int fd): c_socket(){
   c_socket.set_fd(fd);
 }

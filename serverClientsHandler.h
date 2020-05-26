@@ -20,7 +20,6 @@ private:
   size_t losers;
 
 private:
-  //void _erase_dead_clients(std::list<ClientProcessor*>& clients);
   void _erase_dead_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients);
   void _run_program(const std::string& service,

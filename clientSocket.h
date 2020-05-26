@@ -30,12 +30,7 @@ public:
 
   ClientSocket& operator=(const ClientSocket& other) = delete;
 
-  //VER SI SE PUEDE USAR CONSTRUCTOR POR MOVIMIENTO PARA LA LISTA DE CLIENTES
-  /*
-  ClientSocket(ClientSocket&& other) noexcept;
-  */
-
-   ~ClientSocket();
+  ~ClientSocket();
 
    //Stores buffer_len bytes in buffer that were sent by other socket, if the
    //received bytes represent an element with endianness then a ntoh function
