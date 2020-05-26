@@ -5,6 +5,7 @@
 #include <cstring>
 #include <arpa/inet.h>
 #include <vector>
+#include <utility>
 #include "serverPeerSocket.h"
 #include "CommunicationConstants.h"
 
@@ -140,7 +141,7 @@ bool ClientProcessor::_process_guessed_number(
     return _store_invalid_number_answer_message(message_to_send,
                                                 current_number_of_guesses);
   }
-  int correct_digits/* = 0*/, regular_digits/* = 0*/;
+  int correct_digits, regular_digits;
   _calculate_score(guessed_number_string, correct_digits, regular_digits);
   return _store_normal_answer_message(message_to_send,
                                       current_number_of_guesses,

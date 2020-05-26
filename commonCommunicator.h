@@ -18,7 +18,8 @@ public:
   virtual void allow_communication(const char* service, const char* host) = 0;
 
   //An empty string host indicates localhost is used
-  Communicator(const std::string service, const std::string host = "") noexcept;
+   explicit Communicator(const std::string service,
+                         const std::string host = "") noexcept;
 
   virtual ~Communicator();
 

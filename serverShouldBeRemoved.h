@@ -1,6 +1,7 @@
 #ifndef _SERVER_SHOULD_BE_REMOVED_H_
 #define  _SERVER_SHOULD_BE_REMOVED_H_
 
+#include <memory>
 #include "serverClientProcessor.h"
 
 //Functor used to indicate remove_if if the ClientProcessor should be removed

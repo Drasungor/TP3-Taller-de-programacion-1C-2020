@@ -6,6 +6,7 @@
 #include <thread>
 #include <atomic>
 #include <vector>
+#include <memory>
 #include <string>
 #include "serverSocket.h"
 #include "serverClientProcessor.h"

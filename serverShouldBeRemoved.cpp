@@ -1,5 +1,6 @@
 #include "serverShouldBeRemoved.h"
 
+#include <memory>
 #include "serverClientProcessor.h"
 
 

@@ -5,6 +5,8 @@
 #include <system_error>
 #include <vector>
 #include <string>
+#include <memory>
+#include <utility>
 #include "serverSocket.h"
 #include "serverClientProcessor.h"
 #include "serverPeerSocket.h"
