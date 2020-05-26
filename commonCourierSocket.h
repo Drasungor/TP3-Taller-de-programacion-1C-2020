@@ -14,13 +14,9 @@ private:
 public:
   CourierSocket() noexcept;
 
-  /*
-  CommunicationSocket(CommunicationSocket&& other) noexcept;
+  CourierSocket(const CourierSocket& other) = delete;
 
-  CommunicationSocket(const CommunicationSocket& other) = delete;
-
-  CommunicationSocket& operator=(const CommunicationSocket& other) = delete;
-  */
+  CourierSocket& operator=(const CourierSocket& other) = delete;
 
   ~CourierSocket();
 
