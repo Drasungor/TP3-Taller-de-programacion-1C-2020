@@ -64,11 +64,12 @@ servidor a parte del principal.
 &nbsp;&nbsp;&nbsp;&nbsp;A continuación se presentan gráficos que representan
 distintas partes del trabajo. Estos son:
 
-1. Diagrama de clases.
-2. Diagrama de secuencia del guardado de un único recurso en el inventario
-   sacando el recurso de una cola bloqueante no cerrada.
-3. Diagrama de secuencia de un consumo de recursos del inventario no cerrado
-   para generar puntos de beneficio
+1. Diagrama de clases del cliente.
+2. Diagrama de clases del servidor.
+3. Diagrama de secuencia simple la comunicación entre el cliente y el servidor
+   al ejecutarse un comando.
+4. Diagrama de secuencia de las operaciones realizadas por un ClientProcessor
+   al recibir un número.
 
 ![Diagrama_de_clases](/imgs/Diagrama_de_clases.png)
 
