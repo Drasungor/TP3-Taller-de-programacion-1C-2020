@@ -6,14 +6,6 @@
 #include <cstring>
 #include <cstdint>
 #include "serverClientsHandler.h"
-/*
-#include <system_error>
-#include "serverSocket.h"
-#include "serverPeerSocket.h"
-#include "serverClientProcessor.h"
-*/
-//VER SI HAY QUE BORRAR ESTOS INCLUDE
-
 #include "CommunicationConstants.h"
 
 #define SUCCESS 0
@@ -33,7 +25,8 @@
 #define OUTPUT_MESSAGE_LOSERS_TEXT "Perdedores: "
 
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
-#define OUT_OF_RANGE_FILE_NUMBER_TEXT "Error: archivo con números fuera de rango\n"
+#define OUT_OF_RANGE_FILE_NUMBER_TEXT "Error: archivo con números fuera de "\
+                                      "rango\n"
 #define INVALID_FILE_NUMBER_TEXT "Error: formato de los números inválidos\n"
 
 #define SOCKET_ERROR_TEXT "Error de comunicación de socket\n"
@@ -78,9 +71,11 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
                                   std::ifstream& numbers_file,
                                   std::vector<std::string>& numbers_to_guess) const{
   std::string buffer;
-  //std::getline(numbers_file, buffer);
   while (!numbers_file.eof()) {
     std::getline(numbers_file, buffer);
+
+    std::cout << "NUMERO A ADIVINAR: " << buffer << std::endl;
+
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
       throw(std::domain_error("Number out of range"));
     }
@@ -91,18 +86,11 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
       throw(std::invalid_argument("Not a number"));
     }
     numbers_to_guess.push_back(buffer);
-    //std::getline(numbers_file, buffer);
   }
 }
 
 
 void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
-  /*
-  #define OUTPUT_MESSAGE_FIRST_LINE "Estadísticas:"
-  #define OUTPUT_MESSAGE_PLAYER_PREFIX "\n\t"
-  #define OUTPUT_MESSAGE_WINNERS_TEXT "Ganadores:  "
-  #define OUTPUT_MESSAGE_LOSERS_TEXT "Perdedores:  "
-  */
   std::cout << OUTPUT_MESSAGE_FIRST_LINE << OUTPUT_MESSAGE_PLAYER_PREFIX
             << OUTPUT_MESSAGE_WINNERS_TEXT << winners <<
             OUTPUT_MESSAGE_PLAYER_PREFIX << OUTPUT_MESSAGE_LOSERS_TEXT <<
@@ -131,21 +119,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
     std::cout << INVALID_FILE_TEXT;
     return INVALID_FILE;
   }
-
-  /*
-  ServerSocket server_socket;
-  PeerSocket peer_socket;
-  try {
-    server_socket.bind_and_listen(arguments[SERVICE_ARGUMENTS_INDEX]);
-    peer_socket = std::move(server_socket.accept());
-  } catch (std::system_error e){
-    std::cout << SOCKET_ERROR_TEXT;
-    return SOCKET_ERROR;
-  }
-  */
-
   std::vector<std::string> numbers_to_guess;
-  //bool keep_processing = true;
   try {
     _load_numbers_to_guess(numbers_file, numbers_to_guess);
   } catch(std::domain_error& e1) {

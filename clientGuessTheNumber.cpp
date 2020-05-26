@@ -17,10 +17,12 @@
 
 
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
-//#define INVALID_COMMAND_TEXT "Error: comando inválido"
+#define INVALID_COMMAND_MESSAGE "Error: comando inválido. Escriba AYUDA para "\
+                                "obtener ayuda\n"
+/*
 #define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
 #define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
-
+*/
 
 #define SOCKET_ERROR_TEXT "Error de scoket"
 
@@ -107,16 +109,12 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
   }
   bool keep_running = true;
   std::string command;
-  //ClientSocket socket();
   ClientSocket socket(service, host);
-  //HACER SOCKET_CONNECT
   try {
-    //socket.connect(host, service);
     socket.open_communication_channel();
   } catch(std::system_error e) {
     //VER SI EL RETURN ACA HACE QUE SE GENERE ALGUN LEAK
     std::cout << SOCKET_ERROR_TEXT << std::endl;
-    std::cout << e.what() << std::endl;
     return PROCESS_FINISHED;
   }
   while (keep_running) {
@@ -128,8 +126,7 @@ int ClientGuessTheNumber::execute(const char** arguments, int number_of_argument
       if (std::cin.eof()) {
         keep_running = false;
       }
-      std::cout << INVALID_COMMAND_MESSAGE_PART_1 <<
-                   INVALID_COMMAND_MESSAGE_PART_2;
+      std::cout << INVALID_COMMAND_MESSAGE;
     }
   }
   return PROCESS_FINISHED;
