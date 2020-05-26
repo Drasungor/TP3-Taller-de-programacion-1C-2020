@@ -34,7 +34,8 @@
 #define MAX_NUMBER_OF_TRIES 10
 
 //This function returns if the string (of any size) has a repeated digit
-bool ClientProcessor::_has_repeated_digits(const std::string& number_string) const{
+bool ClientProcessor::_has_repeated_digits(
+                                      const std::string& number_string) const{
   for (size_t i = 0; i < number_string.length() - 1; i++) {
     for (size_t j = i + 1; j < number_string.length(); j++) {
       if (number_string[i] == number_string[j]) {
@@ -78,27 +79,25 @@ bool ClientProcessor::_store_normal_answer_message(
     message_to_send = LOSE_MESSAGE;
   } else {
     if ((correct_digits == 0) && (regular_digits == 0)) {
-      message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) + BAD_GUESS_MESSAGE_PART + "\n";
+      message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) +
+                        BAD_GUESS_MESSAGE_PART + "\n";
     } else {
       if (correct_digits != 0) {
-        message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART;
+        message_to_send = std::to_string(correct_digits) +
+                          GOOD_GUESS_MESSAGE_PART;
         if (regular_digits != 0) {
           message_to_send += ", ";
         } else {
           message_to_send += "\n";
         }
-      }if (regular_digits != 0) {
+      }
+      if (regular_digits != 0) {
         message_to_send += std::to_string(regular_digits) +
         REGULAR_GUESS_MESSAGE_PART + "\n";
       }
-      /*
-      message_to_send = std::to_string(correct_digits) + GOOD_GUESS_MESSAGE_PART
-                        + ", " + std::to_string(regular_digits) +
-                        REGULAR_GUESS_MESSAGE_PART + "\n";
-      */
-      }
-      return true;
     }
+      return true;
+  }
   return false;
 }
 
@@ -262,31 +261,13 @@ bool ClientProcessor::has_ended() const{
   return has_program_ended;
 }
 
-/*
-//VER SI HAY QUE AGREGAR CONST
-void ClientProcessor::operator()(){
-  std::thread aux_thread(&ClientProcessor::_run_game, this);
-  thrd = std::move(aux_thread);
-  //LLAMAR A ESTA FUNCION EN EL THREAD
-  //_run_game();
-}
-*/
-/*
-ClientProcessor& ClientProcessor::operator=(ClientProcessor&& other) noexcept{
-
-}
-*/
-
-//ClientProcessor::ClientProcessor(PeerSocket& peer_socket, int& number_to_guess){
 ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  const std::string& number_to_guess):
-                                 //number_to_guess(std::move(number_to_guess)),
                                  number_to_guess(number_to_guess),
-                                 client(/*peer_socket*/std::move(peer_socket)),
+                                 client(std::move(peer_socket)),
                                  has_program_ended(false),
                                  has_player_won(false),
                                  thrd(&ClientProcessor::_run_game, this){
-  //has_player_won = false;
 }
 
 ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:

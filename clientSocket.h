@@ -8,8 +8,8 @@
 class ClientSocket: public Communicator{
 private:
   CourierSocket c_socket;
-private:
 
+private:
   void _obtain_addrinfo(const char* host, const char* service,
                         struct addrinfo* hints, struct addrinfo** result);
   bool _process_info_to_connect(struct addrinfo* info, int& socket_fd);
@@ -20,6 +20,7 @@ private:
 
   //////////////////////////INHERITED//////////////////////////
   void allow_communication(const char* service, const char* host) override;
+
 public:
   //ClientSocket(const std::string& host, const std::string& service);
   ClientSocket(const std::string& service, const std::string& host);

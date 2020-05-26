@@ -8,6 +8,7 @@
 class ServerSocket: public Communicator {
 private:
   int socket_fd;
+
 private:
   bool _process_info_to_bind(struct addrinfo* info, int& socket_fd);
   bool _could_bind(struct addrinfo* info, int& socket_fd);
@@ -16,12 +17,13 @@ private:
 
   //////////////////////////INHERITED//////////////////////////
   void allow_communication(const char* service, const char* host) override;
+
 public:
   //BORRAR CONSTRUCTOR POR COPIA Y OPERADOR ASIGNACION POR COPIA
 
 
   //ServerSocket(const std::string& service);
-  ServerSocket(const std::string& service);
+  explicit ServerSocket(const std::string& service);
 
   ~ServerSocket();
 

@@ -9,8 +9,8 @@ class ShouldBeRemoved {
 private:
   size_t &winners;
   size_t &losers;
-public:
 
+public:
   ShouldBeRemoved(size_t& winners, size_t& losers);
 
   ~ShouldBeRemoved();

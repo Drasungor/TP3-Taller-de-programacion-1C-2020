@@ -6,6 +6,7 @@
 #include <thread>
 #include <atomic>
 #include <vector>
+#include <string>
 #include "serverSocket.h"
 #include "serverClientProcessor.h"
 
@@ -17,10 +18,12 @@ private:
   std::thread thrd;
   size_t winners;
   size_t losers;
+
 private:
   void _erase_dead_clients(std::list<ClientProcessor*>& clients);
   void _run_program(const std::string& service,
                     const std::vector<std::string>& numbers_to_guess);
+
 public:
   ClientsHandler(const std::string& service,
                  const std::vector<std::string>& numbers_to_guess);

@@ -25,7 +25,6 @@ public:
   virtual ~Communicator();
 
   void open_communication_channel();
-
 };
 
 #endif

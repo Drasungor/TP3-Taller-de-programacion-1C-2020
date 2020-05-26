@@ -1,6 +1,7 @@
 #include "commonCommunicator.h"
 
 #include <cstddef>
+#include <string>
 
 void Communicator::open_communication_channel(){
   if (host == "") {
@@ -10,14 +11,9 @@ void Communicator::open_communication_channel(){
   }
 }
 
-/*
-Communicator::Communicator(const char* service, const char* host = NULL) noexcept:
-                          service(service), host(host){
-  this->service = service;
-  this->host = host;
-}
-*/
-Communicator::Communicator(const std::string service, const std::string host/* = ""*/) noexcept{
+
+Communicator::Communicator(const std::string service,
+                           const std::string host/* = ""*/) noexcept{
   this->service = service;
   this->host = host;
 }

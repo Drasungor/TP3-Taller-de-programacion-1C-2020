@@ -33,7 +33,8 @@
 
 //Returns the char that indicates the server the command that has to be
 //executed
-char ClientGuessTheNumber::_get_command_indicator(const std::string& command_text) const{
+char ClientGuessTheNumber::_get_command_indicator(
+                                        const std::string& command_text) const{
   int number;
   if (command_text == HELP_COMMAND_TEXT) {
     return COMMAND_INDICATOR_HELP;
@@ -50,15 +51,17 @@ char ClientGuessTheNumber::_get_command_indicator(const std::string& command_tex
   }
 }
 
-//VER SI TIENE SENTIDO PONERLE CONST A LOS METODOS DE UNA CLASE QUE NO TIENE ATRIBUTOS
-void ClientGuessTheNumber::_receive_message(ClientSocket& socket, std::string& answer) const{
+//VER SI TIENE SENTIDO PONERLE CONST A LOS METODOS DE UNA CLASE QUE NO
+//TIENE ATRIBUTOS
+void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
+                                            std::string& answer) const{
   uint32_t number_of_chars;
   char buffer[MESSAGE_RECEIVER_BUFFER_LEN + 1];
   socket.receive(&number_of_chars, sizeof(uint32_t));
   number_of_chars = ntohl(number_of_chars);
 
-  //VER SI SE CAMBIA ESTE WHILE POR UN SOLO PEDIDO USANDO UN BUFFER DEL TAMAÑO DEL
-  //MENSAJE MAS LARGO (FIJARSE EL STRLEN DEL MENSAJE LARGO)
+  //VER SI SE CAMBIA ESTE WHILE POR UN SOLO PEDIDO USANDO UN BUFFER DEL
+  //TAMAÑO DEL MENSAJE MAS LARGO (FIJARSE EL STRLEN DEL MENSAJE LARGO)
   size_t received_chars = 0;
   size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
 
@@ -97,7 +100,8 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
 
 ///////////////////////////////PUBLIC//////////////////////////
 
-int ClientGuessTheNumber::execute(const char** arguments, int number_of_arguments){
+int ClientGuessTheNumber::execute(const char** arguments,
+                                  int number_of_arguments){
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {
     std::cout << INVALID_ARGUMENTS_TEXT;
     return PROCESS_FINISHED;

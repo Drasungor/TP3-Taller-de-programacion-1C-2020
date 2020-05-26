@@ -33,7 +33,8 @@ static bool _could_connect(struct addrinfo* info, int& socket_fd){
 //ESTO ES DEL CLIENT
 //Tries to get a socket with the information provided by info
 //and tries to establish a connection
-bool ClientSocket::_process_info_to_connect(struct addrinfo* info, int& socket_fd){
+bool ClientSocket::_process_info_to_connect(struct addrinfo* info,
+                                            int& socket_fd){
   bool is_connected = false;
   while ((info != NULL) && (!is_connected)) {
     is_connected = _could_connect(info, socket_fd);
@@ -62,8 +63,6 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
 
 //PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
 //TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
-//void ClientSocket::connect(const std::string& host, const std::string& service){
-//void ClientSocket::_connect(const std::string& host, const std::string& service){
 void ClientSocket::_connect(const char* service, const char* host){
   bool is_connected = false;
   int socket_fd = 0;
@@ -108,7 +107,6 @@ void ClientSocket::send(const void* buffer, size_t buffer_len) const{
 ClientSocket::ClientSocket(const std::string& service,
                            const std::string& host):
                            Communicator(service.data(), host.data()){
-
 }
 
 

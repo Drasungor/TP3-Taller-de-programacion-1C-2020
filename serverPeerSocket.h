@@ -11,8 +11,8 @@
 class PeerSocket{
 private:
   CourierSocket c_socket;
-public:
 
+public:
   //ESTE CONSTRUCTOR ES SOLO PARA PROBAR LA LOGICA DEL JUEGO
   //PeerSocket(const void* message, int length);
 
@@ -23,7 +23,7 @@ public:
   PeerSocket();
 
   //This constructor should only be used by the ServerSocket
-  PeerSocket(int fd);
+  explicit PeerSocket(int fd);
 
   PeerSocket(PeerSocket&& other) noexcept;
 

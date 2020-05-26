@@ -3,6 +3,8 @@
 #include <list>
 #include <algorithm>
 #include <system_error>
+#include <vector>
+#include <string>
 #include "serverSocket.h"
 #include "serverClientProcessor.h"
 #include "serverPeerSocket.h"
@@ -14,7 +16,8 @@
 
 void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
   ShouldBeRemoved _should_be_removed(this->winners, this->losers);
-  clients.erase(std::remove_if(clients.begin(), clients.end(), _should_be_removed), clients.end());
+  clients.erase(std::remove_if(clients.begin(), clients.end(),
+                _should_be_removed), clients.end());
 }
 
 
@@ -46,7 +49,8 @@ void ClientsHandler::_run_program(
   }
 
   //VER SI SE PASA AL DESTRUCTOR
-  for (std::list<ClientProcessor*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+  for (std::list<ClientProcessor*>::iterator it = clients.begin();
+       it != clients.end(); ++it) {
     (*it)->join();
     if ((*it)->did_client_win()) {
       winners++;

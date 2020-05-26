@@ -3,7 +3,9 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <string>
 #include <cstring>
+#include <string>
 #include <cstdint>
 #include "serverClientsHandler.h"
 #include "CommunicationConstants.h"
@@ -38,7 +40,8 @@
 #define MIN_DIGIT_ASCII_CODE 57
 
 //This function returns if the string (of any size) has a repeated digit
-bool ServerGuessTheNumber::_has_repeated_digits(const std::string& number_string) const{
+bool ServerGuessTheNumber::_has_repeated_digits(
+                                      const std::string& number_string) const{
   for (size_t i = 0; i < number_string.length() - 1; i++) {
     for (size_t j = i + 1; j < number_string.length(); j++) {
       if (number_string[i] == number_string[j]) {
@@ -52,7 +55,8 @@ bool ServerGuessTheNumber::_has_repeated_digits(const std::string& number_string
 
 bool ServerGuessTheNumber::_is_number(const std::string& number_string) const{
   for (size_t i = 0; i < number_string.length(); i++) {
-    if ((number_string[i] < MIN_DIGIT_ASCII_CODE) || (number_string[i] > MAX_DIGIT_ASCII_CODE)) {
+    if ((number_string[i] < MIN_DIGIT_ASCII_CODE) ||
+        (number_string[i] > MAX_DIGIT_ASCII_CODE)) {
       return false;
     }
   }
@@ -68,8 +72,8 @@ bool ServerGuessTheNumber::_is_number(const std::string& number_string) const{
 //CONSIDERA EL CASO EN EL QUE EL ARCHIVO DE ENTRADA TIENE STRINGS QUE NO SON
 //NUMEROS
 void ServerGuessTheNumber::_load_numbers_to_guess(
-                                  std::ifstream& numbers_file,
-                                  std::vector<std::string>& numbers_to_guess) const{
+                            std::ifstream& numbers_file,
+                            std::vector<std::string>& numbers_to_guess) const{
   std::string buffer;
   while (!numbers_file.eof()) {
     std::getline(numbers_file, buffer);
@@ -99,9 +103,8 @@ void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
 
 ///////////////////////////////PUBLIC//////////////////////////
 
-int ServerGuessTheNumber::execute(const char** arguments, int number_of_arguments){
-
-
+int ServerGuessTheNumber::execute(const char** arguments,
+                                  int number_of_arguments){
   //VER SI SE PASA TODO LO QUE PUEDE DEVOLVER UNA EXCEPCION A UNA FUNCION Y
   //TENER UN TRY CATCH QUE AGARRE TODAS LAS EXCEPCIONES POSIBLES E IMPRIMA UN
   //MENSAJE DE ERROR PARA CADA UNA
@@ -134,7 +137,7 @@ int ServerGuessTheNumber::execute(const char** arguments, int number_of_argument
   std::string buffer;
   do {
     std::cin >> buffer;
-  } while(buffer != KILL_SERVER_INDICATOR);
+  } while (buffer != KILL_SERVER_INDICATOR);
   handler.shutdown();
   handler.wait_for_results(winners, losers);
   _print_server_output(winners, losers);

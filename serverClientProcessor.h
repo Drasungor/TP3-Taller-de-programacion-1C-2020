@@ -14,7 +14,7 @@ private:
   std::atomic<bool> has_program_ended;
   std::atomic<bool> has_player_won;
   std::thread thrd;
-  //bool has_player_won;
+
 private:
   void _run_game();
   //DESPUES DE HACER EL SOCKET EN SERIO AGREGAR EL CONST DEVUELTA
@@ -31,15 +31,14 @@ private:
                                           int current_number_of_guesses) const;
   bool _store_normal_answer_message(std::string& message_to_send,
                                     int current_number_of_guesses,
-                                    int correct_digits,
-                                    int regular_digits);
+                                    int correct_digits, int regular_digits);
   void _calculate_score(const std::string guessed_number_string,
                         int& correct_digits, int& regular_digits) const;
   bool _process_guessed_number(std::string& message_to_send,
                                const std::string& number_to_guess,
-                               uint16_t guessed_number,
-                               int& taken_turns);
+                               uint16_t guessed_number, int& taken_turns);
   bool _has_repeated_digits(const std::string& number_string) const;
+
 public:
   //VER SI SE PASA UNA REFERENCIA O SI SE GUARDA EL INT EN EL ClientProcessor
   //ClientProcessor(PeerSocket& client, uint16_t& number_to_guess);

@@ -11,9 +11,8 @@
 class CourierSocket {
 private:
   int socket_fd;
-private:
-public:
 
+public:
   CourierSocket() noexcept;
 
   /*

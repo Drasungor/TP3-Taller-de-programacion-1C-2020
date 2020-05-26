@@ -15,7 +15,8 @@ bool ShouldBeRemoved::operator()(const ClientProcessor* client){
 }
 
 
-ShouldBeRemoved::ShouldBeRemoved(size_t& winners, size_t& losers): winners(winners), losers(losers){
+ShouldBeRemoved::ShouldBeRemoved(size_t& winners, size_t& losers):
+                                 winners(winners), losers(losers){
   //this->winners = winners;
   //this->losers = losers;
 }

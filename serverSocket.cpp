@@ -2,7 +2,7 @@
 
 #include <cstring>
 #include <system_error>
-
+#include <string>
 //VER CUALES DE ESTOS DEFINES SE PUEDEN SACAR
 #include <sys/types.h>
 #include <sys/socket.h>
