@@ -2,7 +2,21 @@
 
 #include "serverClientProcessor.h"
 
+/*
 bool ShouldBeRemoved::operator()(const ClientProcessor* client){
+  if (client->has_ended()) {
+    if (client->did_client_win()) {
+      winners++;
+    } else {
+      losers++;
+    }
+    return true;
+  }
+  return false;
+}
+*/
+
+bool ShouldBeRemoved::operator()(const std::shared_ptr<ClientProcessor> client){
   if (client->has_ended()) {
     if (client->did_client_win()) {
       winners++;

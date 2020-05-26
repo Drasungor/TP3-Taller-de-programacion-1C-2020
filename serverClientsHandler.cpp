@@ -10,11 +10,8 @@
 #include "serverPeerSocket.h"
 #include "serverShouldBeRemoved.h"
 
-
-//BORRAR INCLUDE
-#include <iostream>
-
-void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
+//void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
+void ClientsHandler::_erase_dead_clients(std::list<std::shared_ptr<ClientProcessor>>& clients){
   ShouldBeRemoved _should_be_removed(this->winners, this->losers);
   clients.erase(std::remove_if(clients.begin(), clients.end(),
                 _should_be_removed), clients.end());
@@ -24,22 +21,23 @@ void ClientsHandler::_erase_dead_clients(std::list<ClientProcessor*>& clients){
 void ClientsHandler::_run_program(
                             const std::string& service,
                             const std::vector<std::string>& numbers_to_guess){
-  //ServerSocket server_socket;
-  std::list<ClientProcessor*> clients;
+  //std::list<ClientProcessor*> clients;
+  std::list<std::shared_ptr<ClientProcessor>> clients;
   size_t i = 0;
   try {
-    //server_socket.bind_and_listen(service);
     server_socket.open_communication_channel();
   } catch(std::system_error& e) {
-    //HACER ALGO CON LA EXCEPTION PARA QUE NO CRASHEE EL PROGRAMA
+    //If the server crashes then the clients have to force quit the program
+    return;
   }
   while (keep_running) {
     try {
-      clients.push_back(new ClientProcessor(std::move(server_socket.accept()),
-                        numbers_to_guess[i]));
+      //clients.push_back(new ClientProcessor(std::move(server_socket.accept()), numbers_to_guess[i]));
+      clients.emplace_back(new ClientProcessor(
+                                          std::move(server_socket.accept()),
+                                          numbers_to_guess[i]));
+      _erase_dead_clients(clients);
     } catch(std::system_error& e) {
-      //CHEQUEAR keep_running PARA VER SI ES UN ERROR O SI FALLO PORQUE
-      //CERRARON EL SERVER
       keep_running = false;
     }
     i++;
@@ -49,6 +47,7 @@ void ClientsHandler::_run_program(
   }
 
   //VER SI SE PASA AL DESTRUCTOR
+  /*
   for (std::list<ClientProcessor*>::iterator it = clients.begin();
        it != clients.end(); ++it) {
     (*it)->join();
@@ -58,6 +57,16 @@ void ClientsHandler::_run_program(
       losers++;
     }
     delete(*it);
+  }
+  */
+  for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
+       clients.begin(); it != clients.end(); ++it) {
+    (*it)->join();
+    if ((*it)->did_client_win()) {
+      winners++;
+    } else {
+      losers++;
+    }
   }
 }
 

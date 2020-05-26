@@ -306,7 +306,6 @@ ClientProcessor::ClientProcessor(ClientProcessor&& other) noexcept:
 
 
 ClientProcessor::~ClientProcessor(){
-  //For exception safety
   if (thrd.joinable()) {
     thrd.join();
   }
