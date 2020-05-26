@@ -77,9 +77,6 @@ void ServerGuessTheNumber::_load_numbers_to_guess(
   std::string buffer;
   while (!numbers_file.eof()) {
     std::getline(numbers_file, buffer);
-
-    std::cout << "NUMERO A ADIVINAR: " << buffer << std::endl;
-
     if (buffer.length() != NUMBERS_DIGITS_AMMOUNT) {
       throw(std::domain_error("Number out of range"));
     }
