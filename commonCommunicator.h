@@ -9,21 +9,20 @@
 //stream and io managing nature of the class
 class Communicator {
 private:
-  /*
-  const char* service;
-  const char* host;
-  */
   std::string service;
   std::string host;
-//protected:
+
 public:
+  //The implemented function should establish the desired type of communication
+  //(as client or as server)
   virtual void allow_communication(const char* service, const char* host) = 0;
 
-  //Communicator(const char* service, const char* host = NULL) noexcept;
+  //An empty string host indicates localhost is used
   Communicator(const std::string service, const std::string host = "") noexcept;
 
   virtual ~Communicator();
 
+  //Establishes the communication implemented by allow_communication
   void open_communication_channel();
 };
 

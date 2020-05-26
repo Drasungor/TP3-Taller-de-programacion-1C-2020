@@ -4,6 +4,7 @@
 #include <string>
 #include "clientSocket.h"
 
+//This class represents the program used by the client
 class ClientGuessTheNumber {
   bool _process_command(ClientSocket& socket,
                         const std::string& command) const;

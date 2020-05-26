@@ -6,8 +6,8 @@
 #include <cstring>
 
 //VER CUALES DE ESTOS INCLUDE HACEN FALTA
-#include <sys/types.h>
-#include <sys/socket.h>
+//#include <sys/types.h>
+//#include <sys/socket.h>
 #include <netdb.h>
 #include <unistd.h>
 

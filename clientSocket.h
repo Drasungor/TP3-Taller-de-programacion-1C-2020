@@ -5,11 +5,14 @@
 #include "commonCourierSocket.h"
 #include "commonCommunicator.h"
 
+//This class represents a client socket, it is used to establish connection
+//with an existing server socket and exchange messagges with it
 class ClientSocket: public Communicator{
 private:
   CourierSocket c_socket;
 
 private:
+  bool _could_connect(struct addrinfo* info, int& socket_fd);
   void _obtain_addrinfo(const char* host, const char* service,
                         struct addrinfo* hints, struct addrinfo** result);
   bool _process_info_to_connect(struct addrinfo* info, int& socket_fd);
