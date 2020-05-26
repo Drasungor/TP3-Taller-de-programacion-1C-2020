@@ -14,36 +14,32 @@ private:
                         struct addrinfo* hints, struct addrinfo** result);
   bool _process_info_to_connect(struct addrinfo* info, int& socket_fd);
   void _set_hints(struct addrinfo* hints);
-
-  //If an empty host string is received, the host will be localhost
   void _connect(const char* host, const char* service);
 
   //////////////////////////INHERITED//////////////////////////
   void allow_communication(const char* service, const char* host) override;
 
 public:
-  //ClientSocket(const std::string& host, const std::string& service);
+  //If an empty host string is received, the host will be localhost
   ClientSocket(const std::string& service, const std::string& host);
 
-  //BORRAR CONSTRUCTORES POR COPIA
+  ClientSocket(const ClientSocket& other) = delete;
 
+  ClientSocket& operator=(const ClientSocket& other) = delete;
+
+  //VER SI SE PUEDE USAR CONSTRUCTOR POR MOVIMIENTO PARA LA LISTA DE CLIENTES
   /*
-  CommunicationSocket(CommunicationSocket&& other) noexcept;
-
-  CommunicationSocket(const CommunicationSocket& other) = delete;
-
-  CommunicationSocket& operator=(const CommunicationSocket& other) = delete;
+  ClientSocket(ClientSocket&& other) noexcept;
   */
 
    ~ClientSocket();
 
-   /*
-   //If an empty host string is received, the host will be localhost
-   void connect(const std::string& host, const std::string& service);
-   */
-
+   //Stores buffer_len bytes in buffer that were sent by other socket, if the
+   //received bytes represent an element with endianness then a ntoh function
+   //should be called
    void receive(void* buffer, size_t buffer_len) const;
 
+   //Sends to the host the message of buffer_len bytes stored in buffer
    void send(const void* buffer, size_t buffer_len) const;
 };
 

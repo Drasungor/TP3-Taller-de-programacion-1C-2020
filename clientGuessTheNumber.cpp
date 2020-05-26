@@ -19,10 +19,6 @@
 #define INVALID_ARGUMENTS_TEXT "Error: argumentos inválidos\n"
 #define INVALID_COMMAND_MESSAGE "Error: comando inválido. Escriba AYUDA para "\
                                 "obtener ayuda\n"
-/*
-#define INVALID_COMMAND_MESSAGE_PART_1 "Error: comando inválido. Escriba "
-#define INVALID_COMMAND_MESSAGE_PART_2 "AYUDA para obtener ayuda\n"
-*/
 
 #define SOCKET_ERROR_TEXT "Error de scoket"
 

@@ -19,18 +19,18 @@ private:
   void allow_communication(const char* service, const char* host) override;
 
 public:
-  //BORRAR CONSTRUCTOR POR COPIA Y OPERADOR ASIGNACION POR COPIA
-
-
-  //ServerSocket(const std::string& service);
   explicit ServerSocket(const std::string& service);
+
+  ServerSocket(const ServerSocket& other) = delete;
+
+  ServerSocket& operator=(const ServerSocket& other) = delete;
 
   ~ServerSocket();
 
-  //void bind_and_listen(const std::string& service);
-
+  //Returns a PeerSocket that allows for communication with a client
   PeerSocket accept();
 
+  //Closes the server
   void disconnect();
 };
 

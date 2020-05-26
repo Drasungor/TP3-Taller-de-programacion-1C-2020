@@ -123,12 +123,6 @@ ServerSocket::ServerSocket(const std::string& service):
 
 
 ServerSocket::~ServerSocket(){
-  /*
-  if (socket_fd != -1) {
-    shutdown(socket_fd, SHUT_RDWR);
-    close(socket_fd);
-  }
-  */
   disconnect();
 }
 

@@ -13,10 +13,9 @@
 
 #include "commonCourierSocket.h"
 
-//ESTO ES DEL CLIENT
-//Tries a getspecific socket and establish a connection, returns true
-//if it acomplishes, otherwise returns false
-static bool _could_connect(struct addrinfo* info, int& socket_fd){
+//Tries to establish a connection using the info received, returns true
+//if it acomplishes it, otherwise returns false
+bool ClientSocket::_could_connect(struct addrinfo* info, int& socket_fd){
   int connect_value = 0;
   socket_fd = socket(info->ai_family, info->ai_socktype, info->ai_protocol);
   if (socket_fd != -1) {
@@ -30,7 +29,7 @@ static bool _could_connect(struct addrinfo* info, int& socket_fd){
   return false;
 }
 
-//ESTO ES DEL CLIENT
+
 //Tries to get a socket with the information provided by info
 //and tries to establish a connection
 bool ClientSocket::_process_info_to_connect(struct addrinfo* info,
@@ -43,13 +42,15 @@ bool ClientSocket::_process_info_to_connect(struct addrinfo* info,
   return is_connected;
 }
 
-
+//Initializes the hints with the desired prefferences
 void ClientSocket::_set_hints(struct addrinfo* hints){
   std::memset(hints, 0, sizeof(struct addrinfo));
   hints->ai_family = AF_INET;
   hints->ai_socktype = SOCK_STREAM;
 }
 
+//Stores in result the sockets available for connection with the
+//prefferences indicated in hints
 void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
                                      struct addrinfo* hints,
                                      struct addrinfo** result){
@@ -58,11 +59,8 @@ void ClientSocket::_obtain_addrinfo(const char* host, const char* service,
   }
 }
 
-
-
-
-//PASAR LOS THROW A LAS FUNCIONES AUXILIARES ASI DEVUELVEN VOID Y NO SE
-//TIENEN IFS CHEQUEANDO SI SE EJECUTARON BIEN LAS FUNCIONES AUXILIARES
+//Establishes a connection with a socket that belongs to the received service
+//and host
 void ClientSocket::_connect(const char* service, const char* host){
   bool is_connected = false;
   int socket_fd = 0;
@@ -70,25 +68,20 @@ void ClientSocket::_connect(const char* service, const char* host){
   struct addrinfo hints;
   _set_hints(&hints);
   hints.ai_flags = 0;
-  /*
-  if (host == "") {
-    _obtain_addrinfo(NULL, service.data(), &hints, &result);
-  } else {
-  _obtain_addrinfo(host.data(), service.data(), &hints, &result);
-  }
-  */
   _obtain_addrinfo(host, service, &hints, &result);
   is_connected = _process_info_to_connect(result, socket_fd);
   freeaddrinfo(result);
   if (!is_connected) {
-    throw(std::system_error(errno, std::system_category(), "Connection error"));
+    throw(std::system_error(errno, std::system_category(),
+                            "Connection error"));
   }
   c_socket.set_fd(socket_fd);
 }
 
 
 //////////////////////////////////INHERITED/////////////////////////////////
-
+//Establishes connection between the client server and a socket from the
+//adress received in the constructor
 void ClientSocket::allow_communication(const char* service, const char* host){
   _connect(service, host);
 }
