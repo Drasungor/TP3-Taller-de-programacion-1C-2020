@@ -51,7 +51,7 @@ intercambiar mensajes con los clientes.
 #### ClientsHandler
 &nbsp;&nbsp;&nbsp;&nbsp;Esta clase maneja los clientes conectados. Se encarga
 de aceptar nuevos clientes y liberarlos cuando terminan su trabajo. Estas
-operaciones son ejecutadas en un thread del servidor a parte del principal
+operaciones son ejecutadas en un thread del servidor a parte del principal.
 
 #### ClientProcessor
 &nbsp;&nbsp;&nbsp;&nbsp;Esta clase se encarga de ejecutar el juego para un

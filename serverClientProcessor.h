@@ -40,7 +40,6 @@ private:
   bool _has_repeated_digits(const std::string& number_string) const;
 
 public:
-
   //Stores a copy of the received string and moves the received client so that
   //this ClientProcessor is now the owner
   ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
