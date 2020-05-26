@@ -75,7 +75,7 @@ distintas partes del trabajo. Estos son:
 
 ![Diagrama_de_clases_de_servidor](/imgs/Diagrama_de_clases_servidor.png)
 
-![Diagrama_de_secuencia_comando_general](/imgs/Envio_general_de_recurso.png)
+![Diagrama_de_secuencia_comando_general](/imgs/Envio_general_de_comando.png)
 
 ![Diagrama_de_secuencia_procesamiendo_de_numero](/imgs/Procesamiento_de_un_numero.png)
 
