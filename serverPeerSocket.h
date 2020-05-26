@@ -4,8 +4,6 @@
 #include "commonCourierSocket.h"
 
 
-//VER SI HAY QUE BORRAR ESTA HERENCIA PORQUE NO USA POLIMORFISMO
-
 //An instance of this class should only be used when obtained from a
 //ServerSocket accept method
 class PeerSocket{

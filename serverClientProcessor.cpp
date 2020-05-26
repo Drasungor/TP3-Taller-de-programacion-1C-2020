@@ -55,6 +55,34 @@ void ClientProcessor::_calculate_score(const std::string guessed_number_string,
   }
 }
 
+
+//Stores in message_to_send the ammount og good, bad, or regular digits with
+//the appropiate format
+void ClientProcessor::_build_non_winning_message(
+                                                std::string& message_to_send,
+                                                int correct_digits,
+                                                int regular_digits){
+  if ((correct_digits == 0) && (regular_digits == 0)) {
+    message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) +
+                      BAD_GUESS_MESSAGE_PART + "\n";
+  } else {
+    if (correct_digits != 0) {
+      message_to_send = std::to_string(correct_digits) +
+                        GOOD_GUESS_MESSAGE_PART;
+      if (regular_digits != 0) {
+        message_to_send += ", ";
+      } else {
+        message_to_send += "\n";
+      }
+    }
+    if (regular_digits != 0) {
+      message_to_send += std::to_string(regular_digits) +
+      REGULAR_GUESS_MESSAGE_PART + "\n";
+    }
+  }
+}
+
+
 //Stores the answer message that corresponds to the received number when the
 //number is valid. This function should not be used with an invalid number
 //Returns true if the program should continue running, otherwise returns false
@@ -69,25 +97,9 @@ bool ClientProcessor::_store_normal_answer_message(
   } else if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
     message_to_send = LOSE_MESSAGE;
   } else {
-    if ((correct_digits == 0) && (regular_digits == 0)) {
-      message_to_send = std::to_string(NUMBERS_DIGITS_AMMOUNT) +
-                        BAD_GUESS_MESSAGE_PART + "\n";
-    } else {
-      if (correct_digits != 0) {
-        message_to_send = std::to_string(correct_digits) +
-                          GOOD_GUESS_MESSAGE_PART;
-        if (regular_digits != 0) {
-          message_to_send += ", ";
-        } else {
-          message_to_send += "\n";
-        }
-      }
-      if (regular_digits != 0) {
-        message_to_send += std::to_string(regular_digits) +
-        REGULAR_GUESS_MESSAGE_PART + "\n";
-      }
-    }
-      return true;
+    _build_non_winning_message(message_to_send, correct_digits,
+                               regular_digits);
+    return true;
   }
   return false;
 }

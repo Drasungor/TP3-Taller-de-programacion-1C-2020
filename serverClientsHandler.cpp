@@ -18,6 +18,19 @@ void ClientsHandler::_erase_dead_clients(
 }
 
 
+void ClientsHandler::_count_winners_and_losers(
+                        std::list<std::shared_ptr<ClientProcessor>>& clients){
+  for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
+       clients.begin(); it != clients.end(); ++it) {
+    (*it)->join();
+    if ((*it)->did_client_win()) {
+      winners++;
+    } else {
+      losers++;
+    }
+  }
+}
+
 void ClientsHandler::_run_program(
                             const std::string& service,
                             const std::vector<std::string>& numbers_to_guess){
@@ -43,22 +56,13 @@ void ClientsHandler::_run_program(
       i = 0;
     }
   }
-  for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
-       clients.begin(); it != clients.end(); ++it) {
-    (*it)->join();
-    if ((*it)->did_client_win()) {
-      winners++;
-    } else {
-      losers++;
-    }
-  }
+  _count_winners_and_losers(clients);
 }
 
 
 ///////////////////////////////PUBLIC//////////////////////////
 
 void ClientsHandler::shutdown(){
-  //keep_running = false;
   server_socket.disconnect();
 }
 

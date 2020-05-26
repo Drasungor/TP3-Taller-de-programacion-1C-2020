@@ -96,6 +96,10 @@ void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
 
 ///////////////////////////////PUBLIC//////////////////////////
 
+//This function cannot be reduced to 15 lines due to error checking and
+//concistency, to reduce the number of lines a function for the contents
+//of the while could be made but it would be the only error message printed
+//in another function
 int ServerGuessTheNumber::execute(const char** arguments,
                                   int number_of_arguments){
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {

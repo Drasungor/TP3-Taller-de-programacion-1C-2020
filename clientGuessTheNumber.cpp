@@ -100,7 +100,7 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
 
 //This function cannot be reduced to 15 lines due to error checking and
 //concistency, to reduce the number of lines a function for the contents
-//of the while could be made but it would be the only message error printed
+//of the while could be made but it would be the only error message printed
 //in another function
 
 int ClientGuessTheNumber::execute(const char** arguments,

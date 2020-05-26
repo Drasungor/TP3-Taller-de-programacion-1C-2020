@@ -59,12 +59,6 @@ CourierSocket::CourierSocket() noexcept{
   socket_fd = -1;
 }
 
-/*
-CommunicationSocket::CommunicationSocket(CommunicationSocket&& other) noexcept{
-  //IMPLEMENTAR
-}
-*/
-
 CourierSocket::~CourierSocket(){
   if (socket_fd != -1) {
     shutdown(socket_fd, SHUT_RDWR);

@@ -17,6 +17,8 @@ private:
 
 private:
   void _run_game();
+  void _build_non_winning_message(std::string& message_to_send,
+                                  int correct_digits, int regular_digits);
   void _send_built_message(const std::string&& message) const;
   bool _execute_command(char command_indicator,
                         int& current_number_of_guesses);
