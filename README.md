@@ -71,11 +71,13 @@ distintas partes del trabajo. Estos son:
 4. Diagrama de secuencia de las operaciones realizadas por un ClientProcessor
    al recibir un número.
 
-![Diagrama_de_clases](/imgs/Diagrama_de_clases.png)
+![Diagrama_de_clases_de_cliente](/imgs/Diagrama_de_clases_cliente.png)
 
-![Diagrama_de_secuencia_guardado_de_recurso](/imgs/Guardado_de_recurso.png)
+![Diagrama_de_clases_de_servidor](/imgs/Diagrama_de_clases_servidor.png)
 
-![Diagrama_de_secuencia_consumo_de_un_recurso](/imgs/Consumo_de_recurso.png)
+![Diagrama_de_secuencia_comando_general](/imgs/Envio_general_de_recurso.png)
+
+![Diagrama_de_secuencia_procesamiendo_de_numero](/imgs/Procesamiento_de_un_numero.png)
 
 ### <ins>Aclaraciones</ins>
 
