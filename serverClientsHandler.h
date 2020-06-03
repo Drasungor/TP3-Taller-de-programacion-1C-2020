@@ -23,8 +23,12 @@ private:
   std::thread thrd;
 
 private:
+  bool _should_be_removed(const std::shared_ptr<ClientProcessor>& client);
+  /*
   void _count_winners_and_losers(
                         std::list<std::shared_ptr<ClientProcessor>>& clients);
+  */
+  void _close_clients(std::list<std::shared_ptr<ClientProcessor>>& clients);
   void _erase_dead_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients);
   void _run_program(const std::string& service,
@@ -41,6 +45,12 @@ public:
 
   //This function should only be called after a shutdown
   void wait_for_results(size_t& winners, size_t& losers);
+
+  /*
+  //Shuts down the server and waits for the remaining clients to finish
+  //executing their game session
+  void operator()(size_t& winners, size_t& losers);
+  */
 };
 
 #endif

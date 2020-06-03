@@ -12,6 +12,15 @@
 #include "serverPeerSocket.h"
 #include "serverShouldBeRemoved.h"
 
+/*
+//Indicates if the client received should be erased from the clients list by
+//checking if the game has finished
+bool ClientsHandler::_should_be_removed(
+                              const std::shared_ptr<ClientProcessor>& client){
+  return client->has_ended();
+}
+*/
+
 void ClientsHandler::_erase_dead_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients){
   ShouldBeRemoved _should_be_removed/*(this->winners, this->losers)*/;
@@ -21,7 +30,7 @@ void ClientsHandler::_erase_dead_clients(
 
 
 //CAMBIAR NOMBRE DE LA FUNCION POR _close_clients o algo asi
-void ClientsHandler::_count_winners_and_losers(
+void ClientsHandler::_close_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients){
   for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
        clients.begin(); it != clients.end(); ++it) {
@@ -62,7 +71,8 @@ void ClientsHandler::_run_program(
       i = 0;
     }
   }
-  _count_winners_and_losers(clients);
+  //_count_winners_and_losers(clients);
+  _close_clients(clients);
 }
 
 
@@ -77,6 +87,17 @@ void ClientsHandler::wait_for_results(size_t& winners, size_t& losers){
   winners = this->winners;
   losers = this->losers;
 }
+
+/*
+void ClientsHandler::operator()(size_t& winners, size_t& losers){
+  server_socket.disconnect();
+  thrd.join();
+  winners = this->winners;
+  losers = this->losers;
+}
+*/
+
+
 
 
 ClientsHandler::ClientsHandler(
