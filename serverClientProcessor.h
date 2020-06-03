@@ -12,14 +12,10 @@ private:
   const std::string number_to_guess;
   PeerSocket client;
   std::atomic<bool> has_program_ended;
-  std::atomic<bool> has_player_won;
+  std::atomic<size_t>& winners;
+  std::atomic<size_t>& losers;
+  //std::atomic<bool> has_player_won;
   std::thread thrd;
-
-  //GUARDAR REFERENCIA A UN ATOMIC
-  //EL CLIENTSHANDLER TIENE QUE DECLARAR LAS VARIABLES COMO ATOMIC
-  int& winners;
-  int& losers;
-
 private:
   void _run_game();
   void _build_non_winning_message(std::string& message_to_send,
@@ -49,7 +45,7 @@ public:
   //this ClientProcessor is now the owner
   //ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
   ClientProcessor(PeerSocket&& client, const std::string& number_to_guess,
-                  int& winners, int& losers);
+                  std::atomic<size_t>& winners, std::atomic<size_t>& losers);
 
   ClientProcessor(const ClientProcessor& other) = delete;
 

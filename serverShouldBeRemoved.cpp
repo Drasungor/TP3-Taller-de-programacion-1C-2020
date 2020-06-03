@@ -5,6 +5,7 @@
 
 
 bool ShouldBeRemoved::operator()(const std::shared_ptr<ClientProcessor> client){
+  /*
   if (client->has_ended()) {
     if (client->did_client_win()) {
       winners++;
@@ -14,11 +15,13 @@ bool ShouldBeRemoved::operator()(const std::shared_ptr<ClientProcessor> client){
     return true;
   }
   return false;
+  */
+  return client->has_ended();
 }
 
 
-ShouldBeRemoved::ShouldBeRemoved(size_t& winners, size_t& losers):
-                                 winners(winners), losers(losers){
+ShouldBeRemoved::ShouldBeRemoved(/*size_t& winners, size_t& losers):
+                                 winners(winners), losers(losers*/){
 }
 
 

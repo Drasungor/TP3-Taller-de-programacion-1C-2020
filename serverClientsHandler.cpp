@@ -14,22 +14,25 @@
 
 void ClientsHandler::_erase_dead_clients(
                         std::list<std::shared_ptr<ClientProcessor>>& clients){
-  ShouldBeRemoved _should_be_removed(this->winners, this->losers);
+  ShouldBeRemoved _should_be_removed/*(this->winners, this->losers)*/;
   clients.erase(std::remove_if(clients.begin(), clients.end(),
                 _should_be_removed), clients.end());
 }
 
 
+//CAMBIAR NOMBRE DE LA FUNCION POR _close_clients o algo asi
 void ClientsHandler::_count_winners_and_losers(
                         std::list<std::shared_ptr<ClientProcessor>>& clients){
   for (std::list<std::shared_ptr<ClientProcessor>>::iterator it =
        clients.begin(); it != clients.end(); ++it) {
     (*it)->join();
+    /*
     if ((*it)->did_client_win()) {
       winners++;
     } else {
       losers++;
     }
+    */
   }
 }
 
@@ -48,7 +51,8 @@ void ClientsHandler::_run_program(
     try {
       clients.emplace_back(new ClientProcessor(
                                           std::move(server_socket.accept()),
-                                          numbers_to_guess[i]));
+                                          numbers_to_guess[i], winners,
+                                          losers));
       _erase_dead_clients(clients);
     } catch(std::system_error& e) {
       keep_running = false;
@@ -80,9 +84,10 @@ ClientsHandler::ClientsHandler(
         const std::vector<std::string>& numbers_to_guess):
         keep_running(true),
         server_socket(service),
+        winners(0), losers(0),
         thrd(&ClientsHandler::_run_program, this, service, numbers_to_guess){
-  winners = 0;
-  losers = 0;
+  //winners = 0;
+  //losers = 0;
 }
 
 ClientsHandler::~ClientsHandler(){

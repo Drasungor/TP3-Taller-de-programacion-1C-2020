@@ -16,9 +16,11 @@ class ClientsHandler {
 private:
   std::atomic<bool> keep_running;
   ServerSocket server_socket;
+  //size_t winners;
+  //size_t losers;
+  std::atomic<size_t> winners;
+  std::atomic<size_t> losers;
   std::thread thrd;
-  size_t winners;
-  size_t losers;
 
 private:
   void _count_winners_and_losers(

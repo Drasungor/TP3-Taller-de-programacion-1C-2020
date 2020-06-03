@@ -7,12 +7,12 @@
 //Functor used to indicate remove_if if the ClientProcessor should be removed
 //and update the program results in the process
 class ShouldBeRemoved {
-private:
-  size_t &winners;
-  size_t &losers;
+//private:
+  //size_t &winners;
+  //size_t &losers;
 
 public:
-  ShouldBeRemoved(size_t& winners, size_t& losers);
+  ShouldBeRemoved(/*size_t& winners, size_t& losers*/);
 
   ~ShouldBeRemoved();
 

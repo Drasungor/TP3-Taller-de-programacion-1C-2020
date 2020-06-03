@@ -94,9 +94,11 @@ bool ClientProcessor::_store_normal_answer_message(
                                                 int regular_digits){
   if (correct_digits == NUMBERS_DIGITS_AMMOUNT) {
     message_to_send = WIN_MESSAGE;
-    has_player_won = true;
+    //has_player_won = true;
+    winners++;
   } else if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
     message_to_send = LOSE_MESSAGE;
+    losers++;
   } else {
     _build_non_winning_message(message_to_send, correct_digits,
                                regular_digits);
@@ -115,6 +117,7 @@ bool ClientProcessor::_store_invalid_number_answer_message(
                                           int current_number_of_guesses) const{
   if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
     message_to_send += LOSE_MESSAGE;
+    losers++;
     return false;
   } else {
     message_to_send += INVALID_NUMBER_MESSAGE;
@@ -166,6 +169,7 @@ void ClientProcessor::_execute_help() const{
 
 //Executes the give up command, sending the losing message to the client
 void ClientProcessor::_execute_give_up() const{
+  losers++;
   _send_built_message(LOSE_MESSAGE);
 }
 
@@ -246,14 +250,16 @@ bool ClientProcessor::has_ended() const{
 
 ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  const std::string& number_to_guess,
-                                 int& winners, int& losers):
+                                 std::atomic<size_t>& winners,
+                                 std::atomic<size_t>& losers):
                                  number_to_guess(number_to_guess),
                                  client(std::move(peer_socket)),
                                  has_program_ended(false),
-                                 has_player_won(false),
+                                 winners(winners), losers(losers),
+                                 //has_player_won(false),
                                  thrd(&ClientProcessor::_run_game, this){
-  this->winners = winners;
-  this->losers = losers;
+  //this->winners = winners;
+  //this->losers = losers;
 }
 
 ClientProcessor::~ClientProcessor(){
