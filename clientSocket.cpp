@@ -70,7 +70,9 @@ void ClientSocket::_connect(const char* service, const char* host){
     throw(std::system_error(errno, std::system_category(),
                             "Connection error"));
   }
-  c_socket.set_fd(socket_fd);
+  CourierSocket aux_c_socket(socket_fd);
+  c_socket = std::move(aux_c_socket);
+  //c_socket.set_fd(socket_fd);
 }
 
 

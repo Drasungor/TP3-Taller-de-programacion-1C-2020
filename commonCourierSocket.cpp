@@ -46,6 +46,7 @@ void CourierSocket::send(const void* buffer, size_t buffer_len) const{
   }
 }
 
+/*
 void CourierSocket::set_fd(int fd){
   socket_fd = fd;
 }
@@ -54,9 +55,21 @@ void CourierSocket::set_fd(int fd){
 int CourierSocket::get_fd() const{
   return socket_fd;
 }
+*/
 
-CourierSocket::CourierSocket() noexcept{
-  socket_fd = -1;
+CourierSocket::CourierSocket(int fd/* = -1*/) noexcept{
+  socket_fd = fd;
+}
+
+CourierSocket::CourierSocket(CourierSocket&& other) noexcept{
+  this->socket_fd = other.socket_fd;
+  other.socket_fd = -1;
+}
+
+CourierSocket& CourierSocket::operator=(CourierSocket&& other) noexcept{
+  this->socket_fd = other.socket_fd;
+  other.socket_fd = -1;
+  return *this;
 }
 
 CourierSocket::~CourierSocket(){

@@ -12,11 +12,16 @@ private:
   int socket_fd;
 
 public:
-  CourierSocket() noexcept;
+  //CourierSocket() noexcept;
+  explicit CourierSocket(int fd = -1) noexcept;
 
   CourierSocket(const CourierSocket& other) = delete;
 
   CourierSocket& operator=(const CourierSocket& other) = delete;
+
+  CourierSocket(CourierSocket&& other) noexcept;
+
+  CourierSocket& operator=(CourierSocket&& other) noexcept;
 
   ~CourierSocket();
 
@@ -24,9 +29,11 @@ public:
 
   void send(const void* buffer, size_t buffer_len) const;
 
+  /*
   void set_fd(int fd);
 
   int get_fd() const;
+  */
 };
 
 #endif
