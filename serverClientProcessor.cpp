@@ -152,7 +152,7 @@ bool ClientProcessor::_process_guessed_number(
 void ClientProcessor::_send_built_message(const std::string&& message) const{
   uint32_t message_len = message.length();
   message_len = htonl(message_len);
-  client.send(&message_len, sizeof(uint32_t));
+  client.send(&message_len, 4/*sizeof(uint32_t)*/);
   client.send(message.data(), message.length());
 }
 
@@ -176,7 +176,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   uint16_t guessed_number;
   uint32_t answer_message_len;
   bool should_game_continue;
-  client.receive(&guessed_number, sizeof(uint16_t));
+  client.receive(&guessed_number, 2/*sizeof(uint16_t)*/);
   guessed_number = ntohs(guessed_number);
   should_game_continue = _process_guessed_number(message_to_send,
                                                  number_to_guess,
@@ -184,7 +184,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
                                                  current_number_of_guesses);
   answer_message_len = message_to_send.length();
   answer_message_len = htonl(answer_message_len);
-  client.send(&answer_message_len, sizeof(uint32_t));
+  client.send(&answer_message_len, 4/*sizeof(uint32_t)*/);
   client.send(message_to_send.data(), message_to_send.length());
   return should_game_continue;
 }
@@ -214,7 +214,7 @@ void ClientProcessor::_run_game(){
   bool should_continue = true;
   char command_indicator;
   while (should_continue) {
-    client.receive(&command_indicator, sizeof(char));
+    client.receive(&command_indicator, 1/*sizeof(char)*/);
     try {
       should_continue = _execute_command(command_indicator,
                                          current_number_of_guesses);
