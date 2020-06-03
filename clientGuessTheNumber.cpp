@@ -2,8 +2,10 @@
 
 #include <cstdint>
 #include <string>
+#include <cstring>
 #include <iostream>
 #include <arpa/inet.h>
+#include <vector>
 #include "clientSocket.h"
 #include "CommunicationConstants.h"
 
@@ -61,7 +63,7 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
   socket.receive(&number_of_chars, 4/*sizeof(uint32_t)*/);
   number_of_chars = ntohl(number_of_chars);
   answer.resize(number_of_chars + 1);
-  socket.receive(answer.data(), /*sizeof(char) * */asked_chars);
+  socket.receive(answer.data(), /*sizeof(char) * */number_of_chars + 1);
   /*
   size_t received_chars = 0;
   size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
@@ -78,9 +80,19 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
   */
 }
 
+bool ClientGuessTheNumber::_are_strings_equal(const char* str1, const char* str2){
+  if (std::strlen(str1) != std::strlen(str2)) {
+    return false;
+  }
+  return !std::strcmp(str1, str1);
+}
+
 //Returns true if the game has finished, otherwise returns false
-bool ClientGuessTheNumber::_is_game_finished(const std::string& answer){
-  return ((answer == WIN_MESSAGE) || (answer == LOSE_MESSAGE));
+//bool ClientGuessTheNumber::_is_game_finished(const std::string& answer){
+bool ClientGuessTheNumber::_is_game_finished(const char* answer){
+  //return ((answer == WIN_MESSAGE) || (answer == LOSE_MESSAGE));
+  return ((_are_strings_equal(answer, WIN_MESSAGE)) ||
+          (_are_strings_equal(answer, LOSE_MESSAGE)));
 }
 
 //Sends the command request to the server and prints it answer
@@ -97,8 +109,9 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
     socket.send(&number, 2/*sizeof(uint16_t)*/);
   }
   _receive_message(socket, answer);
-  std::cout << answer;
-  return !_is_game_finished(answer);
+  //std::cout << answer;
+  std::cout << answer.data();
+  return !_is_game_finished(answer.data());
 }
 
 ///////////////////////////////PUBLIC//////////////////////////

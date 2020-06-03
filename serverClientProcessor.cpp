@@ -154,7 +154,7 @@ void ClientProcessor::_send_built_message(const std::string&& message) const{
   message_len = htonl(message_len);
   client.send(&message_len, 4/*sizeof(uint32_t)*/);
   client.send(message.data(), message.length());
-  client.send('\0', 1/*sizeof(char)*/);
+  client.send("", 1/*sizeof(char)*/);
 }
 
 
@@ -187,7 +187,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   answer_message_len = htonl(answer_message_len);
   client.send(&answer_message_len, 4/*sizeof(uint32_t)*/);
   client.send(message_to_send.data(), message_to_send.length());
-  client.send('\0', 1/*sizeof(char)*/);
+  client.send("", 1/*sizeof(char)*/);
   return should_game_continue;
 }
 
