@@ -80,7 +80,8 @@ void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
   */
 }
 
-bool ClientGuessTheNumber::_are_strings_equal(const char* str1, const char* str2){
+bool ClientGuessTheNumber::_are_strings_equal(const char* str1,
+                                              const char* str2){
   if (std::strlen(str1) != std::strlen(str2)) {
     return false;
   }
