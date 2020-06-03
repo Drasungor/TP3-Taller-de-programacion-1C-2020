@@ -234,22 +234,26 @@ void ClientProcessor::join(){
   thrd.join();
 }
 
+/*
 bool ClientProcessor::did_client_win() const{
   return has_player_won;
 }
-
+*/
 
 bool ClientProcessor::has_ended() const{
   return has_program_ended;
 }
 
 ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
-                                 const std::string& number_to_guess):
+                                 const std::string& number_to_guess,
+                                 int& winners, int& losers):
                                  number_to_guess(number_to_guess),
                                  client(std::move(peer_socket)),
                                  has_program_ended(false),
                                  has_player_won(false),
                                  thrd(&ClientProcessor::_run_game, this){
+  this->winners = winners;
+  this->losers = losers;
 }
 
 ClientProcessor::~ClientProcessor(){
