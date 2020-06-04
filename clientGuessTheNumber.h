@@ -7,6 +7,7 @@
 
 //This class represents the program used by the client
 class ClientGuessTheNumber {
+  void _handle_command_error(bool& keep_running);
   void _run_client(ClientSocket& socket);
   bool _are_strings_equal(const char* str1, const char* str2);
   bool _process_command(ClientSocket& socket, const std::string& command);

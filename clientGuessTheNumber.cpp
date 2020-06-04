@@ -115,6 +115,16 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
   return !_is_game_finished(answer.data());
 }
 
+//Handles the execution of the program when an invalid command is read
+//Prints an invalid command message
+//If the client forced an eof it kills the client
+void ClientGuessTheNumber::_handle_command_error(bool& keep_running){
+  keep_running = true;
+  if (std::cin.eof()) {
+    keep_running = false;
+  }
+  std::cout << INVALID_COMMAND_MESSAGE;
+}
 
 //This function runs the client's program, it reads a command
 void ClientGuessTheNumber::_run_client(ClientSocket& socket){
@@ -125,11 +135,9 @@ void ClientGuessTheNumber::_run_client(ClientSocket& socket){
     try {
       keep_running = _process_command(socket, command);
     } catch(std::invalid_argument& e) {
-      keep_running = true;
-      if (std::cin.eof()) {
-        keep_running = false;
-      }
-      std::cout << INVALID_COMMAND_MESSAGE;
+      _handle_command_error(keep_running);
+    } catch(std::out_of_range& e) {
+      _handle_command_error(keep_running);
     }
   }
 }
