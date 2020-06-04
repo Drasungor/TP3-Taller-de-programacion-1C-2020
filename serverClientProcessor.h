@@ -14,9 +14,8 @@ private:
   std::atomic<bool> has_program_ended;
   std::atomic<size_t>& winners;
   std::atomic<size_t>& losers;
-  //std::atomic<bool> has_player_won;
   std::thread thrd;
-  
+
 private:
   void _run_game();
   void _build_non_winning_message(std::string& message_to_send,
@@ -44,7 +43,6 @@ private:
 public:
   //Stores a copy of the received string and moves the received client so that
   //this ClientProcessor is now the owner
-  //ClientProcessor(PeerSocket&& client, const std::string& number_to_guess);
   ClientProcessor(PeerSocket&& client, const std::string& number_to_guess,
                   std::atomic<size_t>& winners, std::atomic<size_t>& losers);
 
@@ -56,10 +54,6 @@ public:
 
   //Waits for the program to end
   void join();
-
-  //The value of this function is only valid if the process has ended
-  //Returns true if the client won, otherwise returns false
-  //bool did_client_win() const;
 
   //Returns true if the thread has finished executing the received function,
   //otherwise returns false

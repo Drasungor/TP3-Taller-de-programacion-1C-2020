@@ -105,10 +105,6 @@ void ServerGuessTheNumber::_run_server(const char* service,
   do {
     std::cin >> buffer;
   } while (buffer != KILL_SERVER_INDICATOR);
-  /*
-  handler.shutdown();
-  handler.wait_for_results(winners, losers);
-  */
   handler(winners, losers);
   _print_server_output(winners, losers);
 }

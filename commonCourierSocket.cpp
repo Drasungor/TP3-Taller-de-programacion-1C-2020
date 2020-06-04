@@ -46,16 +46,6 @@ void CourierSocket::send(const void* buffer, size_t buffer_len) const{
   }
 }
 
-/*
-void CourierSocket::set_fd(int fd){
-  socket_fd = fd;
-}
-
-//VER COMO CAMBIAR ESTO POR OTRA COSA QUE NO SEA UN GET
-int CourierSocket::get_fd() const{
-  return socket_fd;
-}
-*/
 
 CourierSocket::CourierSocket(int fd/* = -1*/) noexcept{
   socket_fd = fd;

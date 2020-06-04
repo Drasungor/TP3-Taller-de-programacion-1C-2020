@@ -49,35 +49,14 @@ char ClientGuessTheNumber::_get_command_indicator(
   }
 }
 
-
-
-//This function cannot be reduced to 15 lines or less due to variable
-//declarations and clarity
-
 //Receives the answer from the server after sending a command
 void ClientGuessTheNumber::_receive_message(ClientSocket& socket,
-                                            //std::string& answer){
                                             std::vector<char>& answer){
   uint32_t number_of_chars;
-  //char buffer[MESSAGE_RECEIVER_BUFFER_LEN + 1];
-  socket.receive(&number_of_chars, 4/*sizeof(uint32_t)*/);
+  socket.receive(&number_of_chars, 4);
   number_of_chars = ntohl(number_of_chars);
   answer.resize(number_of_chars + 1);
-  socket.receive(answer.data(), /*sizeof(char) * */number_of_chars + 1);
-  /*
-  size_t received_chars = 0;
-  size_t asked_chars = MESSAGE_RECEIVER_BUFFER_LEN;
-  while (received_chars < number_of_chars) {
-    if ((number_of_chars - received_chars) < MESSAGE_RECEIVER_BUFFER_LEN) {
-      asked_chars = number_of_chars - received_chars;
-    }
-    socket.receive(buffer, sizeof(char) * asked_chars);
-    buffer[asked_chars] = '\0';
-    std::string aux(buffer);
-    answer += aux;
-    received_chars += asked_chars;
-  }
-  */
+  socket.receive(answer.data(), number_of_chars + 1);
 }
 
 bool ClientGuessTheNumber::_are_strings_equal(const char* str1,
@@ -89,9 +68,7 @@ bool ClientGuessTheNumber::_are_strings_equal(const char* str1,
 }
 
 //Returns true if the game has finished, otherwise returns false
-//bool ClientGuessTheNumber::_is_game_finished(const std::string& answer){
 bool ClientGuessTheNumber::_is_game_finished(const char* answer){
-  //return ((answer == WIN_MESSAGE) || (answer == LOSE_MESSAGE));
   return ((_are_strings_equal(answer, WIN_MESSAGE)) ||
           (_are_strings_equal(answer, LOSE_MESSAGE)));
 }

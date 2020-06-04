@@ -73,7 +73,6 @@ void ClientSocket::_connect(const char* service, const char* host){
   }
   CourierSocket aux_c_socket(socket_fd);
   c_socket = std::move(aux_c_socket);
-  //c_socket.set_fd(socket_fd);
 }
 
 

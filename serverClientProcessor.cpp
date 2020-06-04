@@ -94,7 +94,6 @@ bool ClientProcessor::_store_normal_answer_message(
                                                 int regular_digits){
   if (correct_digits == NUMBERS_DIGITS_AMMOUNT) {
     message_to_send = WIN_MESSAGE;
-    //has_player_won = true;
     winners++;
   } else if (current_number_of_guesses == MAX_NUMBER_OF_TRIES) {
     message_to_send = LOSE_MESSAGE;
@@ -155,9 +154,9 @@ bool ClientProcessor::_process_guessed_number(
 void ClientProcessor::_send_built_message(const std::string&& message) const{
   uint32_t message_len = message.length();
   message_len = htonl(message_len);
-  client.send(&message_len, 4/*sizeof(uint32_t)*/);
+  client.send(&message_len, 4);
   client.send(message.data(), message.length());
-  client.send("", 1/*sizeof(char)*/);
+  client.send("", 1);
 }
 
 
@@ -181,7 +180,7 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
   uint16_t guessed_number;
   uint32_t answer_message_len;
   bool should_game_continue;
-  client.receive(&guessed_number, 2/*sizeof(uint16_t)*/);
+  client.receive(&guessed_number, 2);
   guessed_number = ntohs(guessed_number);
   should_game_continue = _process_guessed_number(message_to_send,
                                                  number_to_guess,
@@ -189,9 +188,9 @@ bool ClientProcessor::_execute_number(int& current_number_of_guesses){
                                                  current_number_of_guesses);
   answer_message_len = message_to_send.length();
   answer_message_len = htonl(answer_message_len);
-  client.send(&answer_message_len, 4/*sizeof(uint32_t)*/);
+  client.send(&answer_message_len, 4);
   client.send(message_to_send.data(), message_to_send.length());
-  client.send("", 1/*sizeof(char)*/);
+  client.send("", 1);
   return should_game_continue;
 }
 
@@ -220,7 +219,7 @@ void ClientProcessor::_run_game(){
   bool should_continue = true;
   char command_indicator;
   while (should_continue) {
-    client.receive(&command_indicator, 1/*sizeof(char)*/);
+    client.receive(&command_indicator, 1);
     try {
       should_continue = _execute_command(command_indicator,
                                          current_number_of_guesses);
@@ -238,12 +237,6 @@ void ClientProcessor::join(){
   thrd.join();
 }
 
-/*
-bool ClientProcessor::did_client_win() const{
-  return has_player_won;
-}
-*/
-
 bool ClientProcessor::has_ended() const{
   return has_program_ended;
 }
@@ -256,10 +249,7 @@ ClientProcessor::ClientProcessor(PeerSocket&& peer_socket,
                                  client(std::move(peer_socket)),
                                  has_program_ended(false),
                                  winners(winners), losers(losers),
-                                 //has_player_won(false),
                                  thrd(&ClientProcessor::_run_game, this){
-  //this->winners = winners;
-  //this->losers = losers;
 }
 
 ClientProcessor::~ClientProcessor(){

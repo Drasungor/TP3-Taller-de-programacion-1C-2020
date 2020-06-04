@@ -92,3 +92,8 @@ thread.
 los métodos se ejecutan dentro de receive. Sin embargo, se ejecuta primero
 receive y luego el resto de los mensajes. Se hizo de esta forma ya que
 sino se tendrían dos mensajes encontados, lo cual puede ser confuso.
+
+
+
+handler.shutdown();
+handler.wait_for_results(winners, losers);
