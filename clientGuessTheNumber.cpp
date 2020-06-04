@@ -118,6 +118,8 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
 
 //This function runs the client's program, it reads a command
 void ClientGuessTheNumber::_run_client(ClientSocket& socket){
+  bool keep_running = true;
+  std::string command;
   while (keep_running) {
     std::getline(std::cin, command);
     try {
@@ -145,8 +147,6 @@ int ClientGuessTheNumber::execute(const char** arguments,
   if (host == LOCALHOST_INDICATOR) {
     host = "";
   }
-  bool keep_running = true;
-  std::string command;
   ClientSocket socket(service, host);
   try {
     socket.open_communication_channel();
