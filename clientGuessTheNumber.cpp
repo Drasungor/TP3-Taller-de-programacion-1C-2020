@@ -78,16 +78,14 @@ bool ClientGuessTheNumber::_is_game_finished(const char* answer){
 bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
                                             const std::string& command){
   char command_indicator = _get_command_indicator(command);
-  //std::string answer;
   std::vector<char> answer;
   uint16_t number;
-  socket.send(&command_indicator, 1/*sizeof(char)*/);
+  socket.send(&command_indicator, 1);
   if (command_indicator == COMMAND_INDICATOR_NUMBER) {
     number = htons(std::stoi(command));
-    socket.send(&number, 2/*sizeof(uint16_t)*/);
+    socket.send(&number, 2);
   }
   _receive_message(socket, answer);
-  //std::cout << answer;
   std::cout << answer.data();
   return !_is_game_finished(answer.data());
 }

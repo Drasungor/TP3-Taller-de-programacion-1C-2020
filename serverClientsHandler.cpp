@@ -83,8 +83,6 @@ ClientsHandler::ClientsHandler(
         server_socket(service),
         winners(0), losers(0),
         thrd(&ClientsHandler::_run_program, this, service, numbers_to_guess){
-  //winners = 0;
-  //losers = 0;
 }
 
 ClientsHandler::~ClientsHandler(){
