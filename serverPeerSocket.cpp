@@ -13,7 +13,7 @@ void PeerSocket::send(const void* buffer, size_t buffer_len) const{
 }
 
 PeerSocket::PeerSocket(int fd): c_socket(fd){
-//  c_socket.set_fd(fd);
+  //c_socket.set_fd(fd);
 }
 
 

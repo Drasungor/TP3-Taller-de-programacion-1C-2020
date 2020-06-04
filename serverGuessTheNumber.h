@@ -7,6 +7,8 @@
 
 class ServerGuessTheNumber {
 private:
+  void _run_server(const char* service,
+                   std::vector<std::string>& numbers_to_guess);
   void _print_server_output(size_t winners, size_t losers);
   bool _is_number(const std::string& number_string) const;
   bool _has_repeated_digits(const std::string& number_string) const;

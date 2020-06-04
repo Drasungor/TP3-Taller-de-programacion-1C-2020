@@ -94,12 +94,29 @@ void ServerGuessTheNumber::_print_server_output(size_t winners, size_t losers){
             losers << "\n";
 }
 
+
+//Starts running the servers responsibilities, waits for the close server
+//command and prints the result of the program
+void ServerGuessTheNumber::_run_server(const char* service,
+                                  std::vector<std::string>& numbers_to_guess){
+  ClientsHandler handler(service, numbers_to_guess);
+  size_t winners = 0, losers = 0;
+  std::string buffer;
+  do {
+    std::cin >> buffer;
+  } while (buffer != KILL_SERVER_INDICATOR);
+  /*
+  handler.shutdown();
+  handler.wait_for_results(winners, losers);
+  */
+  handler(winners, losers);
+  _print_server_output(winners, losers);
+}
+
+
 ///////////////////////////////PUBLIC//////////////////////////
 
-//This function cannot be reduced to 15 lines due to error checking and
-//concistency, to reduce the number of lines a function for the contents
-//of the while could be made but it would be the only error message printed
-//in another function
+//This function cannot be reduced to 20 lines due to error checking
 int ServerGuessTheNumber::execute(const char** arguments,
                                   int number_of_arguments){
   if (number_of_arguments != NUMBER_OF_ARGUMENTS) {
@@ -121,18 +138,7 @@ int ServerGuessTheNumber::execute(const char** arguments,
     std::cerr << INVALID_FILE_NUMBER_TEXT;
     return INVALID_NUMBER;
   }
-  ClientsHandler handler(arguments[SERVICE_ARGUMENTS_INDEX], numbers_to_guess);
-  size_t winners = 0, losers = 0;
-  std::string buffer;
-  do {
-    std::cin >> buffer;
-  } while (buffer != KILL_SERVER_INDICATOR);
-  /*
-  handler.shutdown();
-  handler.wait_for_results(winners, losers);
-  */
-  handler(winners, losers);
-  _print_server_output(winners, losers);
+  _run_server(arguments[SERVICE_ARGUMENTS_INDEX], numbers_to_guess);
   return SUCCESS;
 }
 
