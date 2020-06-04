@@ -115,13 +115,24 @@ bool ClientGuessTheNumber::_process_command(ClientSocket& socket,
   return !_is_game_finished(answer.data());
 }
 
+
+//This function runs the client's program, it reads a command
+void ClientGuessTheNumber::_run_client(ClientSocket& socket){
+  while (keep_running) {
+    std::getline(std::cin, command);
+    try {
+      keep_running = _process_command(socket, command);
+    } catch(std::invalid_argument& e) {
+      keep_running = true;
+      if (std::cin.eof()) {
+        keep_running = false;
+      }
+      std::cout << INVALID_COMMAND_MESSAGE;
+    }
+  }
+}
+
 ///////////////////////////////PUBLIC//////////////////////////
-
-
-//This function cannot be reduced to 15 lines due to error checking and
-//concistency, to reduce the number of lines a function for the contents
-//of the while could be made but it would be the only error message printed
-//in another function
 
 int ClientGuessTheNumber::execute(const char** arguments,
                                   int number_of_arguments){
@@ -143,18 +154,7 @@ int ClientGuessTheNumber::execute(const char** arguments,
     std::cout << SOCKET_ERROR_TEXT << std::endl;
     return PROCESS_FINISHED;
   }
-  while (keep_running) {
-    std::getline(std::cin, command);
-    try {
-      keep_running = _process_command(socket, command);
-    } catch(std::invalid_argument& e) {
-      keep_running = true;
-      if (std::cin.eof()) {
-        keep_running = false;
-      }
-      std::cout << INVALID_COMMAND_MESSAGE;
-    }
-  }
+  _run_client(socket);
   return PROCESS_FINISHED;
 }
 
