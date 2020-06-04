@@ -93,7 +93,17 @@ los métodos se ejecutan dentro de receive. Sin embargo, se ejecuta primero
 receive y luego el resto de los mensajes. Se hizo de esta forma ya que
 sino se tendrían dos mensajes encontados, lo cual puede ser confuso.
 
+### <ins>Cambios en reentrega</ins>
 
-
-handler.shutdown();
-handler.wait_for_results(winners, losers);
+1. Se eliminaron las funciones set_fd y get_fd del CourierSocket y se remplazaron
+   por el uso de un nuevo constructor por movimiento y operador asignacion por
+   movimiento. De esta forma deja de romperse el encapsulamiento.
+2. Se redujo el tamaño de las dos funciones marcadas (ServerGuessTheNumber::execute
+   y ClientGuessTheNumber::execute).
+3. Se cambiaron los sizeof de variables de tamaños constantes y conocidos por valores
+   literales.
+4. Se pasó la actualización de la cantidad de ganadores y perdedores a cada cliente
+   para que lo modifique él mismo. Esto genero que la clase ShouldBeRemoved fuera
+   obsoleta, por lo que fue eliminada. Se pasó la implementación del operador ()
+   a ClientsHandler, para remplazar la ejecución de ClientsHandler::shutdown y
+   ClientsHandler::wait_for_results.
