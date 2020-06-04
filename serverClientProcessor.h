@@ -16,6 +16,7 @@ private:
   std::atomic<size_t>& losers;
   //std::atomic<bool> has_player_won;
   std::thread thrd;
+  
 private:
   void _run_game();
   void _build_non_winning_message(std::string& message_to_send,
